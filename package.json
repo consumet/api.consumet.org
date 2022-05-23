@@ -1,12 +1,19 @@
 {
-  "name": "consumet",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:consumet/consumet.git",
-  "author": "prince-ao <princead@tutanota.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@types/express": "^4.17.13",
-    "express": "^4.18.1"
-  }
+	"name": "consumet",
+	"version": "1.0.0",
+	"main": "src/main.ts",
+	"scripts": {
+		"start": "ts-node src/main.ts"
+	},
+	"repository": "git@github.com:consumet/consumet.git",
+	"author": "prince-ao <princead@tutanota.com>",
+	"license": "MIT",
+	"dependencies": {
+		"express": "^4.18.1"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.13",
+		"ts-node": "^10.8.0",
+		"typescript": "^4.6.4"
+	}
 }
