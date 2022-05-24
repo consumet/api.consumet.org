@@ -9,10 +9,10 @@
 	"author": "prince-ao <princead@tutanota.com>",
 	"license": "MIT",
 	"dependencies": {
-		"express": "^4.18.1"
+		"fastify": "^3.29.0"
 	},
 	"devDependencies": {
-		"@types/express": "^4.17.13",
+		"@types/node": "^17.0.35",
 		"ts-node": "^10.8.0",
 		"typescript": "^4.6.4"
 	}

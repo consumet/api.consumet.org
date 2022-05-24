@@ -1,9 +1,8 @@
-import express from "express";
+// fix the any type def
+const routes = async (fastify: any, options: any) => {
+	fastify.get("/", async (request: any, reply: any) => {
+		return "Welcome to Consumet Books Libgen";
+	});
+};
 
-const router = express.Router();
-
-router.get("/", (req, res) => {
-	res.status(200).send("Welcome to Consumet Books Libgen");
-});
-
-export default router;
+export default routes;

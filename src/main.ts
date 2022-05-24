@@ -1,12 +1,19 @@
-import express from "express";
+import Fastify from "fastify";
 import books from "./routes/books";
 
-const PORT = "80";
-const app = express();
-
-app.use("/books", books);
-app.get("/", (req, res) => {
-	res.status(200).send("Welcome to Consumet");
+const PORT = 8081;
+const fastify = Fastify({
+	logger: true,
 });
 
-app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+fastify.register(
+	(instance, opts, next) => {
+		instance.get("/", (req, res) => {
+			res.status(200).send("welcome");
+		});
+		next();
+	},
+	{ prefix: "/" }
+);
+
+fastify.listen(PORT, (_, address) => console.log(`server listening on ${address}`));

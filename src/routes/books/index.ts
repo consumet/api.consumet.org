@@ -1,12 +1,11 @@
-import express from "express";
 import libgen from "./libgen";
 
-const router = express.Router();
+// fix the any type def
+const routes = async (fastify: any, options: any) => {
+	fastify.reigster(libgen, { prefix: "libgen" });
+	fastify.get("/", async (request: any, reply: any) => {
+		return "Welcome to Consumet Books";
+	});
+};
 
-router.use("/libgen", libgen);
-
-router.get("/", (req, res) => {
-	res.status(200).send("Welcome to Consumet Books");
-});
-
-export default router;
+export default routes;
