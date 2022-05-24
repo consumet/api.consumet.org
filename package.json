@@ -1,19 +1,21 @@
 {
-	"name": "consumet",
-	"version": "1.0.0",
-	"main": "src/main.ts",
-	"scripts": {
-		"start": "ts-node src/main.ts"
-	},
-	"repository": "git@github.com:consumet/consumet.git",
-	"author": "prince-ao <princead@tutanota.com>",
-	"license": "MIT",
-	"dependencies": {
-		"fastify": "^3.29.0"
-	},
-	"devDependencies": {
-		"@types/node": "^17.0.35",
-		"ts-node": "^10.8.0",
-		"typescript": "^4.6.4"
-	}
+    "name": "consumet",
+    "version": "1.0.0",
+    "main": "src/main.ts",
+    "scripts": {
+        "start": "ts-node src/main.ts",
+        "dev": "nodemon src/main.ts"
+    },
+    "repository": "git@github.com:consumet/consumet.git",
+    "author": "prince-ao <princead@tutanota.com>",
+    "license": "MIT",
+    "dependencies": {
+        "fastify": "^3.29.0"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.35",
+        "nodemon": "^2.0.16",
+        "ts-node": "^10.8.0",
+        "typescript": "^4.6.4"
+    }
 }
