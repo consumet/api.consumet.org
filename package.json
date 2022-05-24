@@ -6,9 +6,21 @@
         "start": "ts-node src/main.ts",
         "dev": "nodemon src/main.ts"
     },
-    "repository": "git@github.com:consumet/consumet.git",
+    "engines": {
+        "npm": "please-use-yarn",
+        "node": ">=12.5.0",
+        "yarn": ">=1.17.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/consumet/consumet-extentions.git"
+    },
     "author": "prince-ao <princead@tutanota.com>",
     "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/consumet/consumet-extentions/issues"
+    },
+    "homepage": "https://github.com/consumet/consumet-extentions#readme",
     "dependencies": {
         "fastify": "^3.29.0"
     },

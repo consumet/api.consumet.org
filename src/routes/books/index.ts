@@ -5,15 +5,15 @@ import {
   RegisterOptions,
   RequestGenericInterface,
   FastifyLoggerInstance,
-} from "fastify";
-import libgen from "./all/libgen";
+} from 'fastify';
+import libgen from './all/libgen';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  await fastify.register(libgen, { prefix: "/" });
+  await fastify.register(libgen, { prefix: '/' });
   // ... other routes, example:  await fastify.register(zlibrary, { prefix: "/" });
 
   // send the user to the specified provider
-  fastify.get("/:bookProvider", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:bookProvider', async (request: FastifyRequest, reply: FastifyReply) => {
     // if book provider not found, this might be a book name or a book id, so we need to call the libgen scraping function.
     // the book provider is found on the provider list (from the consumet-extentions library) then we redirect to the provider.
     // then the code should look something like this:
@@ -37,8 +37,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.redirect(`/books/${(request.params as { bookProvider: string }).bookProvider}`);
   });
   // default route for books
-  fastify.get("/", async (request: any, reply: any) => {
-    reply.status(200).send("Welcome to Consumet Books");
+  fastify.get('/', async (request: any, reply: any) => {
+    reply.status(200).send('Welcome to Consumet Books');
   });
 };
 

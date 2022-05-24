@@ -1,3 +1,3 @@
-import libgen from "./libgen";
+import libgen from './libgen';
 
 export default { libgen };
