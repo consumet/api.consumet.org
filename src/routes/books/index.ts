@@ -1,12 +1,6 @@
-import {
-  FastifyRequest,
-  FastifyReply,
-  FastifyInstance,
-  RegisterOptions,
-  RequestGenericInterface,
-  FastifyLoggerInstance,
-} from 'fastify';
-import libgen from './all/libgen';
+import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
+
+import libgen from './en/libgen';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(libgen, { prefix: '/' });

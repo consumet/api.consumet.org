@@ -1,5 +1,7 @@
 import Fastify from 'fastify';
+
 import books from './routes/books';
+import anime from './routes/anime';
 
 const startServer = async () => {
   const PORT = 3000;
@@ -8,7 +10,7 @@ const startServer = async () => {
   });
 
   await fastify.register(books, { prefix: '/books' });
-  // ... other routes, example:  await fastify.register(anime, { prefix: "/anime" });
+  await fastify.register(anime, { prefix: '/anime' });
 
   try {
     fastify.get('/', (request, reply) => {
