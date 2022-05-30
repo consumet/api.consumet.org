@@ -1,9 +1,15 @@
+require('dotenv').config();
+
 import Fastify from 'fastify';
+
+import { connectToDB } from './utils';
 
 import books from './routes/books';
 import anime from './routes/anime';
 
 const startServer = async () => {
+  await connectToDB();
+
   const PORT = 3000;
   const fastify = Fastify({
     logger: true,
