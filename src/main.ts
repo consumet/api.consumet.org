@@ -16,7 +16,7 @@ const startServer = async () => {
   });
 
   await fastify.register(books, { prefix: '/books' });
-  // await fastify.register(anime, { prefix: '/anime' });
+  await fastify.register(anime, { prefix: '/anime' });
 
   try {
     fastify.get('/', (request, reply) => {
