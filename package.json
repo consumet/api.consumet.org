@@ -22,13 +22,13 @@
     },
     "homepage": "https://github.com/consumet/consumet-extentions#readme",
     "dependencies": {
-        "consumet-extentions": "../consumet-extentions",
+        "@consumet/extensions": "git+https://github.com/consumet/extensions.git",
+        "dotenv": "^16.0.1",
         "fastify": "^3.29.0",
         "mongoose": "^6.3.4"
     },
     "devDependencies": {
         "@types/node": "^17.0.35",
-        "dotenv": "^16.0.1",
         "nodemon": "^2.0.16",
         "ts-node": "^10.8.0",
         "typescript": "^4.6.4"

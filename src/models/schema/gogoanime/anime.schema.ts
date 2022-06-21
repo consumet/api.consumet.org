@@ -10,7 +10,7 @@ const animeSchema = new Schema(
     genres: [String],
     releasedDate: Number,
     status: String,
-    otherNames: String,
+    otherNames: [String],
     description: String,
     image: String,
     totalEpisodes: Number,
