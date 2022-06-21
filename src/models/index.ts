@@ -1,4 +1,11 @@
-import { IAnimeProviderParams, IBookProviderParams } from './types';
-import animeSchema from './schema/gogoanime/anime.schema';
+import { IAnimeProviderParams, IBookProviderParams, LibgenBook } from './types';
+import animeSchema from './schema/anime.schema';
+import { libgenModel } from './models';
 
-export { IAnimeProviderParams, IBookProviderParams, animeSchema };
+export {
+  IAnimeProviderParams,
+  IBookProviderParams,
+  animeSchema,
+  libgenModel,
+  LibgenBook,
+};
