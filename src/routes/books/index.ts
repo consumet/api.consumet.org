@@ -1,8 +1,8 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import BOOKS, { PROVIDERS_LIST } from 'consumet-extentions';
-import { BaseProvider } from 'consumet-extentions/dist/models';
+import { BOOKS, PROVIDERS_LIST } from '@consumet/extensions';
+import { BaseProvider } from '@consumet/extensions/dist/models';
 
-import libgen from './en/libgen';
+import libgen from './libgen';
 import { IBookProviderParams } from '../../models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {

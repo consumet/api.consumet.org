@@ -1,14 +1,12 @@
-import { LibgenBook } from 'consumet-extentions/dist/models';
+import { LibgenBook } from '@consumet/extensions/dist/models';
 import { libgenModel } from '../models';
 import axios from 'axios';
 import mongoose from 'mongoose';
 import { load } from 'cheerio';
-import { BOOKS } from 'consumet-extentions';
+import { BOOKS } from '@consumet/extensions';
 
 const connectToDB = async () => {
-  await mongoose.connect(
-    `mongodb+srv://consumet:consumet@cluster0.uyc4y.mongodb.net/Consumet`
-  );
+  await mongoose.connect(process.env.MONGO_URI!);
 };
 
 const popularBooksSites = [

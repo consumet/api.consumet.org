@@ -1,9 +1,9 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import ANIME from 'consumet-extentions';
-import { Servers } from 'consumet-extentions/dist/models';
+import { ANIME } from '@consumet/extensions';
+import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const gogoanime = new ANIME.en.Gogoanime();
+  const gogoanime = new ANIME.Gogoanime();
 
   fastify.get('/gogoanime', async (request: FastifyRequest, reply: FastifyReply) => {
     reply.status(200).send('Welcome to Consumet Gogoanime');
@@ -27,7 +27,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/gogoanime/:id/info',
+    '/gogoanime/info/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = decodeURIComponent((request.params as { id: string }).id);
 
@@ -47,7 +47,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/gogoanime/watch/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
-      const server = (request.query as { server: Servers }).server;
+      const server = (request.query as { server: StreamingServers }).server;
 
       try {
         const res = await gogoanime

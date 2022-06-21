@@ -1,8 +1,8 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import ANIME, { PROVIDERS_LIST } from 'consumet-extentions';
+import { PROVIDERS_LIST } from '@consumet/extensions';
 import mongoose from 'mongoose';
 
-import gogoanime from './en/gogoanime';
+import gogoanime from './gogoanime';
 import { IAnimeProviderParams, animeSchema } from '../../models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
@@ -32,8 +32,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         reply.redirect(`/anime/${provider.toString.name}`);
       } else {
         const res = await handleSearch(queries);
-        // const gogoanime = new ANIME.en.Gogoanime();
-        // const res = await gogoanime.search(queries.animeProvider, queries.page);
 
         if (res.results.length > 0) {
           reply.status(200).send(res);
@@ -61,50 +59,53 @@ const handleSearch = async (queries: IAnimeProviderParams) => {
     currentPage: number;
     results: any[];
   } = {
-    currentProvider: 'gogoanime.gg',
+    currentProvider: 'gogoanime',
     hasNextPage: false,
     currentPage: 1,
     results: [],
   };
-  // default route for animes
-  const animeModel = mongoose.model('Anime', animeSchema);
-  const res = await animeModel
-    .find(
-      {
-        $or: [
-          {
-            otherNames: { $regex: queries.animeProvider, $options: 'i' },
-            title: { $regex: queries.animeProvider, $options: 'i' },
-          },
-        ],
-      },
-      { _id: 0 }
-    )
-    .skip(((queries.page ?? 1) - 1) * 10)
-    .limit(10);
-
-  results.results = res;
-  results.hasNextPage =
-    (
-      await animeModel
-        .find(
-          {
-            $or: [
-              {
-                otherNames: { $regex: queries.animeProvider, $options: 'i' },
-                title: { $regex: queries.animeProvider, $options: 'i' },
-              },
-            ],
-          },
-          { _id: 0 }
-        )
-        .skip(((queries.page ?? 1) + 1 - 1) * 10)
-        .limit(10)
-    ).length > 0;
 
   results.currentPage = queries.page ?? 1;
 
+  // default route for animes
+  const animeModel = mongoose.model('Anime', animeSchema);
+  let res = await handleQuery(animeModel, results.currentPage, {
+    title: new RegExp(queries.animeProvider, 'i'),
+  });
+
+  if (res.length < 1) {
+    res = await handleQuery(animeModel, results.currentPage, {
+      otherNames: new RegExp(queries.animeProvider, 'i'),
+    });
+  }
+
+  results.results = res;
+
+  let nextPage = await handleQuery(animeModel, results.currentPage + 1, {
+    title: new RegExp(queries.animeProvider, 'i'),
+  });
+  if (nextPage.length < 1) {
+    nextPage = await handleQuery(animeModel, results.currentPage + 1, {
+      otherNames: new RegExp(queries.animeProvider, 'i'),
+    });
+  }
+
+  results.hasNextPage = nextPage.length > 0;
+
   return results;
+};
+
+const handleQuery = async (
+  model: mongoose.Model<any, {}, {}, {}>,
+  page: number,
+  properties: { [key: string]: RegExp }
+) => {
+  const res = await model
+    .find(properties, { _id: 0 })
+    .skip((page - 1) * 10)
+    .limit(10);
+
+  return res;
 };
 
 export default routes;

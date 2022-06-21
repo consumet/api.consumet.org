@@ -1,7 +1,7 @@
-import { BOOKS } from 'consumet-extentions';
+import { BOOKS } from '@consumet/extensions';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import { libgenModel } from '../../../models';
-import { insertNewBook } from '../../../scripts/libgen';
+import { libgenModel } from '../../models';
+import { insertNewBook } from '../../scripts/libgen';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {

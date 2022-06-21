@@ -1,38 +1,38 @@
 {
-  "name": "consumet",
-  "version": "1.0.0",
-  "main": "src/main.ts",
-  "scripts": {
-    "start": "ts-node src/main.ts",
-    "dev": "nodemon src/main.ts"
-  },
-  "engines": {
-    "npm": "please-use-yarn",
-    "node": ">=12.5.0",
-    "yarn": ">=1.17.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/consumet/consumet-extentions.git"
-  },
-  "author": "prince-ao <princead@tutanota.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/consumet/consumet-extentions/issues"
-  },
-  "homepage": "https://github.com/consumet/consumet-extentions#readme",
-  "dependencies": {
-    "consumet-extentions": "../consumet-extentions",
-    "fastify": "^3.29.0",
-    "mongoose": "^6.3.4"
-  },
-  "devDependencies": {
-    "@types/node": "^17.0.35",
-    "axios": "^0.27.2",
-    "cheerio": "^1.0.0-rc.11",
-    "dotenv": "^16.0.1",
-    "nodemon": "^2.0.16",
-    "ts-node": "^10.8.1",
-    "typescript": "4.4.4"
-  }
+    "name": "consumet",
+    "version": "1.0.0",
+    "main": "src/main.ts",
+    "scripts": {
+        "start": "ts-node src/main.ts",
+        "dev": "nodemon src/main.ts"
+    },
+    "engines": {
+        "npm": "please-use-yarn",
+        "node": ">=12.5.0",
+        "yarn": ">=1.17.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/consumet/consumet-extentions.git"
+    },
+    "author": "prince-ao <princead@tutanota.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/consumet/consumet-extentions/issues"
+    },
+    "homepage": "https://github.com/consumet/consumet-extentions#readme",
+    "dependencies": {
+        "@consumet/extensions": "git+https://github.com/consumet/extensions.git",
+        "dotenv": "^16.0.1",
+        "fastify": "^3.29.0",
+        "mongoose": "^6.3.4",
+        "axios": "^0.27.2"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.35",
+        "nodemon": "^2.0.16",
+        "cheerio": "^1.0.0-rc.11",
+        "ts-node": "^10.8.0",
+        "typescript": "^4.6.4"
+    }
 }
