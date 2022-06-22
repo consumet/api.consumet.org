@@ -29,7 +29,7 @@
         "mongoose": "^6.3.4"
     },
     "devDependencies": {
-        "@types/node": "^17.0.35",
+        "@types/node": "^18.0.0",
         "cheerio": "^1.0.0-rc.11",
         "nodemon": "^2.0.16",
         "ts-node": "^10.8.0",
