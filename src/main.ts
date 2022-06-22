@@ -7,6 +7,7 @@ import { connectToDB } from './utils';
 import books from './routes/books';
 import anime from './routes/anime';
 import manga from './routes/manga';
+import lightnovels from './routes/light-novels';
 
 const startServer = async () => {
   await connectToDB();
@@ -19,6 +20,7 @@ const startServer = async () => {
   await fastify.register(books, { prefix: '/books' });
   await fastify.register(anime, { prefix: '/anime' });
   await fastify.register(manga, { prefix: '/manga' });
+  await fastify.register(lightnovels, { prefix: '/light-novels' });
 
   try {
     fastify.get('/', (request, reply) => {

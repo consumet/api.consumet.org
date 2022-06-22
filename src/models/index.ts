@@ -1,11 +1,5 @@
-import { IAnimeProviderParams, IBookProviderParams, LibgenBook } from './types';
+import { IBookProviderParams, LibgenBook } from './types';
 import animeSchema from './schema/anime.schema';
 import { libgenModel } from './models';
 
-export {
-  IAnimeProviderParams,
-  IBookProviderParams,
-  animeSchema,
-  libgenModel,
-  LibgenBook,
-};
+export { IBookProviderParams, animeSchema, libgenModel, LibgenBook };

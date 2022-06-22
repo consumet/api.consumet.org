@@ -1,9 +1,7 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { PROVIDERS_LIST } from '@consumet/extensions';
-import mongoose from 'mongoose';
 
 import mangadex from './mangadex';
-import { IAnimeProviderParams, animeSchema } from '../../models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(mangadex, { prefix: '/' });
@@ -12,19 +10,22 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send('Welcome to Consumet Manga');
   });
 
-  fastify.get('/:animeProvider', async (request: FastifyRequest, reply: FastifyReply) => {
-    const queries: IAnimeProviderParams = { animeProvider: '', page: 1 };
+  fastify.get('/:mangaProvider', async (request: FastifyRequest, reply: FastifyReply) => {
+    const queries: { mangaProvider: string; page: number } = {
+      mangaProvider: '',
+      page: 1,
+    };
 
-    queries.animeProvider = decodeURIComponent(
-      (request.params as IAnimeProviderParams).animeProvider
+    queries.mangaProvider = decodeURIComponent(
+      (request.params as { mangaProvider: string; page: number }).mangaProvider
     );
 
-    queries.page = (request.query as IAnimeProviderParams).page;
+    queries.page = (request.query as { mangaProvider: string; page: number }).page;
 
     if (queries.page! < 1) queries.page = 1;
 
-    const provider = PROVIDERS_LIST.ANIME.find(
-      (provider: any) => provider.toString.name === queries.animeProvider
+    const provider = PROVIDERS_LIST.MANGA.find(
+      (provider: any) => provider.toString.name === queries.mangaProvider
     );
 
     try {
@@ -34,7 +35,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         reply
           .status(404)
           .send(
-            "Anime not found. if you're looking for a provider, please check the provider list."
+            "Manga not found. if you're looking for a provider, please check the provider list."
           );
       }
     } catch (err) {

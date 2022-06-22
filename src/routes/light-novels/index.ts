@@ -1,9 +1,7 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { PROVIDERS_LIST } from '@consumet/extensions';
-import mongoose from 'mongoose';
 
 import readlightnovels from './readlightnovels';
-import { IAnimeProviderParams, animeSchema } from '../../models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(readlightnovels, { prefix: '/' });
@@ -12,35 +10,42 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send('Welcome to Consumet Light Novels');
   });
 
-  fastify.get('/:animeProvider', async (request: FastifyRequest, reply: FastifyReply) => {
-    const queries: IAnimeProviderParams = { animeProvider: '', page: 1 };
+  fastify.get(
+    '/:lightNovelProvider',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const queries: { lightNovelProvider: string; page: number } = {
+        lightNovelProvider: '',
+        page: 1,
+      };
 
-    queries.animeProvider = decodeURIComponent(
-      (request.params as IAnimeProviderParams).animeProvider
-    );
+      queries.lightNovelProvider = decodeURIComponent(
+        (request.params as { lightNovelProvider: string; page: number })
+          .lightNovelProvider
+      );
 
-    queries.page = (request.query as IAnimeProviderParams).page;
+      queries.page = (request.query as { lightNovelProvider: string; page: number }).page;
 
-    if (queries.page! < 1) queries.page = 1;
+      if (queries.page! < 1) queries.page = 1;
 
-    const provider = PROVIDERS_LIST.ANIME.find(
-      (provider: any) => provider.toString.name === queries.animeProvider
-    );
+      const provider = PROVIDERS_LIST.LIGHT_NOVELS.find(
+        (provider: any) => provider.toString.name === queries.lightNovelProvider
+      );
 
-    try {
-      if (provider) {
-        reply.redirect(`/light-novels/${provider.toString.name}`);
-      } else {
-        reply
-          .status(404)
-          .send(
-            "Anime not found. if you're looking for a provider, please check the provider list."
-          );
+      try {
+        if (provider) {
+          reply.redirect(`/light-novels/${provider.toString.name}`);
+        } else {
+          reply
+            .status(404)
+            .send(
+              "Light Novel not found. if you're looking for a provider, please check the provider list."
+            );
+        }
+      } catch (err) {
+        reply.status(500).send('Something went wrong. Please try again later.');
       }
-    } catch (err) {
-      reply.status(500).send('Something went wrong. Please try again later.');
     }
-  });
+  );
 };
 
 export default routes;

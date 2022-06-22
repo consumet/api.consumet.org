@@ -14,13 +14,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get(
     '/readlightnovels/:novel',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const queries: { novel: string; page: number } = { novel: '', page: 1 };
+      const queries: { novel: string } = { novel: '' };
 
-      queries.novel = decodeURIComponent(
-        (request.params as { novel: string; page: number }).novel
-      );
-
-      queries.page = (request.query as { novel: string; page: number }).page;
+      queries.novel = decodeURIComponent((request.params as { novel: string }).novel);
 
       const res = await readlightnovels.search(queries.novel);
 

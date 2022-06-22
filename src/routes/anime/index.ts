@@ -3,7 +3,7 @@ import { PROVIDERS_LIST } from '@consumet/extensions';
 import mongoose from 'mongoose';
 
 import gogoanime from './gogoanime';
-import { IAnimeProviderParams, animeSchema } from '../../models';
+import { animeSchema } from '../../models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(gogoanime, { prefix: '/' });
@@ -13,13 +13,16 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get('/:animeProvider', async (request: FastifyRequest, reply: FastifyReply) => {
-    const queries: IAnimeProviderParams = { animeProvider: '', page: 1 };
+    const queries: { animeProvider: string; page: number } = {
+      animeProvider: '',
+      page: 1,
+    };
 
     queries.animeProvider = decodeURIComponent(
-      (request.params as IAnimeProviderParams).animeProvider
+      (request.params as { animeProvider: string; page: number }).animeProvider
     );
 
-    queries.page = (request.query as IAnimeProviderParams).page;
+    queries.page = (request.query as { animeProvider: string; page: number }).page;
 
     if (queries.page! < 1) queries.page = 1;
 
@@ -50,9 +53,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 };
 
 /**
- * Fast search
+ * Anime Fast search
  */
-const handleSearch = async (queries: IAnimeProviderParams) => {
+const handleSearch = async (queries: { animeProvider: string; page: number }) => {
   const results: {
     currentProvider: string;
     hasNextPage: boolean;
@@ -80,6 +83,8 @@ const handleSearch = async (queries: IAnimeProviderParams) => {
   }
 
   results.results = res;
+
+  // next page check is not stable
 
   let nextPage = await handleQuery(animeModel, results.currentPage + 1, {
     title: new RegExp(queries.animeProvider, 'i'),

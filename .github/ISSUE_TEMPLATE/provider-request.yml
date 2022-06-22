@@ -1,0 +1,31 @@
+name: Provider Request🍕
+description: Request a new source to be added
+labels: [Provider Request]
+title: "[Provider Request]: "
+body:
+  - type: input
+    id: source-name
+    attributes:
+      label: Source name
+      placeholder: |
+        Example: "9anime"
+    validations:
+      required: true
+
+  - type: input
+    id: source-link
+    attributes:
+      label: Source link
+      placeholder: |
+        Example: "https://9anime.to/"
+    validations:
+      required: true
+
+  - type: input
+    id: source-language
+    attributes:
+      label: Language
+      placeholder: |
+        Example: "English"
+    validations:
+      required: true

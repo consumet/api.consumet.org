@@ -1,4 +1,5 @@
 import { BOOKS } from '@consumet/extensions';
+import { LibgenBook } from '@consumet/extensions/dist/models';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { libgenModel } from '../../models';
 import { insertNewBook } from '../../scripts/libgen';
@@ -12,7 +13,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     if (bookTitle.length < 4)
       return reply.status(400).send({ error: 'length of param must be > 4' });
     const regex = new RegExp(bookTitle, 'i');
-    let result = await libgenModel.find({ title: regex });
+    let result = (await libgenModel.find({ title: regex })) as LibgenBook[];
     if (result.length == 0) {
       const libgen = new BOOKS.Libgen();
       const data = await libgen.search(bookTitle);

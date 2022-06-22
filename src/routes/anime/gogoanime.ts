@@ -49,6 +49,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
       const server = (request.query as { server: StreamingServers }).server;
 
+      if (server && !Object.values(StreamingServers).includes(server)) {
+        reply.status(400).send('Invalid server');
+      }
+
       try {
         const res = await gogoanime
           .fetchEpisodeSources(episodeId, server)
