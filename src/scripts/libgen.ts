@@ -96,7 +96,7 @@ const getPopularBooks = async () => {
   await fillBooks();
   let start = false;
   for (let book of popularBooks) {
-    if (book == 'The Long Walk') {
+    if (book == 'I Know Why the Caged Bird Sings') {
       start = true;
       continue;
     }
