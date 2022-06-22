@@ -1,4 +1,8 @@
 contact_links:
+  - name: Provider Request 🍕
+    url: https://github.com/consumet/extensions/issues/new?assignees=&labels=Provider+Request&template=provider-request.yml&title=%5BProvider+Request%5D%3A+
+    about: Request a new provider
+
   - name: Question 🙋
     url: https://discord.gg/qTPfvMxzNH
     about: Ask your question or suggestion in Discord server
