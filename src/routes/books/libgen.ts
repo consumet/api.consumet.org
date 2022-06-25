@@ -11,7 +11,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/s/:bookTitle', async (request: FastifyRequest, reply: FastifyReply) => {
     const { bookTitle } = request.params as { bookTitle: string };
     if (bookTitle.length < 4)
-      return reply.status(400).send({ error: 'length of param must be > 4' });
+      return reply
+        .status(400)
+        .send({ error: 'length of bookTItle must be > 4 characters' });
     const regex = new RegExp(bookTitle, 'i');
     let result = (await libgenModel.find({ title: regex })) as LibgenBook[];
     if (result.length == 0) {
