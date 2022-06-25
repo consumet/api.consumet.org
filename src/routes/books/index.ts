@@ -14,7 +14,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get('/s/:bookTitle', async (request: FastifyRequest, reply: FastifyReply) => {
     const { bookTitle } = request.params as { bookTitle: string };
-    reply.redirect(`/libgen/s/${bookTitle}`);
+    reply.redirect(`../libgen/s/${bookTitle}`);
   });
 };
 

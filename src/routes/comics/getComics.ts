@@ -30,3 +30,5 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     return reply.status(200).send(result);
   });
 };
+
+export default routes;
