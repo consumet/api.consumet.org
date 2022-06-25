@@ -32,7 +32,7 @@
     "//": "PLEASE KEEP typescript at 4.4.4, else ts-node stops working",
     "@types/node": "^18.0.0",
     "cheerio": "^1.0.0-rc.11",
-    "nodemon": "^2.0.16",
+    "nodemon": "^2.0.18",
     "ts-node": "^10.8.0",
     "typescript": "4.4.4"
   }
