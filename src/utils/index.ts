@@ -1,3 +1,3 @@
-import { connectToDB } from './utils';
+import { connectToDB, insertNewBook, insertNewComic } from './utils';
 
-export { connectToDB };
+export { connectToDB, insertNewBook, insertNewComic };

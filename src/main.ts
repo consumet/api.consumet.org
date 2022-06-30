@@ -13,7 +13,7 @@ import lightnovels from './routes/light-novels';
 const startServer = async () => {
   await connectToDB();
 
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
   const fastify = Fastify({
     logger: true,
   });
@@ -25,15 +25,18 @@ const startServer = async () => {
   await fastify.register(lightnovels, { prefix: '/light-novels' });
 
   try {
-    fastify.get('/', (request, reply) => {
-      reply.status(200).send('Welcome to Consumet API');
+    fastify.get('*', (request, reply) => {
+      return reply.status(404).send({
+        message: '',
+        error: 'page not found',
+      });
     });
 
     fastify.listen({ port: PORT }, (err, address) => {
       if (err) throw err;
       console.log(`server listening on ${address.replace('[::]', 'localhost')}`);
     });
-  } catch (err) {
+  } catch (err: any) {
     fastify.log.error(err);
     process.exit(1);
   }

@@ -5,13 +5,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const readlightnovels = new LIGHT_NOVELS.ReadLightNovels();
 
   fastify.get(
-    '/readlightnovels',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      reply.status(200).send('Welcome to Consumet Read Light Novels');
-    }
-  );
-
-  fastify.get(
     '/readlightnovels/:novel',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const queries: { novel: string } = { novel: '' };

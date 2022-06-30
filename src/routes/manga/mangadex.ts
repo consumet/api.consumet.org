@@ -4,10 +4,6 @@ import { MANGA } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const mangadex = new MANGA.MangaDex();
 
-  fastify.get('/managdex', async (request: FastifyRequest, reply: FastifyReply) => {
-    reply.status(200).send('Welcome to Consumet MangaDex');
-  });
-
   fastify.get(
     '/mangadex/:manga',
     async (request: FastifyRequest, reply: FastifyReply) => {
