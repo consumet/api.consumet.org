@@ -13,7 +13,7 @@ import lightnovels from './routes/light-novels';
 const startServer = async () => {
   await connectToDB();
 
-  const PORT = process.env.PORT || 3000;
+  const PORT = Number(process.env.PORT) || 3000;
   const fastify = Fastify({
     logger: true,
   });

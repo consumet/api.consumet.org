@@ -7,7 +7,6 @@
     "dev": "nodemon src/main.ts"
   },
   "engines": {
-    "npm": "please-use-yarn",
     "node": ">=12.5.0",
     "yarn": ">=1.17.3"
   },
