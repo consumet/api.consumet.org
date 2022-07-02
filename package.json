@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "src/main.ts",
   "scripts": {
+    "prestart": "yarn install",
     "start": "ts-node src/main.ts",
     "dev": "nodemon src/main.ts"
   },
@@ -25,10 +26,7 @@
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "fastify": "^4.1.0",
-    "mongoose": "^6.3.4"
-  },
-  "devDependencies": {
-    "//": "PLEASE KEEP typescript at 4.4.4, else ts-node stops working",
+    "mongoose": "^6.3.4",
     "@types/node": "^18.0.0",
     "cheerio": "^1.0.0-rc.11",
     "nodemon": "^2.0.18",
