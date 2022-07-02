@@ -32,9 +32,11 @@ const startServer = async () => {
       });
     });
 
-    fastify.listen({ port: PORT }, (err, address) => {
-      if (err) throw err;
-      console.log(`server listening on ${address.replace('[::]', 'localhost')}`);
+    console.log(PORT);
+
+    fastify.listen({ port: PORT, host: '0.0.0.0' }, (e, address) => {
+      if (e) throw e;
+      console.log(`server listening on ${address}`);
     });
   } catch (err: any) {
     fastify.log.error(err);
