@@ -26,7 +26,7 @@
         "dotenv": "^16.0.1",
         "fastify": "^4.1.0",
         "mongoose": "^6.4.3",
-        "@types/node": "^18.0.0",
+        "@types/node": "^18.0.2",
         "cheerio": "^1.0.0-rc.11",
         "nodemon": "^2.0.18",
         "ts-node": "^10.8.0",

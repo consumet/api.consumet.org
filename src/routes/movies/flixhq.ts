@@ -22,14 +22,21 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/flixhq/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = decodeURIComponent((request.query as { id: string }).id);
 
+    if (!id) reply.status(400).send({ message: 'Missing id query' });
+
     try {
       const res = await flixhq
         .fetchMediaInfo(id)
-        .catch((err) => reply.status(404).send(err));
+        .catch((err) => reply.status(404).send({ message: err }));
 
       reply.status(200).send(res);
     } catch (err) {
-      reply.status(500).send('Something went wrong. Please try again later.');
+      reply
+        .status(500)
+        .send({
+          message:
+            'Something went wrong. Please try again later. or contact the developers.',
+        });
     }
   });
 
@@ -43,7 +50,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if (!mediaId) reply.status(400).send({ message: 'Missing mediaId query' });
 
       if (server && !Object.values(StreamingServers).includes(server)) {
-        reply.status(400).send('Invalid server');
+        reply.status(400).send({ message: 'Invalid server query' });
       }
 
       try {
