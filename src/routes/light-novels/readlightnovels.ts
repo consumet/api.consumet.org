@@ -24,7 +24,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
       try {
         const res = await readlightnovels
-          .fetchLighNovelInfo(id)
+          .fetchLightNovelInfo(id)
           .catch((err) => reply.status(404).send(err));
 
         reply.status(200).send(res);

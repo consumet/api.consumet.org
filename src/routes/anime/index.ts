@@ -41,9 +41,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         } else {
           reply
             .status(404)
-            .send(
-              "Anime not found. if you're looking for a provider, please check the provider list."
-            );
+            .send({ message: 'Page not found, please check the providers list.' });
         }
       }
     } catch (err) {
