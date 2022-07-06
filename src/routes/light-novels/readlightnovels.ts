@@ -25,11 +25,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       try {
         const res = await readlightnovels
           .fetchLightNovelInfo(id)
-          .catch((err) => reply.status(404).send(err));
+          .catch((err) => reply.status(404).send({ message: err }));
 
         reply.status(200).send(res);
       } catch (err) {
-        reply.status(500).send('Something went wrong. Please try again later.');
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Please try again later.' });
       }
     }
   );
@@ -46,7 +48,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
         reply.status(200).send(res);
       } catch (err) {
-        reply.status(500).send('Something went wrong. Please try again later.');
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Please try again later.' });
       }
     }
   );
