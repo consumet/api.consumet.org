@@ -37,9 +37,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         } else {
           reply
             .status(404)
-            .send(
-              "Light Novel not found. if you're looking for a provider, please check the provider list."
-            );
+            .send({ message: 'Page not found, please check the providers list.' });
         }
       } catch (err) {
         reply.status(500).send('Something went wrong. Please try again later.');
