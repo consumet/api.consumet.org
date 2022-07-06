@@ -37,7 +37,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           .send({ message: 'Page not found, please check the providers list.' });
       }
     } catch (err) {
-      reply.status(500).send('Something went wrong. Please try again later.');
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Please try again later.' });
     }
   });
 };
