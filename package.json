@@ -30,6 +30,6 @@
         "cheerio": "^1.0.0-rc.11",
         "nodemon": "^2.0.19",
         "ts-node": "^10.8.2",
-        "typescript": "4.4.4"
+        "typescript": "4.7.4"
     }
 }
