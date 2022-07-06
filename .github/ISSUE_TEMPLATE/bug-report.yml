@@ -1,7 +1,6 @@
 name: 🐞 Bug report
 description: Create a report to help us improve
-labels: [Bug]
-title: "[Bug]: "
+labels: [bug]
 body:
   - type: input
     id: describe-the-bug

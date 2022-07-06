@@ -15,27 +15,18 @@
     <img src="https://img.shields.io/github/license/consumet/api" alt="GitHub">
   </a>
     <a href="https://discord.gg/qTPfvMxzNH">
-    <img src="https://img.shields.io/discord/987492554486452315.svg?label=discord&labelColor=7289da&color=2c2f33" alt="Discord">
+    <img src="https://img.shields.io/discord/987492554486452315?logo=discord" alt="Discord">
   </a>
 </p>
 
-## Get started with local development and testing
+Consumet scrapes data from various websites and provides APIs for accessing the data to satisfy your needs.
 
-```bash
-git clone https://github.com/consumet/api && cd api
-```
+## Documentation
+Please refer to the [documentation](https://docs.consumet.org). Join our [Discord server](https://discord.gg/qTPfvMxzNH) if you need any additional help or have any questions, comments, or suggestions.
 
-#### 2. Install dependencies
+## Development
 
-```bash
-yarn install
-```
-
-#### 3. Start development server
-
-```bash
-yarn dev
-```
+see [CONTRIBUTING.md](https://github.com/consumet/extensions/blob/master/docs/guides/contributing.md).
 
 ## Other repositories
  - [Extensions](https://github.com/consumet/extensions)
