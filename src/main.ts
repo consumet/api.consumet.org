@@ -10,9 +10,10 @@ import manga from './routes/manga';
 import comics from './routes/comics';
 import lightnovels from './routes/light-novels';
 import movies from './routes/movies';
+import meta from './routes/meta';
 
-const startServer = async () => {
-  await connectToDB();
+const init = async () => {
+  //await connectToDB();
 
   const PORT = Number(process.env.PORT);
   const fastify = Fastify({
@@ -25,6 +26,7 @@ const startServer = async () => {
   await fastify.register(comics, { prefix: '/comics' });
   await fastify.register(lightnovels, { prefix: '/light-novels' });
   await fastify.register(movies, { prefix: '/movies' });
+  await fastify.register(meta, { prefix: '/meta' });
 
   try {
     fastify.get('*', (request, reply) => {
@@ -44,4 +46,4 @@ const startServer = async () => {
   }
 };
 
-startServer();
+init();

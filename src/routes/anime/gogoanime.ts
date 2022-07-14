@@ -6,17 +6,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const gogoanime = new ANIME.Gogoanime();
 
   fastify.get(
-    '/gogoanime/:anime',
+    '/gogoanime/:query',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const queries: { anime: string; page: number } = { anime: '', page: 1 };
+      const query = (request.params as { query: string }).query;
+      const page = (request.query as { page: number }).page || 1;
 
-      queries.anime = decodeURIComponent(
-        (request.params as { anime: string; page: number }).anime
-      );
-
-      queries.page = (request.query as { anime: string; page: number }).page;
-
-      const res = await gogoanime.search(queries.anime, queries.page);
+      const res = await gogoanime.search(query, page);
 
       reply.status(200).send(res);
     }
@@ -80,6 +75,41 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         reply
           .status(500)
           .send({ message: 'Something went wrong. Please try again later.' });
+      }
+    }
+  );
+
+  fastify.get(
+    '/gogoanime/top-airing',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      try {
+        const page = (request.query as { page: number }).page;
+
+        const res = await gogoanime.fetchTopAiring(page);
+
+        reply.status(200).send(res);
+      } catch (err) {
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Contact developers for help.' });
+      }
+    }
+  );
+
+  fastify.get(
+    '/gogoanime/recent-episodes',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      try {
+        const type = (request.query as { type: number }).type;
+        const page = (request.query as { page: number }).page;
+
+        const res = await gogoanime.fetchRecentEpisodes(page, type);
+
+        reply.status(200).send(res);
+      } catch (err) {
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Contact developers for help.' });
       }
     }
   );

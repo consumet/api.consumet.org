@@ -5,17 +5,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const mangadex = new MANGA.MangaDex();
 
   fastify.get(
-    '/mangadex/:manga',
+    '/mangadex/:query',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const queries: { manga: string; page: number } = { manga: '', page: 1 };
+      const query = (request.params as { query: string }).query;
 
-      queries.manga = decodeURIComponent(
-        (request.params as { manga: string; page: number }).manga
-      );
+      const page = (request.query as { page: number }).page;
 
-      queries.page = (request.query as { manga: string; page: number }).page;
-
-      const res = await mangadex.search(queries.manga, queries.page);
+      const res = await mangadex.search(query, page);
 
       reply.status(200).send(res);
     }

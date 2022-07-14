@@ -1,33 +1,31 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { PROVIDERS_LIST } from '@consumet/extensions';
 
-import gogoanime from './gogoanime';
-import animepahe from './animepahe';
+import anilist from './anilist';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  await fastify.register(gogoanime, { prefix: '/' });
-  await fastify.register(animepahe, { prefix: '/' });
+  await fastify.register(anilist, { prefix: '/' });
 
   fastify.get('/', async (request: any, reply: any) => {
-    reply.status(200).send('Welcome to Consumet Anime');
+    reply.status(200).send('Welcome to Consumet Meta');
   });
 
-  fastify.get('/:animeProvider', async (request: FastifyRequest, reply: FastifyReply) => {
-    const queries: { animeProvider: string; page: number } = {
-      animeProvider: '',
+  fastify.get('/:metaProvider', async (request: FastifyRequest, reply: FastifyReply) => {
+    const queries: { metaProvider: string; page: number } = {
+      metaProvider: '',
       page: 1,
     };
 
-    queries.animeProvider = decodeURIComponent(
-      (request.params as { animeProvider: string; page: number }).animeProvider
+    queries.metaProvider = decodeURIComponent(
+      (request.params as { metaProvider: string; page: number }).metaProvider
     );
 
-    queries.page = (request.query as { animeProvider: string; page: number }).page;
+    queries.page = (request.query as { metaProvider: string; page: number }).page;
 
     if (queries.page! < 1) queries.page = 1;
 
-    const provider = PROVIDERS_LIST.ANIME.find(
-      (provider: any) => provider.toString.name === queries.animeProvider
+    const provider = PROVIDERS_LIST.META.find(
+      (provider: any) => provider.toString.name === queries.metaProvider
     );
 
     try {

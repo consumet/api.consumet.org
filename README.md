@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://consumet.org/">
-    <img alt="Consumet" src=".github/images/logo.png" width="150">
+    <img alt="Consumet" src="https://consumet.org/images/consumetlogo.png" width="150">
   </a>
 </p>
 
@@ -15,11 +15,56 @@
     <img src="https://img.shields.io/github/license/consumet/api" alt="GitHub">
   </a>
     <a href="https://discord.gg/qTPfvMxzNH">
-    <img src="https://img.shields.io/discord/987492554486452315?logo=discord" alt="Discord">
+    <img src="https://img.shields.io/discord/987492554486452315?color=7289da" alt="Discord">
   </a>
 </p>
 
 Consumet scrapes data from various websites and provides APIs for accessing the data to satisfy your needs.
+
+## Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Installation](#installation)
+  - [Locally](#locally)
+  - [Docker](#docker)
+  - [Heroku](#heroku)
+- [Documentation](#documentation)
+- [Development](#development)
+- [Other repositories](#other-repositories)
+
+## Installation
+### Locally
+installation is simple.
+
+Run the following command to install clone the repository, and install the dependencies.
+
+```sh
+$ git clone https://github.com/consumet/consumet-api.git
+$ cd consumet-api
+$ npm install #or yarn install
+```
+
+start ther server!
+
+```sh
+$ npm start #or yarn start
+```
+
+### Docker
+Docker image is available at [Docker Hub](https://hub.docker.com/repository/docker/riimuru/consumet-api).
+
+run the following command to pull and run the docker image.
+
+```sh
+$ docker pull riimuru/consumet-api
+$ docker run -p 3000:3000 riimuru/consumet-api
+```
+This will start the server on port 3000. You can access the server at http://localhost:3000/. You can change the port by changing the -p option to `-p <port>:3000`.
+
+You can add `-d` flag to run the server in detached mode.
+
+### Heroku
+Host your own instance of Consumet API on Heroku using the button below.\
+[![Deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/consumet/consumet-api/tree/main)
 
 ## Documentation
 Please refer to the [documentation](https://docs.consumet.org). Join our [Discord server](https://discord.gg/qTPfvMxzNH) if you need any additional help or have any questions, comments, or suggestions.

@@ -1,0 +1,9 @@
+README.md
+Dockerfile
+.dockerignore
+.git
+.gitignore
+/.vscode
+.env
+.envrc
+node_modules
