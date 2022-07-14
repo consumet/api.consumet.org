@@ -20,9 +20,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = decodeURIComponent((request.params as { id: string }).id);
 
+      const episodePage = (request.query as { episodePage: number }).episodePage;
+
       try {
         const res = await animepahe
-          .fetchAnimeInfo(id)
+          .fetchAnimeInfo(id, episodePage)
           .catch((err) => reply.status(404).send({ message: err }));
 
         reply.status(200).send(res);
