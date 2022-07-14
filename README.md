@@ -21,8 +21,8 @@
 
 Consumet scrapes data from various websites and provides APIs for accessing the data to satisfy your needs.
 
-## Table of Contents
-- [Table of Contents](#table-of-contents)
+<h2> Table of Contents </h2>
+
 - [Installation](#installation)
   - [Locally](#locally)
   - [Docker](#docker)
@@ -35,7 +35,7 @@ Consumet scrapes data from various websites and provides APIs for accessing the 
 ### Locally
 installation is simple.
 
-Run the following command to install clone the repository, and install the dependencies.
+Run the following command to clone the repository, and install the dependencies.
 
 ```sh
 $ git clone https://github.com/consumet/consumet-api.git
@@ -43,14 +43,14 @@ $ cd consumet-api
 $ npm install #or yarn install
 ```
 
-start ther server!
+start the server!
 
 ```sh
 $ npm start #or yarn start
 ```
 
 ### Docker
-Docker image is available at [Docker Hub](https://hub.docker.com/repository/docker/riimuru/consumet-api).
+Docker image is available at [Docker Hub](https://hub.docker.com/r/riimuru/consumet-api).
 
 run the following command to pull and run the docker image.
 
@@ -58,7 +58,7 @@ run the following command to pull and run the docker image.
 $ docker pull riimuru/consumet-api
 $ docker run -p 3000:3000 riimuru/consumet-api
 ```
-This will start the server on port 3000. You can access the server at http://localhost:3000/. You can change the port by changing the -p option to `-p <port>:3000`.
+This will start the server on port 3000. You can access the server at http://localhost:3000/, And can change the port by changing the -p option to `-p <port>:3000`.
 
 You can add `-d` flag to run the server in detached mode.
 
