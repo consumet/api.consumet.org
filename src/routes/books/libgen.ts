@@ -9,7 +9,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         message: 'length of bookTItle must be > 4 characters',
         error: 'short_length',
       });
-    const regex = new RegExp(bookTitle, 'i');
     const libgen = new BOOKS.Libgen();
     const data = await libgen.search(bookTitle);
     return reply.status(200).send(data);
