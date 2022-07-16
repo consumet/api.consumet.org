@@ -7,8 +7,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       intro:
         "Welcome to the getComics provider: check out the provider's website @ https://getcomics.info/",
       routes: ['/s'],
-      document:
-        'https://docs.consumet.org/#tag/getComics/paths/~1comics~1s~1%7BcomicTitle%7D/get',
+      documentation: 'https://docs.consumet.org/#tag/getComics',
     });
   });
 

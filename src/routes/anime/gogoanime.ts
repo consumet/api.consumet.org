@@ -5,6 +5,22 @@ import { StreamingServers } from '@consumet/extensions/dist/models';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const gogoanime = new ANIME.Gogoanime();
 
+  fastify.get('/gogoanime', (_, rp) => {
+    rp.status(200).send({
+      intro:
+        "Welcome to the gogoanime provider: check out the provider's website @ https://gogoanime.gg/",
+      routes: [
+        '/:query',
+        '/info/:id',
+        '/watch/:episodeId',
+        '/servers/:episodeId',
+        '/top-airing',
+        '/recent-episodes',
+      ],
+      documentation: 'https://docs.consumet.org/#tag/gogoanime',
+    });
+  });
+
   fastify.get(
     '/gogoanime/:query',
     async (request: FastifyRequest, reply: FastifyReply) => {
