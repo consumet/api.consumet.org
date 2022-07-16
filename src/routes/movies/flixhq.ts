@@ -5,6 +5,15 @@ import { StreamingServers } from '@consumet/extensions/dist/models';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const flixhq = new MOVIES.FlixHQ();
 
+  fastify.get('/flixhq', (_, rp) => {
+    rp.status(200).send({
+      intro:
+        "Welcome to the flixhq provider: check out the provider's website @ https://flixhq.to/",
+      routes: ['/:movie', '/info', '/watch/:episodeId'],
+      documentation: 'https://docs.consumet.org/#tag/flixhq',
+    });
+  });
+
   fastify.get('/flixhq/:movie', async (request: FastifyRequest, reply: FastifyReply) => {
     const queries: { movie: string; page: number } = { movie: '', page: 1 };
 
@@ -31,12 +40,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
       reply.status(200).send(res);
     } catch (err) {
-      reply
-        .status(500)
-        .send({
-          message:
-            'Something went wrong. Please try again later. or contact the developers.',
-        });
+      reply.status(500).send({
+        message:
+          'Something went wrong. Please try again later. or contact the developers.',
+      });
     }
   });
 
