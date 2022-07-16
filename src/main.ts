@@ -25,6 +25,9 @@ import meta from './routes/meta';
   await fastify.register(meta, { prefix: '/meta' });
 
   try {
+    fastify.get('/', (_, rp) => {
+      rp.status(200).send('Welcome to consumet api! 🎉');
+    });
     fastify.get('*', (request, reply) => {
       reply.status(404).send({
         message: '',
