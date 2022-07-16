@@ -2,8 +2,6 @@ require('dotenv').config();
 
 import Fastify from 'fastify';
 
-import { connectToDB } from './utils';
-
 import books from './routes/books';
 import anime from './routes/anime';
 import manga from './routes/manga';
@@ -12,9 +10,7 @@ import lightnovels from './routes/light-novels';
 import movies from './routes/movies';
 import meta from './routes/meta';
 
-const init = async () => {
-  //await connectToDB();
-
+(async () => {
   const PORT = Number(process.env.PORT);
   const fastify = Fastify({
     logger: true,
@@ -44,6 +40,4 @@ const init = async () => {
     fastify.log.error(err);
     process.exit(1);
   }
-};
-
-init();
+})();
