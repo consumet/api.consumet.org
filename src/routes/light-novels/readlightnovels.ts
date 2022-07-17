@@ -9,7 +9,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       intro:
         "Welcome to the readlightnovels provider: check out the provider's website @ https://readlightnovels.net/",
       routes: ['/:query', '/:id', '/chapterId'],
-      documentation: 'coming soon...',
+      documentation: 'https://docs.consumet.org/#tag/readlightnovels',
     });
   });
 

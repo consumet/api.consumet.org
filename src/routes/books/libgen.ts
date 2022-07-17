@@ -9,7 +9,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       intro:
         "Welcome to the libgen provider. check out the provider's website @ http://libgen.rs/",
       routes: ['/s', '/fs'],
-      documentation: 'https://docs.consumet.org/#tag/libgen',
+      documentation: 'https://docs.consumet.org/#tag/libgen (needs to be updated)',
     });
   });
 
