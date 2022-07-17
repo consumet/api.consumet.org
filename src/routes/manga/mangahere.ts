@@ -26,7 +26,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get('/mangahere/info', async (request: FastifyRequest, reply: FastifyReply) => {
-    const id = decodeURIComponent((request.query as { id: string }).id);
+    const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
       return reply.status(400).send({ message: 'id is required' });
