@@ -2,6 +2,8 @@ import { BOOKS } from '@consumet/extensions';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
+  const libgen = new BOOKS.Libgen();
+
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
@@ -27,7 +29,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         error: 'invalid_input',
       });
     }
-    const libgen = new BOOKS.Libgen();
     const data = await libgen.search(bookTitle, maxResults);
     return reply.status(200).send(data);
   });
@@ -48,7 +49,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         error: 'invalid_input',
       });
     }
-    const libgen = new BOOKS.Libgen();
     const data = await libgen.fastSearch(bookTitle, maxResults);
     return reply.status(200).send(data);
   });
