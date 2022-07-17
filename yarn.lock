@@ -3,8 +3,8 @@
 
 
 "@consumet/extensions@git+https://github.com/consumet/consumet.ts.git":
-  version "1.0.4"
-  resolved "git+https://github.com/consumet/consumet.ts.git#0e5f282506c4895bd98757fe5dc15a99605f26fe"
+  version "1.0.5"
+  resolved "git+https://github.com/consumet/consumet.ts.git#7ac42109270e6024dce3fca52206b7272a4f6e22"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -84,9 +84,9 @@
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
 
 "@types/node@*", "@types/node@^18.0.2":
-  version "18.0.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.0.4.tgz#48aedbf35efb3af1248e4cd4d792c730290cd5d6"
-  integrity sha512-M0+G6V0Y4YV8cqzHssZpaNCqvYwlCiulmm0PwpNLF55r/+cT8Ol42CHRU1SEaYFH2rTwiiE1aYg/2g2rrtGdPA==
+  version "18.0.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.0.5.tgz#96be8113b014e9e7f0c3609c4a25afadd85ff659"
+  integrity sha512-En7tneq+j0qAiVwysBD79y86MT3ModuoIJbe7JXp+sb5UAjInSShmK3nXXMioBzfF7rXC12hv12d4IyCVwN4dA==
 
 "@types/webidl-conversions@*":
   version "6.1.1"
@@ -135,7 +135,7 @@ ajv-formats@^2.1.1:
   dependencies:
     ajv "^8.0.0"
 
-ajv@^8.0.0, ajv@^8.1.0, ajv@^8.10.0:
+ajv@^8.0.0, ajv@^8.10.0:
   version "8.11.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.0.tgz#977e91dd96ca669f54a11e23e378e33b884a565f"
   integrity sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==
@@ -571,13 +571,12 @@ kareem@2.4.1:
   integrity sha512-aJ9opVoXroQUPfovYP5kaj2lM7Jn02Gw13bL0lg9v0V7SaUc0qavPs0Eue7d2DcC3NjqI6QAUElXNsuZSeM+EA==
 
 light-my-request@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.0.0.tgz#2ac329d472c5c74c74be62fb2a8790c444c22ab0"
-  integrity sha512-0OPHKV+uHgBOnRokzL1LqeMCnSAo5l/rZS7kyB6G1I8qxGCvhXpq1M6WK565Y9A5CSn50l3DVaHnJ5FCdpguZQ==
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.1.0.tgz#00e4a648817d9041537f5df9e1637c7113015c20"
+  integrity sha512-pPQiXZaFGxVJccAC7zigUwyso5iCHz/sk17IKdcB6GUv6sXlxT7lOJFzosPhNs5/TyEXjITIEDfCyM3hHC34iQ==
   dependencies:
-    ajv "^8.1.0"
     cookie "^0.5.0"
-    process-warning "^1.0.0"
+    process-warning "^2.0.0"
     set-cookie-parser "^2.4.1"
 
 lru-cache@^6.0.0:
@@ -760,11 +759,6 @@ pino@^8.0.0:
     safe-stable-stringify "^2.3.1"
     sonic-boom "^3.0.0"
     thread-stream "^1.0.0"
-
-process-warning@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/process-warning/-/process-warning-1.0.0.tgz#980a0b25dc38cd6034181be4b7726d89066b4616"
-  integrity sha512-du4wfLyj4yCZq1VupnVSZmRsPJsNuxoDQFdCFHLaYiEbFBD7QE0a+I4D7hOxrVnh78QE/YipFAj9lXHiXocV+Q==
 
 process-warning@^2.0.0:
   version "2.0.0"
