@@ -8,9 +8,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send('Welcome to Consumet Comics 🦸‍♂️');
   });
 
-  fastify.get('/s/:comicTitle', async (request: FastifyRequest, reply: FastifyReply) => {
-    const { comicTitle } = request.params as { comicTitle: string };
-    reply.status(300).redirect(`../getComics/s/${comicTitle}`);
+  fastify.get('/s', async (request: FastifyRequest, reply: FastifyReply) => {
+    const { comicTitle, page } = request.query as { comicTitle: string; page: number };
+    reply.status(300).redirect(`getComics/s?comicTitle=${comicTitle}&page=${page}`);
   });
 };
 
