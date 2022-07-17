@@ -2,9 +2,11 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 import { PROVIDERS_LIST } from '@consumet/extensions';
 
 import mangadex from './mangadex';
+import mangahere from './mangahere';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(mangadex, { prefix: '/' });
+  await fastify.register(mangahere, { prefix: '/' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Manga');
