@@ -29,6 +29,8 @@ Consumet scrapes data from various websites and provides APIs for accessing the 
   - [Heroku](#heroku)
 - [Documentation](#documentation)
 - [Development](#development)
+- [Provider Request](#provider-request)
+- [Support](#support)
 - [Other repositories](#other-repositories)
 
 ## Installation
@@ -70,8 +72,13 @@ Host your own instance of Consumet API on Heroku using the button below.\
 Please refer to the [documentation](https://docs.consumet.org). Join our [Discord server](https://discord.gg/qTPfvMxzNH) if you need any additional help or have any questions, comments, or suggestions.
 
 ## Development
-
 see [CONTRIBUTING.md](https://github.com/consumet/extensions/blob/master/docs/guides/contributing.md).
+
+## Provider Request
+Make a new [issue](https://github.com/consumet/consumet.ts/issues/new?assignees=&labels=provider+request&template=provider-request.yml) with the name of the provider on the title, as well as a link to the provider in the body paragraph.
+
+## Support
+Please join the [discord server](https://discord.gg/qTPfvMxzNH) to ask questions, get help, or report issues.
 
 ## Other repositories
  - [Extensions](https://github.com/consumet/extensions)
