@@ -4,6 +4,15 @@ import { LIGHT_NOVELS } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const readlightnovels = new LIGHT_NOVELS.ReadLightNovels();
 
+  fastify.get('/readlightnovels', (_, rp) => {
+    rp.status(200).send({
+      intro:
+        "Welcome to the readlightnovels provider: check out the provider's website @ https://readlightnovels.net/",
+      routes: ['/:query', '/:id', '/chapterId'],
+      documentation: 'coming soon...',
+    });
+  });
+
   fastify.get(
     '/readlightnovels/:query',
     async (request: FastifyRequest, reply: FastifyReply) => {

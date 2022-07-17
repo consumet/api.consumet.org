@@ -4,6 +4,15 @@ import { META } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const anilist = new META.Anilist();
 
+  fastify.get('/anilist', (_, rp) => {
+    rp.status(200).send({
+      intro:
+        "Welcome to the anilist provider: check out the provider's website @ https://anilist.co/",
+      routes: ['/:query', '/info/:id', '/watch/:episodeId'],
+      documentation: 'https://docs.consumet.org/#tag/anilist',
+    });
+  });
+
   fastify.get('/anilist/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 

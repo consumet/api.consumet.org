@@ -4,6 +4,15 @@ import { ANIME } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const animepahe = new ANIME.AnimePahe();
 
+  fastify.get('/animephane', (_, rp) => {
+    rp.status(200).send({
+      intro:
+        "Welcome to the animepahe provider: check out the provider's website @ https://animepahe.com/",
+      routes: ['/:query', '/info/:id', '/watch/:episodeId'],
+      documentation: 'https://docs.consumet.org/#tag/animepahe',
+    });
+  });
+
   fastify.get(
     '/animepahe/:query',
     async (request: FastifyRequest, reply: FastifyReply) => {

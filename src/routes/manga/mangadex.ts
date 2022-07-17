@@ -4,6 +4,15 @@ import { MANGA } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const mangadex = new MANGA.MangaDex();
 
+  fastify.get('/mangadex', (_, rp) => {
+    rp.status(200).send({
+      intro:
+        "Welcome to the mangadex provider: check out the provider's website @ https://mangadex.org/",
+      routes: ['/:query', '/info/:id', '/read/:chapterId'],
+      documentation: 'https://docs.consumet.org/#tag/mangadex',
+    });
+  });
+
   fastify.get(
     '/mangadex/:query',
     async (request: FastifyRequest, reply: FastifyReply) => {

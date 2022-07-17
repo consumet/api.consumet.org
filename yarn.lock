@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@git+https://github.com/consumet/extensions.git":
+"@consumet/extensions@git+https://github.com/consumet/consumet.ts.git":
   version "1.0.4"
-  resolved "git+https://github.com/consumet/extensions.git#73d2f27e4a4294f35e334680cc6d79d0c0e5143b"
+  resolved "git+https://github.com/consumet/consumet.ts.git#0e5f282506c4895bd98757fe5dc15a99605f26fe"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
