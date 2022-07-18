@@ -10,32 +10,21 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get('/s', async (request: FastifyRequest, reply: FastifyReply) => {
-    const { bookTitle, maxResults } = request.query as {
+    const { bookTitle, page } = request.query as {
       bookTitle: string;
-      maxResults: number;
+      page: number;
     };
     if (!bookTitle)
       return reply.status(400).send({
         message: 'bookTitle query needed',
         error: 'invalid_input',
       });
-
-    const data = await lbgen.search(bookTitle, maxResults);
-    return reply.status(200).send(data);
-  });
-
-  fastify.get('/fs', async (request: FastifyRequest, reply: FastifyReply) => {
-    const { bookTitle, maxResults } = request.query as {
-      bookTitle: string;
-      maxResults: number;
-    };
-    if (!bookTitle)
-      return reply.status(400).send({
-        message: 'bookTitle query needed',
-        error: 'invalid_input',
-      });
-    const data = await lbgen.fastSearch(bookTitle, maxResults);
-    return reply.status(200).send(data);
+    try {
+      const data = await lbgen.search(bookTitle, page);
+      return reply.status(200).send(data);
+    } catch (e) {
+      return reply.status(400).send(e);
+    }
   });
 
   await fastify.register(libgen, { prefix: '/libgen' });
