@@ -14,43 +14,27 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get('/s', async (request: FastifyRequest, reply: FastifyReply) => {
-    const { bookTitle, maxResults } = request.query as {
+    const { bookTitle, page } = request.query as {
       bookTitle: string;
-      maxResults: number;
+      page: number;
     };
     if (bookTitle.length < 4)
       return reply.status(400).send({
         message: 'length of bookTItle must be > 4 characters',
         error: 'short_length',
       });
-    if (isNaN(maxResults)) {
+    if (isNaN(page)) {
       return reply.status(400).send({
         message: 'page number is valid',
         error: 'invalid_input',
       });
     }
-    const data = await libgen.search(bookTitle, maxResults);
-    return reply.status(200).send(data);
-  });
-
-  fastify.get('/fs', async (request: FastifyRequest, reply: FastifyReply) => {
-    const { bookTitle, maxResults } = request.query as {
-      bookTitle: string;
-      maxResults: number;
-    };
-    if (bookTitle.length < 4)
-      return reply.status(400).send({
-        message: 'length of bookTItle must be > 4 characters',
-        error: 'short_length',
-      });
-    if (isNaN(maxResults)) {
-      return reply.status(400).send({
-        message: 'page number is valid',
-        error: 'invalid_input',
-      });
+    try {
+      const data = await libgen.search(bookTitle, page);
+      return reply.status(200).send(data);
+    } catch (e) {
+      return reply.status(400).send(e);
     }
-    const data = await libgen.fastSearch(bookTitle, maxResults);
-    return reply.status(200).send(data);
   });
 };
 
