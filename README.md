@@ -72,7 +72,7 @@ Host your own instance of Consumet API on Heroku using the button below.\
 Please refer to the [documentation](https://docs.consumet.org). Join our [Discord server](https://discord.gg/qTPfvMxzNH) if you need any additional help or have any questions, comments, or suggestions.
 
 ## Development
-Pull requests and stars are always welcome, For bugs and features create a new [issue]. If you're brave to make make a commit to the project see [CONTRIBUTING.md](https://github.com/consumet/extensions/blob/master/docs/guides/contributing.md).
+Pull requests and stars are always welcome, for bugs and features create a new [issue](https://github.com/consumet/consumet-api/issues). If you're brave to make make a commit to the project see [CONTRIBUTING.md](https://github.com/consumet/extensions/blob/master/docs/guides/contributing.md).
 
 ## Provider Request
 Make a new [issue](https://github.com/consumet/consumet.ts/issues/new?assignees=&labels=provider+request&template=provider-request.yml) with the name of the provider on the title, as well as a link to the provider in the body paragraph.
