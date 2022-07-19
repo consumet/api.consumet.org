@@ -85,7 +85,7 @@ You can contact the maintainers of consumet.ts via [email](mailto:consumet.org@g
   </a>
 </p>
 
-## Other repositories
- - [Extensions](https://github.com/consumet/extensions)
+## Related repositories
+ - [Consumet.ts](https://github.com/consumet/extensions)
  - [Website](https://github.com/consumet/consumet.org)
  - [Providers Status](https://github.com/consumet/providers-status)
