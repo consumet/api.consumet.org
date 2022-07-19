@@ -78,7 +78,12 @@ see [CONTRIBUTING.md](https://github.com/consumet/extensions/blob/master/docs/gu
 Make a new [issue](https://github.com/consumet/consumet.ts/issues/new?assignees=&labels=provider+request&template=provider-request.yml) with the name of the provider on the title, as well as a link to the provider in the body paragraph.
 
 ## Support
-Please join the [discord server](https://discord.gg/qTPfvMxzNH) to ask questions, get help, or report issues.
+You can contact the maintainers of consumet.ts via [email](mailto:consumet.org@gmail.com), or [join the discord server](https://discord.gg/qTPfvMxzNH) (Recommended).
+<p align="center">
+  <a href="https://discord.gg/sP2k8vhjdb">
+    <img src="http://invidget.switchblade.xyz/987492554486452315">
+  </a>
+</p>
 
 ## Other repositories
  - [Extensions](https://github.com/consumet/extensions)
