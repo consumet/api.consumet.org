@@ -8,7 +8,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     rp.status(200).send({
       intro:
         "Welcome to the readlightnovels provider: check out the provider's website @ https://readlightnovels.net/",
-      routes: ['/:query', '/:id', '/chapterId'],
+      routes: ['/:query', '/info', '/read'],
       documentation: 'https://docs.consumet.org/#tag/readlightnovels',
     });
   });
@@ -25,13 +25,20 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/readlightnovels/info/:id',
+    '/readlightnovels/info',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const id = decodeURIComponent((request.params as { id: string }).id);
+      const id = (request.query as { id: string }).id;
+      const chapterPage = (request.query as { chapterPage: number }).chapterPage;
+
+      if (typeof id === 'undefined') {
+        return reply.status(400).send({
+          message: 'id is required',
+        });
+      }
 
       try {
         const res = await readlightnovels
-          .fetchLightNovelInfo(id)
+          .fetchLightNovelInfo(id, chapterPage)
           .catch((err) => reply.status(404).send({ message: err }));
 
         reply.status(200).send(res);
@@ -44,9 +51,15 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/readlightnovels/read/:chapterId',
+    '/readlightnovels/read',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const chapterId = (request.params as { chapterId: string }).chapterId;
+      const chapterId = (request.query as { chapterId: string }).chapterId;
+
+      if (typeof chapterId === 'undefined') {
+        return reply.status(400).send({
+          message: 'chapterId is required',
+        });
+      }
 
       try {
         const res = await readlightnovels

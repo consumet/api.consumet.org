@@ -9,29 +9,28 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     rp.status(200).send({
       intro:
         "Welcome to the flixhq provider: check out the provider's website @ https://flixhq.to/",
-      routes: ['/:movie', '/info', '/watch/:episodeId'],
+      routes: ['/:query', '/info', '/watch'],
       documentation: 'https://docs.consumet.org/#tag/flixhq',
     });
   });
 
-  fastify.get('/flixhq/:movie', async (request: FastifyRequest, reply: FastifyReply) => {
-    const queries: { movie: string; page: number } = { movie: '', page: 1 };
+  fastify.get('/flixhq/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+    const query = decodeURIComponent((request.params as { query: string }).query);
 
-    queries.movie = decodeURIComponent(
-      (request.params as { movie: string; page: number }).movie
-    );
+    const page = (request.query as { page: number }).page;
 
-    queries.page = (request.query as { movie: string; page: number }).page;
-
-    const res = await flixhq.search(queries.movie, queries.page);
+    const res = await flixhq.search(query, page);
 
     reply.status(200).send(res);
   });
 
   fastify.get('/flixhq/info', async (request: FastifyRequest, reply: FastifyReply) => {
-    const id = decodeURIComponent((request.query as { id: string }).id);
+    const id = (request.query as { id: string }).id;
 
-    if (!id) reply.status(400).send({ message: 'Missing id query' });
+    if (typeof id === 'undefined')
+      return reply.status(400).send({
+        message: 'id is required',
+      });
 
     try {
       const res = await flixhq
@@ -47,32 +46,31 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get(
-    '/flixhq/watch/:episodeId',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const episodeId = (request.params as { episodeId: string }).episodeId;
-      const mediaId = (request.query as { mediaId: string }).mediaId;
-      const server = (request.query as { server: StreamingServers }).server;
+  fastify.get('/flixhq/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+    const episodeId = (request.query as { episodeId: string }).episodeId;
+    const mediaId = (request.query as { mediaId: string }).mediaId;
+    const server = (request.query as { server: StreamingServers }).server;
 
-      if (!mediaId) reply.status(400).send({ message: 'Missing mediaId query' });
+    if (typeof episodeId === 'undefined')
+      return reply.status(400).send({ message: 'episodeId is required' });
+    if (typeof mediaId === 'undefined')
+      return reply.status(400).send({ message: 'mediaId is required' });
 
-      if (server && !Object.values(StreamingServers).includes(server)) {
-        reply.status(400).send({ message: 'Invalid server query' });
-      }
+    if (server && !Object.values(StreamingServers).includes(server))
+      return reply.status(400).send({ message: 'Invalid server query' });
 
-      try {
-        const res = await flixhq
-          .fetchEpisodeSources(episodeId, mediaId, server)
-          .catch((err) => reply.status(404).send({ message: err }));
+    try {
+      const res = await flixhq
+        .fetchEpisodeSources(episodeId, mediaId, server)
+        .catch((err) => reply.status(404).send({ message: 'Media Not found.' }));
 
-        reply.status(200).send(res);
-      } catch (err) {
-        reply
-          .status(500)
-          .send({ message: 'Something went wrong. Please try again later.' });
-      }
+      reply.status(200).send(res);
+    } catch (err) {
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Please try again later.' });
     }
-  );
+  });
 };
 
 export default routes;
