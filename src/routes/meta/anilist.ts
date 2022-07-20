@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import { META } from 'consumet.ts';
+import { META } from '@consumet/extensions';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const anilist = new META.Anilist();

@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import { MOVIES } from 'consumet.ts';
-import { StreamingServers } from 'consumet.ts/dist/models';
+import { MOVIES } from '@consumet/extensions';
+import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const flixhq = new MOVIES.FlixHQ();
