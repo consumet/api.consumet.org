@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 import Fastify from 'fastify';
+import FastifyCors from '@fastify/cors';
 
 import books from './routes/books';
 import anime from './routes/anime';
@@ -15,7 +16,10 @@ import meta from './routes/meta';
   const fastify = Fastify({
     logger: true,
   });
-
+  await fastify.register(FastifyCors, {
+    origin: '*',
+    methods: 'GET',
+  });
   await fastify.register(books, { prefix: '/books' });
   await fastify.register(anime, { prefix: '/anime' });
   await fastify.register(manga, { prefix: '/manga' });
