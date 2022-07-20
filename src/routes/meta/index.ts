@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import { PROVIDERS_LIST } from 'consumet.ts';
+import { PROVIDERS_LIST } from '@consumet/extensions';
 
 import anilist from './anilist';
 
