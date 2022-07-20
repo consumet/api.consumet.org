@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import { LIGHT_NOVELS } from '@consumet/extensions';
+import { LIGHT_NOVELS } from 'consumet.ts';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const readlightnovels = new LIGHT_NOVELS.ReadLightNovels();

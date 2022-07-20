@@ -1,4 +1,4 @@
-import { BOOKS } from '@consumet/extensions';
+import { BOOKS } from 'consumet.ts';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 
 import libgen from './libgen';
@@ -23,7 +23,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const data = await lbgen.search(bookTitle, page);
       return reply.status(200).send(data);
     } catch (e) {
-      return reply.status(400).send(e);
+      return reply.status(500).send({
+        message: e,
+        error: 'internal_error',
+      });
     }
   });
 
