@@ -2,16 +2,6 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@git+https://github.com/consumet/consumet.ts.git":
-  version "1.0.5"
-  resolved "git+https://github.com/consumet/consumet.ts.git#a6d0cc8a8f1afe9085f1723ebf52b84742f1f2ce"
-  dependencies:
-    ascii-url-encoder "^1.2.0"
-    axios "^0.27.2"
-    cheerio "^1.0.0-rc.11"
-    crypto-js "^4.1.1"
-    form-data "^4.0.0"
-
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz#00629c35a688e05a88b1cda684fb9d5e73f000a1"
@@ -296,6 +286,16 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
+
+"consumet.ts@https://github.com/consumet/consumet.ts":
+  version "1.0.5"
+  resolved "https://github.com/consumet/consumet.ts#df1e864a122ffd14f6153f093bdb702764d52ecc"
+  dependencies:
+    ascii-url-encoder "^1.2.0"
+    axios "^0.27.2"
+    cheerio "^1.0.0-rc.11"
+    crypto-js "^4.1.1"
+    form-data "^4.0.0"
 
 cookie@^0.5.0:
   version "0.5.0"

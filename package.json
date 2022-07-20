@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/consumet/consumet-extentions#readme",
   "dependencies": {
-    "@consumet/extensions": "git+https://github.com/consumet/consumet.ts.git",
+    "consumet.ts": "https://github.com/consumet/consumet.ts",
     "@types/node": "^18.0.2",
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.11",

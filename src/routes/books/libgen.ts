@@ -1,4 +1,4 @@
-import { BOOKS } from '@consumet/extensions';
+import { BOOKS } from 'consumet.ts';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {

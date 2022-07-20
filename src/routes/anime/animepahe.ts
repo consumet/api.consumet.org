@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import { ANIME } from '@consumet/extensions';
+import { ANIME } from 'consumet.ts';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const animepahe = new ANIME.AnimePahe();
