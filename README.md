@@ -11,10 +11,10 @@
   Consumet provides an APIs for accessing information and links for various entertertainments like movies, books, anime, etc.
 </p>
 <p align="center">
-    <a href="https://github.com/consumet/consumet-api/actions/workflows/docker-ci.yml">
-      <img src="https://github.com/consumet/consumet-api/actions/workflows/docker-ci.yml/badge.svg" alt="Discord">
+    <a href="https://github.com/consumet/consumet-api/actions/workflows/docker-build.yml">
+      <img src="https://github.com/consumet/consumet-api/actions/workflows/docker-build.yml/badge.svg" alt="Discord">
     </a>
-        <a href="https://github.com/consumet/consumet-api/actions/workflows/codeql-analysis.yml">
+    <a href="https://github.com/consumet/consumet-api/actions/workflows/codeql-analysis.yml">
       <img src="https://github.com/consumet/consumet-api/actions/workflows/codeql-analysis.yml/badge.svg" alt="Discord">
     </a>
     <a href="https://discord.gg/qTPfvMxzNH">
