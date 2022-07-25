@@ -24,7 +24,7 @@
         "@consumet/extensions": "https://github.com/consumet/consumet.ts.git",
         "@fastify/cors": "^8.0.0",
         "@types/fastify-cors": "^2.1.0",
-        "@types/node": "^18.0.2",
+        "@types/node": "^18.6.0",
         "axios": "^0.27.2",
         "cheerio": "^1.0.0-rc.11",
         "consumet.ts": "https://github.com/consumet/consumet.ts.git",
