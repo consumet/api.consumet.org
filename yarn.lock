@@ -4,7 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.6"
-  resolved "https://github.com/consumet/consumet.ts.git#1a6b7dd6ff63b7910cc59ff91f74189a851b7f43"
+  resolved "https://github.com/consumet/consumet.ts.git#c4ae4f409ed3bfb5484b4b1bc97cfe8053cfc239"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -99,9 +99,9 @@
     fastify-cors "*"
 
 "@types/node@^18.6.0":
-  version "18.6.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.6.0.tgz#3ad8c5a4e8e11abc51a11894355f2ba58de9f1a1"
-  integrity sha512-WZ/6I1GL0DNAo4bb01lGGKTHH8BHJyECepf11kWONg3OJoHq2WYOm16Es1V54Er7NTUXsbDCpKRKdmBc4X2xhA==
+  version "18.6.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.6.1.tgz#828e4785ccca13f44e2fb6852ae0ef11e3e20ba5"
+  integrity sha512-z+2vB6yDt1fNwKOeGbckpmirO+VBDuQqecXkgeIqDlaOtmKn6hPR/viQ8cxCfqLU4fTlvM3+YjM367TukWdxpg==
 
 abbrev@1:
   version "1.1.1"
@@ -126,9 +126,9 @@ acorn-walk@^8.1.1:
   integrity sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==
 
 acorn@^8.4.1:
-  version "8.7.1"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.7.1.tgz#0197122c843d1bf6d0a5e83220a788f278f63c30"
-  integrity sha512-Xx54uLJQZ19lKygFXOWsscKUbsBZW0CPykPhVQdhIeIwrbPmJzqeASDInc8nKBnp/JT6igTs82qPXz069H8I/A==
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.0.tgz#88c0187620435c7f6015803f5539dae05a9dbea8"
+  integrity sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==
 
 ajv-formats@^2.1.1:
   version "2.1.1"
@@ -554,9 +554,9 @@ json-schema-traverse@^1.0.0:
   integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
 
 light-my-request@^5.0.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.2.0.tgz#b3927b63ae570726fcef755145b4ac0f6eb8c359"
-  integrity sha512-U5Dga8U59VKydIAnHt2XvPVyDfaHsDIpoO+/FPrm4Qnn1tHeczNnLrGjI1bko6BFWgFwTXjTiQN6PkohWiwwcA==
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.3.0.tgz#183b2f2db5e7b021b4a7dd450d2406c45f8a1c9d"
+  integrity sha512-AdBNkWTD+CnFYGa6lCowLU0DMNBelq58vQXl1jWOvbMsMVzZzJyN5K94VOI2EhqLtskJNUi2ALgI8KNmXl+74A==
   dependencies:
     cookie "^0.5.0"
     process-warning "^2.0.0"
@@ -677,9 +677,9 @@ pino-std-serializers@^6.0.0:
   integrity sha512-mMMOwSKrmyl+Y12Ri2xhH1lbzQxwwpuru9VjyJpgFIH4asSj88F2csdMwN6+M5g1Ll4rmsYghHLQJw81tgZ7LQ==
 
 pino@^8.0.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-8.2.0.tgz#8e4b49becab5bcc6ab683ad1e6fc71293776cb31"
-  integrity sha512-HS7+vUpOYEJcNZkyb2ujN2sSayXLyz5XEvDZw4vrxlxHDe34qIDiNf2s+0dD/q/eqEubfxwAItYhY6zCNVZBVw==
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-8.3.0.tgz#13e400df4ef39ce716b33b8e5486fb8e24a30c45"
+  integrity sha512-CUOOU5sYgyLVijf7qsOWkPLOdzIXaVE9Oyl6zAkjgJn30uGBFUtrRaaCzbtOSJ1I6BqfanBqBttbazEJIwHkJg==
   dependencies:
     atomic-sleep "^1.0.0"
     fast-redact "^3.1.1"
@@ -690,7 +690,7 @@ pino@^8.0.0:
     quick-format-unescaped "^4.0.3"
     real-require "^0.1.0"
     safe-stable-stringify "^2.3.1"
-    sonic-boom "^3.0.0"
+    sonic-boom "^3.1.0"
     thread-stream "^2.0.0"
 
 process-warning@^1.0.0:
@@ -811,10 +811,10 @@ simple-update-notifier@^1.0.7:
   dependencies:
     semver "~7.0.0"
 
-sonic-boom@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-3.0.0.tgz#235119a6606e2646919a27d83ef687f2ba6c0fba"
-  integrity sha512-p5DiZOZHbJ2ZO5MADczp5qrfOd3W5Vr2vHxfCpe7G4AzPwVOweIjbfgku8wSQUuk+Y5Yuo8W7JqRe6XKmKistg==
+sonic-boom@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-3.1.0.tgz#c79f4298ae841f236f3bc0d6c1225d39d51f8eb2"
+  integrity sha512-qVr246G5307nz5JmhtsvHudxNMrRTWTCmTg+tA4gHQJnVyx/SsyQnky/5peC23B8etvlKli9P6sNXWQGDxoskQ==
   dependencies:
     atomic-sleep "^1.0.0"
 
