@@ -3,10 +3,12 @@ import { PROVIDERS_LIST } from '@consumet/extensions';
 
 import gogoanime from './gogoanime';
 import animepahe from './animepahe';
+import zoro from './zoro';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(gogoanime, { prefix: '/' });
   await fastify.register(animepahe, { prefix: '/' });
+  await fastify.register(zoro, { prefix: '/' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Anime 🗾');
