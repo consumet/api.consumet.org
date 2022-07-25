@@ -11,11 +11,17 @@
   Consumet provides an APIs for accessing information and links for various entertertainments like movies, books, anime, etc.
 </p>
 <p align="center">
-  <a href="https://github.com/consumet/api/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/consumet/api" alt="GitHub">
-  </a>
+    <a href="https://github.com/consumet/consumet-api/actions/workflows/docker-ci.yml">
+      <img src="https://github.com/consumet/consumet-api/actions/workflows/docker-ci.yml/badge.svg" alt="Discord">
+    </a>
+        <a href="https://github.com/consumet/consumet-api/actions/workflows/codeql-analysis.yml">
+      <img src="https://github.com/consumet/consumet-api/actions/workflows/codeql-analysis.yml/badge.svg" alt="Discord">
+    </a>
     <a href="https://discord.gg/qTPfvMxzNH">
-    <img src="https://img.shields.io/discord/987492554486452315?color=7289da" alt="Discord">
+      <img src="https://img.shields.io/discord/987492554486452315?color=7289da&label=discord&logo=discord&logoColor=7289da" alt="Discord">
+    </a>
+    <a href="https://github.com/consumet/api/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/consumet/api" alt="GitHub">
   </a>
 </p>
 
@@ -31,7 +37,7 @@ Consumet scrapes data from various websites and provides APIs for accessing the 
 - [Development](#development)
 - [Provider Request](#provider-request)
 - [Support](#support)
-- [Other repositories](#other-repositories)
+- [Related repositories](#related-repositories)
 
 ## Installation
 ### Locally
