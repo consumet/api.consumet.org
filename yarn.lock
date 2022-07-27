@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@https://github.com/consumet/consumet.ts.git":
+"@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.7"
   resolved "https://github.com/consumet/consumet.ts.git#041fefebe6a4120bd56563e1da6995eb2a8b69a8"
   dependencies:
