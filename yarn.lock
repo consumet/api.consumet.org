@@ -281,8 +281,9 @@ concat-map@0.0.1:
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
 "consumet.ts@https://github.com/consumet/consumet.ts.git":
-  version "1.0.6"
-  resolved "https://github.com/consumet/consumet.ts.git#c4ae4f409ed3bfb5484b4b1bc97cfe8053cfc239"
+  version "1.0.7"
+  uid "3e586b3b510080641997356cda25b98c4a81c9d0"
+  resolved "https://github.com/consumet/consumet.ts.git#3e586b3b510080641997356cda25b98c4a81c9d0"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
