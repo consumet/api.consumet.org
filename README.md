@@ -71,7 +71,8 @@ This will start the server on port 3000. You can access the server at http://loc
 You can add `-d` flag to run the server in detached mode.
 
 ### Heroku
-Host your own instance of Consumet API on Heroku using the button below.\
+Host your own instance of Consumet API on Heroku using the button below.
+
 [![Deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/consumet/consumet-api/tree/main)
 
 ## Documentation
@@ -85,10 +86,9 @@ Make a new [issue](https://github.com/consumet/consumet.ts/issues/new?assignees=
 
 ## Support
 You can contact the maintainers of consumet.ts via [email](mailto:consumet.org@gmail.com), or [join the discord server](https://discord.gg/qTPfvMxzNH) (Recommended).
-<p align="center">
-  <a href="https://discord.gg/sP2k8vhjdb">
-    <img src="http://invidget.switchblade.xyz/987492554486452315">
-  </a>
+
+<a href="https://discord.gg/sP2k8vhjdb">
+   <img src="https://discordapp.com/api/guilds/987492554486452315/widget.png?style=banner2">
 </p>
 
 ## Related repositories
