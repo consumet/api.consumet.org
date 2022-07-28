@@ -87,7 +87,7 @@ Make a new [issue](https://github.com/consumet/consumet.ts/issues/new?assignees=
 ## Support
 You can contact the maintainers of consumet.ts via [email](mailto:consumet.org@gmail.com), or [join the discord server](https://discord.gg/qTPfvMxzNH) (Recommended).
 
-<a href="https://discord.gg/sP2k8vhjdb">
+<a href="https://discord.gg/qTPfvMxzNH">
    <img src="https://discordapp.com/api/guilds/987492554486452315/widget.png?style=banner2">
 </p>
 
