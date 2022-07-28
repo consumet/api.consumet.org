@@ -4,7 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.7"
-  resolved "https://github.com/consumet/consumet.ts.git#041fefebe6a4120bd56563e1da6995eb2a8b69a8"
+  resolved "https://github.com/consumet/consumet.ts.git#09cc45714b7c88b9cb9cdb0260a30295f700ca60"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -677,9 +677,9 @@ pino-std-serializers@^6.0.0:
   integrity sha512-mMMOwSKrmyl+Y12Ri2xhH1lbzQxwwpuru9VjyJpgFIH4asSj88F2csdMwN6+M5g1Ll4rmsYghHLQJw81tgZ7LQ==
 
 pino@^8.0.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-8.3.0.tgz#13e400df4ef39ce716b33b8e5486fb8e24a30c45"
-  integrity sha512-CUOOU5sYgyLVijf7qsOWkPLOdzIXaVE9Oyl6zAkjgJn30uGBFUtrRaaCzbtOSJ1I6BqfanBqBttbazEJIwHkJg==
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-8.3.1.tgz#99be4376d9577e3508bd6b18cd767339d4a640f4"
+  integrity sha512-G5KDVXr8viwc/n7iKfDyqqRZflY7OpJn0SDq1wagUhXkcPodZuSymLFziSuD/gCEcVG65IN5MPDY4ZMT9OJWfg==
   dependencies:
     atomic-sleep "^1.0.0"
     fast-redact "^3.1.1"
@@ -688,7 +688,7 @@ pino@^8.0.0:
     pino-std-serializers "^6.0.0"
     process-warning "^2.0.0"
     quick-format-unescaped "^4.0.3"
-    real-require "^0.1.0"
+    real-require "^0.2.0"
     safe-stable-stringify "^2.3.1"
     sonic-boom "^3.1.0"
     thread-stream "^2.0.0"
@@ -744,6 +744,11 @@ real-require@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/real-require/-/real-require-0.1.0.tgz#736ac214caa20632847b7ca8c1056a0767df9381"
   integrity sha512-r/H9MzAWtrv8aSVjPCMFpDMl5q66GqtmmRkRjpHTsp4zBAa+snZyiQNlMONiUmEJcsnaw0wCauJ2GWODr/aFkg==
+
+real-require@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/real-require/-/real-require-0.2.0.tgz#209632dea1810be2ae063a6ac084fee7e33fba78"
+  integrity sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==
 
 require-from-string@^2.0.2:
   version "2.0.2"
