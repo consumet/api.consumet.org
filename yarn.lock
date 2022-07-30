@@ -282,7 +282,8 @@ concat-map@0.0.1:
 
 "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.7"
-  resolved "https://github.com/consumet/consumet.ts.git#09cc45714b7c88b9cb9cdb0260a30295f700ca60"
+  uid "9b01f7d34af9c1bcb114e66e886ad147e1f2b38b"
+  resolved "https://github.com/consumet/consumet.ts.git#9b01f7d34af9c1bcb114e66e886ad147e1f2b38b"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
