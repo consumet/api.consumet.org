@@ -35,7 +35,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .fetchAnimeInfo(id)
         .catch((err) => reply.status(404).send({ message: err }));
 
-      reply.status(200).send(res);
+      return reply.status(200).send(res);
     } catch (err) {
       reply
         .status(500)
@@ -48,7 +48,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     const server = (request.query as { server: string }).server as StreamingServers;
 
-    if (server && !Object.keys(StreamingServers).includes(server))
+    if (server && !Object.values(StreamingServers).includes(server))
       return reply.status(400).send({ message: 'server is invalid' });
 
     if (typeof episodeId === 'undefined')
