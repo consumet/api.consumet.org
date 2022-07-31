@@ -3,35 +3,35 @@ import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const zoro = new ANIME.Zoro();
+  const nineanime = new ANIME.NineAnime();
 
-  fastify.get('/zoro', (_, rp) => {
+  fastify.get('/nineanime', (_, rp) => {
     rp.status(200).send({
       intro:
-        "Welcome to the zoro provider: check out the provider's website @ https://zoro.to/",
+        "Welcome to the 9anime provider: check out the provider's website @ https://9anime.to/",
       routes: ['/:query', '/info/:id', '/watch/:episodeId'],
-      documentation: 'https://docs.consumet.org/#tag/zoro',
+      documentation: 'https://docs.consumet.org/#tag/9anime',
     });
   });
 
-  fastify.get('/zoro/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/9anime/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
     const page = (request.query as { page: number }).page;
 
-    const res = await zoro.search(query, page);
+    const res = await nineanime.search(query, page);
 
     reply.status(200).send(res);
   });
 
-  fastify.get('/zoro/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/9anime/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
       return reply.status(400).send({ message: 'id is required' });
 
     try {
-      const res = await zoro
+      const res = await nineanime
         .fetchAnimeInfo(id)
         .catch((err) => reply.status(404).send({ message: err }));
 
@@ -43,7 +43,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/zoro/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/9anime/watch', async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
 
     const server = (request.query as { server: string }).server as StreamingServers;
@@ -55,7 +55,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'id is required' });
 
     try {
-      const res = await zoro
+      const res = await nineanime
         .fetchEpisodeSources(episodeId, server)
         .catch((err) => reply.status(404).send({ message: err }));
 
@@ -64,6 +64,22 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       reply
         .status(500)
         .send({ message: 'Something went wrong. Contact developer for help.' });
+    }
+  });
+
+  fastify.get('/9anime/servers', async (request: FastifyRequest, reply: FastifyReply) => {
+    const episodeId = (request.params as { episodeId: string }).episodeId;
+
+    try {
+      const res = await nineanime
+        .fetchEpisodeServers(episodeId)
+        .catch((err) => reply.status(404).send({ message: err }));
+
+      reply.status(200).send(res);
+    } catch (err) {
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Please try again later.' });
     }
   });
 };
