@@ -4,7 +4,8 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git":
   version "1.0.8"
-  resolved "https://github.com/consumet/consumet.ts.git#12ddd77297d77cfbd375519d53c76ad046c8849d"
+  uid "30b77fb8d3d4963ad63a32346d8c119466cfe4d4"
+  resolved "https://github.com/consumet/consumet.ts.git#30b77fb8d3d4963ad63a32346d8c119466cfe4d4"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -282,8 +283,7 @@ concat-map@0.0.1:
 
 "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.8"
-  uid "30b77fb8d3d4963ad63a32346d8c119466cfe4d4"
-  resolved "https://github.com/consumet/consumet.ts.git#30b77fb8d3d4963ad63a32346d8c119466cfe4d4"
+  resolved "https://github.com/consumet/consumet.ts.git#12ddd77297d77cfbd375519d53c76ad046c8849d"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
