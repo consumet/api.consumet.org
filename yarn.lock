@@ -2,10 +2,9 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@https://github.com/consumet/consumet.ts.git":
+"@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.8"
-  uid "30b77fb8d3d4963ad63a32346d8c119466cfe4d4"
-  resolved "https://github.com/consumet/consumet.ts.git#30b77fb8d3d4963ad63a32346d8c119466cfe4d4"
+  resolved "https://github.com/consumet/consumet.ts.git#801299bce5d99c0c3d403292c5ca2cdc6c5c1ce3"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -280,17 +279,6 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
-
-"consumet.ts@https://github.com/consumet/consumet.ts.git":
-  version "1.0.8"
-  resolved "https://github.com/consumet/consumet.ts.git#12ddd77297d77cfbd375519d53c76ad046c8849d"
-  dependencies:
-    ascii-url-encoder "^1.2.0"
-    axios "^0.27.2"
-    cheerio "^1.0.0-rc.11"
-    crypto-js "^4.1.1"
-    form-data "^4.0.0"
-    ws "^8.8.1"
 
 cookie@^0.5.0:
   version "0.5.0"
