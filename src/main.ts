@@ -34,8 +34,6 @@ import meta from './routes/meta';
     },
   });
 
-  await fastify.register(FastifyRateLimit, { max: 100, timeWindow: '1 minute' });
-
   await fastify.register(books, { prefix: '/books' });
   await fastify.register(anime, { prefix: '/anime' });
   await fastify.register(manga, { prefix: '/manga' });
