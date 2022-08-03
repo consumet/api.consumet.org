@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import Fastify from 'fastify';
 import FastifyCors from '@fastify/cors';
+import FastifyRateLimit from '@fastify/rate-limit';
 
 import books from './routes/books';
 import anime from './routes/anime';
@@ -20,6 +21,21 @@ import meta from './routes/meta';
     origin: '*',
     methods: 'GET',
   });
+
+  await fastify.register(FastifyRateLimit, {
+    global: true,
+    max: 60,
+    timeWindow: 2000,
+    allowList: [],
+    errorResponseBuilder(req, context) {
+      return {
+        message: 'if you are a human, please wait a bit before trying again.',
+      };
+    },
+  });
+
+  await fastify.register(FastifyRateLimit, { max: 100, timeWindow: '1 minute' });
+
   await fastify.register(books, { prefix: '/books' });
   await fastify.register(anime, { prefix: '/anime' });
   await fastify.register(manga, { prefix: '/manga' });
