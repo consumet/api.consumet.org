@@ -1,8 +1,8 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import { META } from '@consumet/extensions';
+import { META, PROVIDERS_LIST } from '@consumet/extensions';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const anilist = new META.Anilist();
+  let anilist = new META.Anilist();
 
   fastify.get('/anilist', (_, rp) => {
     rp.status(200).send({
@@ -39,15 +39,23 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get(
     '/anilist/info/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const id = decodeURIComponent((request.params as { id: string }).id);
+      const id = (request.params as { id: string }).id;
 
+      const provider = (request.query as { provider?: string }).provider;
       const isDub = (request.query as { dub?: boolean }).dub;
 
+      if (typeof provider !== 'undefined') {
+        const possibleProvider = PROVIDERS_LIST.ANIME.find(
+          (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+        );
+        anilist = new META.Anilist(possibleProvider);
+      }
       try {
         const res = await anilist
           .fetchAnimeInfo(id, isDub)
           .catch((err) => reply.status(404).send({ message: err }));
 
+        anilist = new META.Anilist();
         reply.status(200).send(res);
       } catch (err) {
         reply
@@ -61,12 +69,20 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/anilist/watch/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
+      const provider = (request.query as { provider?: string }).provider;
 
+      if (typeof provider !== 'undefined') {
+        const possibleProvider = PROVIDERS_LIST.ANIME.find(
+          (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+        );
+        anilist = new META.Anilist(possibleProvider);
+      }
       try {
         const res = await anilist
           .fetchEpisodeSources(episodeId)
           .catch((err) => reply.status(404).send({ message: err }));
 
+        anilist = new META.Anilist();
         reply.status(200).send(res);
       } catch (err) {
         reply
