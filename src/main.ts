@@ -25,7 +25,7 @@ import meta from './routes/meta';
   await fastify.register(FastifyRateLimit, {
     global: true,
     max: 60,
-    timeWindow: 2000,
+    timeWindow: 30000,
     allowList: [],
     errorResponseBuilder(req, context) {
       return {
