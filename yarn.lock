@@ -4,8 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.9"
-  uid a064fc79d79560dd8a79b9e6aa3c48818efec16d
-  resolved "https://github.com/consumet/consumet.ts.git#a064fc79d79560dd8a79b9e6aa3c48818efec16d"
+  resolved "https://github.com/consumet/consumet.ts.git#5844ae1cbbd6287bc5a0a5beda6d9f5e2300f861"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -705,9 +704,9 @@ pino-std-serializers@^6.0.0:
   integrity sha512-mMMOwSKrmyl+Y12Ri2xhH1lbzQxwwpuru9VjyJpgFIH4asSj88F2csdMwN6+M5g1Ll4rmsYghHLQJw81tgZ7LQ==
 
 pino@^8.0.0:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-8.3.1.tgz#99be4376d9577e3508bd6b18cd767339d4a640f4"
-  integrity sha512-G5KDVXr8viwc/n7iKfDyqqRZflY7OpJn0SDq1wagUhXkcPodZuSymLFziSuD/gCEcVG65IN5MPDY4ZMT9OJWfg==
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-8.4.0.tgz#fb8622b70670068cc9d10ccf04c168580cef00c0"
+  integrity sha512-R95U66WOb4Ggtb1RPGnC2uvtc8T0i1FSbrKHrAudRtiLDrlNxKjM1MyCJu+V4gL0qdE/7/LoXAmkEY/TlX6ELA==
   dependencies:
     atomic-sleep "^1.0.0"
     fast-redact "^3.1.1"
@@ -767,11 +766,6 @@ readdirp@~3.6.0:
   integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
   dependencies:
     picomatch "^2.2.1"
-
-real-require@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/real-require/-/real-require-0.1.0.tgz#736ac214caa20632847b7ca8c1056a0767df9381"
-  integrity sha512-r/H9MzAWtrv8aSVjPCMFpDMl5q66GqtmmRkRjpHTsp4zBAa+snZyiQNlMONiUmEJcsnaw0wCauJ2GWODr/aFkg==
 
 real-require@^0.2.0:
   version "0.2.0"
@@ -864,11 +858,11 @@ supports-color@^5.5.0:
     has-flag "^3.0.0"
 
 thread-stream@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/thread-stream/-/thread-stream-2.0.0.tgz#1ecb450324ebb1bb284d4398b8af15cb6905028c"
-  integrity sha512-tnbzCbIrA4Khq5SJt/Fyz5DlE8pUnPR3//nWv+cqdRktvAl2NuC9O08HHq2Ifa10bhkvHLuzcesNjaH15EgTXA==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/thread-stream/-/thread-stream-2.0.1.tgz#3fa74e2223e661a48f836494f7a64eeac5ac03c0"
+  integrity sha512-X7vWOdsHLkBq0si20ruEE2ttpS7WOVyD52xKu+TOjrRP9Qi9uB9ynHYpzZUbBptArBSuKYUn4mH+jEBnO2CRGg==
   dependencies:
-    real-require "^0.1.0"
+    real-require "^0.2.0"
 
 tiny-lru@^8.0.1, tiny-lru@^8.0.2:
   version "8.0.2"
