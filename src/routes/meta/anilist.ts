@@ -37,6 +37,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
+    '/anilist/popular',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const page = (request.query as { page: number }).page;
+      const perPage = (request.query as { perPage: number }).perPage;
+
+      const res = await anilist.fetchPopularAnime(page, perPage);
+
+      reply.status(200).send(res);
+    }
+  );
+
+  fastify.get(
     '/anilist/info/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
