@@ -2,38 +2,39 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 import { ANIME } from '@consumet/extensions';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const animepahe = new ANIME.AnimePahe();
+  const animixplay = new ANIME.AniMixPlay();
 
-  fastify.get('/animepahe', (_, rp) => {
+  fastify.get('/animixplay', (_, rp) => {
     rp.status(200).send({
       intro:
-        "Welcome to the animepahe provider: check out the provider's website @ https://animepahe.com/",
+        "Welcome to the animixplay provider: check out the provider's website @ https://animixplay.to/",
       routes: ['/:query', '/info/:id', '/watch/:episodeId'],
-      documentation: 'https://docs.consumet.org/#tag/animepahe',
+      documentation: 'https://docs.consumet.org/#tag/animixplay',
     });
   });
 
   fastify.get(
-    '/animepahe/:query',
+    '/animixplay/:query',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const query = (request.params as { query: string }).query;
 
-      const res = await animepahe.search(query);
+      const res = await animixplay.search(query);
 
       reply.status(200).send(res);
     }
   );
 
   fastify.get(
-    '/animepahe/info/:id',
+    '/animixplay/info',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const id = decodeURIComponent((request.params as { id: string }).id);
+      const id = (request.query as { id: string }).id;
 
-      const episodePage = (request.query as { episodePage: number }).episodePage;
+      if (typeof id === 'undefined')
+        return reply.status(400).send({ message: 'id is required' });
 
       try {
-        const res = await animepahe
-          .fetchAnimeInfo(id, episodePage)
+        const res = await animixplay
+          .fetchAnimeInfo(id)
           .catch((err) => reply.status(404).send({ message: err }));
 
         reply.status(200).send(res);
@@ -46,12 +47,15 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/animepahe/watch/:episodeId',
+    '/animixplay/watch',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const episodeId = (request.params as { episodeId: string }).episodeId;
+      const episodeId = (request.query as { episodeId: string }).episodeId;
+
+      if (typeof episodeId === 'undefined')
+        return reply.status(400).send({ message: 'episodeId is required' });
 
       try {
-        const res = await animepahe
+        const res = await animixplay
           .fetchEpisodeSources(episodeId)
           .catch((err) => reply.status(404).send({ message: err }));
 

@@ -24,6 +24,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
+  fastify.get(
+    '/zoro/recent-episodes',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const page = (request.query as { page: number }).page;
+
+      const res = await zoro.fetchRecentEpisodes(page);
+
+      reply.status(200).send(res);
+    }
+  );
+
   fastify.get('/zoro/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 

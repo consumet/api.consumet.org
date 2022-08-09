@@ -3,12 +3,12 @@ import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const nineanime = new ANIME.NineAnime();
+  const nineanime = await ANIME.NineAnime.create();
 
-  fastify.get('/nineanime', (_, rp) => {
+  fastify.get('/9anime', (_, rp) => {
     rp.status(200).send({
       intro:
-        "Welcome to the 9anime provider: check out the provider's website @ https://9anime.to/",
+        "Welcome to the 9anime provider: check out the provider's website @ https://9anime.id/",
       routes: ['/:query', '/info/:id', '/watch/:episodeId'],
       documentation: 'https://docs.consumet.org/#tag/9anime',
     });
@@ -68,7 +68,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get('/9anime/servers', async (request: FastifyRequest, reply: FastifyReply) => {
-    const episodeId = (request.params as { episodeId: string }).episodeId;
+    const episodeId = (request.query as { episodeId: string }).episodeId;
 
     try {
       const res = await nineanime
