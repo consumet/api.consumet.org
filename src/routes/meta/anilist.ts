@@ -49,12 +49,33 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
+    '/anilist/airing-schedule',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const page = (request.query as { page: number }).page;
+      const perPage = (request.query as { perPage: number }).perPage;
+      const weekStart = (request.query as { weekStart: number }).weekStart;
+      const weekEnd = (request.query as { weekEnd: number }).weekEnd;
+      const notYetAired = (request.query as { notYetAired: boolean }).notYetAired;
+
+      const res = await anilist.fetchAiringSchedule(
+        page,
+        perPage,
+        weekStart,
+        weekEnd,
+        notYetAired
+      );
+
+      reply.status(200).send(res);
+    }
+  );
+
+  fastify.get(
     '/anilist/info/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
 
       const provider = (request.query as { provider?: string }).provider;
-      const isDub = (request.query as { dub?: boolean }).dub;
+      let isDub = (request.query as { dub?: string | boolean }).dub;
 
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
@@ -62,9 +83,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         );
         anilist = new META.Anilist(possibleProvider);
       }
+
+      if (isDub === 'true' || isDub === '1') isDub = true;
+      else isDub = false;
+
       try {
         const res = await anilist
-          .fetchAnimeInfo(id, isDub)
+          .fetchAnimeInfo(id, isDub as boolean)
           .catch((err) => reply.status(404).send({ message: err }));
 
         anilist = new META.Anilist();
