@@ -6,6 +6,8 @@ import animepahe from './animepahe';
 import zoro from './zoro';
 import nineanime from './9anime';
 import animixplay from './animixplay';
+import animefox from './animefox';
+import enime from './enime';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(gogoanime, { prefix: '/' });
@@ -13,6 +15,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(zoro, { prefix: '/' });
   await fastify.register(nineanime, { prefix: '/' });
   await fastify.register(animixplay, { prefix: '/' });
+  await fastify.register(animefox, { prefix: '/' });
+  await fastify.register(enime, { prefix: '/' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Anime 🗾');
