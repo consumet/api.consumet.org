@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
+import { Genres } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let anilist = new META.Anilist();
@@ -23,6 +24,45 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     reply.status(200).send(res);
   });
+
+  fastify.get(
+    'anilist/advanced-search',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const query = (request.query as { query: string }).query;
+      const page = (request.query as { page: number }).page;
+      const perPage = (request.query as { perPage: number }).perPage;
+      const type = (request.query as { type: string }).type;
+      let genres = (request.query as { genres: string | string[] }).genres;
+      const id = (request.query as { id: string }).id;
+      const format = (request.query as { format: string }).format;
+      let sort = (request.query as { sort: string | string[] }).sort;
+
+      if (genres) {
+        JSON.parse(genres as string).forEach((genre: string) => {
+          if (!Object.values(Genres).includes(genre as Genres)) {
+            return reply.status(400).send({ message: `${genre} is not a valid genre` });
+          }
+        });
+
+        genres = JSON.parse(genres as string);
+      }
+
+      if (sort) sort = JSON.parse(sort as string);
+
+      const res = await anilist.advancedSearch(
+        query,
+        type,
+        page,
+        perPage,
+        format,
+        sort as string[],
+        genres as string[],
+        id
+      );
+
+      reply.status(200).send(res);
+    }
+  );
 
   fastify.get(
     '/anilist/trending',
@@ -65,6 +105,35 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         notYetAired
       );
 
+      reply.status(200).send(res);
+    }
+  );
+
+  fastify.get('/anilist/genre', async (request: FastifyRequest, reply: FastifyReply) => {
+    const genres = (request.query as { genres: string }).genres;
+    const page = (request.query as { page: number }).page;
+    const perPage = (request.query as { perPage: number }).perPage;
+
+    if (typeof genres === 'undefined')
+      return reply.status(400).send({ message: 'genres is required' });
+
+    JSON.parse(genres).forEach((genre: string) => {
+      if (!Object.values(Genres).includes(genre as Genres)) {
+        return reply.status(400).send({ message: `${genre} is not a valid genre` });
+      }
+    });
+
+    const res = await anilist.fetchAnimeGenres(JSON.parse(genres), page, perPage);
+
+    reply.status(200).send(res);
+  });
+
+  fastify.get(
+    '/anilist/random-anime',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const res = await anilist.fetchRandomAnime().catch((err) => {
+        return reply.status(404).send({ message: 'Anime not found' });
+      });
       reply.status(200).send(res);
     }
   );
