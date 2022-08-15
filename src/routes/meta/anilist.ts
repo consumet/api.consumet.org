@@ -96,13 +96,15 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const weekStart = (request.query as { weekStart: number }).weekStart;
       const weekEnd = (request.query as { weekEnd: number }).weekEnd;
       const notYetAired = (request.query as { notYetAired: boolean }).notYetAired;
+      const countryOfOrigin  = (request.query as { countryOfOrigin: string }).countryOfOrigin;
 
       const res = await anilist.fetchAiringSchedule(
         page,
         perPage,
         weekStart,
         weekEnd,
-        notYetAired
+        notYetAired,
+        countryOfOrigin
       );
 
       reply.status(200).send(res);
