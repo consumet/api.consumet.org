@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
+"@consumet/extensions@https://github.com/consumet/consumet.ts.git":
   version "1.0.10"
   resolved "https://github.com/consumet/consumet.ts.git#629da2ee66972bd44f260009a0761798aa15d131"
   dependencies:
@@ -288,6 +288,18 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
+
+"consumet.ts@https://github.com/consumet/consumet.ts.git":
+  version "1.0.10"
+  uid f478ce33a98b403f61becc441ce454ebdea694cb
+  resolved "https://github.com/consumet/consumet.ts.git#f478ce33a98b403f61becc441ce454ebdea694cb"
+  dependencies:
+    ascii-url-encoder "^1.2.0"
+    axios "^0.27.2"
+    cheerio "^1.0.0-rc.11"
+    crypto-js "^4.1.1"
+    form-data "^4.0.0"
+    ws "^8.8.1"
 
 cookie@^0.5.0:
   version "0.5.0"
