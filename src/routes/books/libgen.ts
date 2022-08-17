@@ -20,12 +20,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     };
     if (bookTitle.length < 4)
       return reply.status(400).send({
-        message: 'length of bookTItle must be > 4 characters',
+        message: 'length of bookTitle must be > 4 characters',
         error: 'short_length',
       });
     if (isNaN(page)) {
       return reply.status(400).send({
-        message: 'page number is valid',
+        message: 'page is missing',
         error: 'invalid_input',
       });
     }

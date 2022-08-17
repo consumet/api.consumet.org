@@ -1,12 +1,32 @@
 import { COMICS } from '@consumet/extensions';
+import { RedisFunctionFlags } from '@redis/client/dist/lib/commands/generic-transformers';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
+import { createClient } from 'redis';
+
+const client = createClient({
+  url: `redis://default:${process.env.REDIS_PASS}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+});
+
+client.on('error', (err) => console.log('Redis Client Error', err));
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
+  // fastify.log.info(
+  //   `redis://${process.env.REDIS_PASS}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
+  // );
   fastify.get('/s', async (request: FastifyRequest, reply: FastifyReply) => {
-    const { comicTitle, page } = request.query as {
+    let { comicTitle, page } = request.query as {
       comicTitle: string;
       page: number | undefined;
     };
+    await client.connect();
+    if (page == undefined) page = 1;
+    if (await client.exists(`${comicTitle}:${page}`)) {
+      const result = await client.get(`${comicTitle}:${page}`);
+      client.disconnect();
+
+      const resultParsed = JSON.parse(result!!);
+      return reply.status(200).send(resultParsed);
+    }
     if (comicTitle.length < 4)
       return reply.status(400).send({
         message: 'length of comicTitle must be > 4 charactes',
@@ -23,6 +43,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           // temp
         });
       });
+
+    client.set(`${comicTitle}:${page}`, JSON.stringify(result));
 
     return reply.status(200).send(result);
   });
