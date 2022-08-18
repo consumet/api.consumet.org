@@ -4,7 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.10"
-  resolved "https://github.com/consumet/consumet.ts.git#629da2ee66972bd44f260009a0761798aa15d131"
+  resolved "https://github.com/consumet/consumet.ts.git#38435cb7a47c3116707f6f67a561a61027407b6f"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -143,9 +143,9 @@
     fastify-cors "*"
 
 "@types/node@^18.6.4":
-  version "18.7.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.3.tgz#432c89796eab539b7a30b7b8801a727b585238a4"
-  integrity sha512-LJgzOEwWuMTBxHzgBR/fhhBOWrvBjvO+zPteUgbbuQi80rYIZHrk1mNbRUqPZqSLP2H7Rwt1EFLL/tNLD1Xx/w==
+  version "18.7.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.6.tgz#31743bc5772b6ac223845e18c3fc26f042713c83"
+  integrity sha512-EdxgKRXgYsNITy5mjjXjVE/CS8YENSdhiagGrLqjG0pvA2owgJ6i4l7wy/PFZGC0B1/H20lWKN7ONVDNYDZm7A==
 
 abbrev@1:
   version "1.1.1"
@@ -481,9 +481,9 @@ fastify-plugin@^4.0.0:
   integrity sha512-hovKzEXZc2YgeuXn41/2EA/IaIOdRu1pB9WKgnzDBj3lhKSdDCEsckHa7I6LiT/LhflvAQX7ZY8IQ6eBX0htTg==
 
 fastify@^4.3.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.4.0.tgz#0543aa039c70d49df4ddcca796679f305f10d2ae"
-  integrity sha512-ePI4g9vPJXIBF4YlVcDSLxjvtdTrlM8QzdgYAPFGdCH+rot+4MXoFFAUb10fGrIcRRjaq6CvcbIzxiWQzMMHkw==
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.5.1.tgz#18122460b7c6577a71689aaf746587fa90c97978"
+  integrity sha512-R32mQHwclER/34dtDX/8HzoaB10ZCsmNZOpoLTmGeu6A5ZsczTgWSBkl3H4i79gkorYvjiZHh3wulB3CtpQurg==
   dependencies:
     "@fastify/ajv-compiler" "^3.1.1"
     "@fastify/error" "^3.0.0"
@@ -613,9 +613,9 @@ json-schema-traverse@^1.0.0:
   integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
 
 light-my-request@^5.0.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.4.0.tgz#bcd483a9157592b16101cb2042275ca89b79aec1"
-  integrity sha512-lWwUibGSDifLsCGKVy5mCktifWGYiZUCzuKqXgrb3Na7wHPl8aPShxjDhUGQE3MI8k2wJSuvSJh5lyHkMnOTMg==
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.5.0.tgz#34bfdef43c751abf91efbc82451f840ebfba4b41"
+  integrity sha512-G2O8o7f3sR8JP5NG+vtzUm0vpvDNh+/DpZH2GcFEFOkUHggmHSEwj9Vj4VTgPEDe/zANyhZJGFO6R57eeSMBAQ==
   dependencies:
     cookie "^0.5.0"
     process-warning "^2.0.0"
