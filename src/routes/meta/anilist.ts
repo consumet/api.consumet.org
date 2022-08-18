@@ -129,14 +129,26 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get(
-    '/anilist/random-anime',
+    '/anilist/recent-episodes',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const res = await anilist.fetchRandomAnime().catch((err) => {
-        return reply.status(404).send({ message: 'Anime not found' });
-      });
+      const provider = (request.query as { provider: 'gogoanime' | 'zoro' }).provider;
+      const page = (request.query as { page: number }).page;
+      const perPage = (request.query as { perPage: number }).perPage;
+
+      const res = await anilist.fetchRecentEpisodes(provider, page, perPage);
+
       reply.status(200).send(res);
     }
-  );
+  ),
+    fastify.get(
+      '/anilist/random-anime',
+      async (request: FastifyRequest, reply: FastifyReply) => {
+        const res = await anilist.fetchRandomAnime().catch((err) => {
+          return reply.status(404).send({ message: 'Anime not found' });
+        });
+        reply.status(200).send(res);
+      }
+    );
 
   fastify.get(
     '/anilist/info/:id',

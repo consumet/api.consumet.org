@@ -4,7 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.10"
-  resolved "https://github.com/consumet/consumet.ts.git#38435cb7a47c3116707f6f67a561a61027407b6f"
+  resolved "https://github.com/consumet/consumet.ts.git#a34ed3daa0c690bfd447269e8436a77b55fc9f5e"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -481,9 +481,9 @@ fastify-plugin@^4.0.0:
   integrity sha512-hovKzEXZc2YgeuXn41/2EA/IaIOdRu1pB9WKgnzDBj3lhKSdDCEsckHa7I6LiT/LhflvAQX7ZY8IQ6eBX0htTg==
 
 fastify@^4.3.0:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.5.1.tgz#18122460b7c6577a71689aaf746587fa90c97978"
-  integrity sha512-R32mQHwclER/34dtDX/8HzoaB10ZCsmNZOpoLTmGeu6A5ZsczTgWSBkl3H4i79gkorYvjiZHh3wulB3CtpQurg==
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.5.2.tgz#6da18ee9c8a466b365614a377a7f448f8c50a46b"
+  integrity sha512-cDLhc0bh1ftzMoS7ccGGPUW/xTUnk6I51TktQqKFeJnhoAfk56tfn+xDs8JcJYfouPK23Ljx4OpMaEi+kIDwEg==
   dependencies:
     "@fastify/ajv-compiler" "^3.1.1"
     "@fastify/error" "^3.0.0"
