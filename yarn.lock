@@ -4,7 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.10"
-  resolved "https://github.com/consumet/consumet.ts.git#a34ed3daa0c690bfd447269e8436a77b55fc9f5e"
+  resolved "https://github.com/consumet/consumet.ts.git#8ef468c3e43355fd7f45202dbaccf46cb383319e"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -143,9 +143,9 @@
     fastify-cors "*"
 
 "@types/node@^18.6.4":
-  version "18.7.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.6.tgz#31743bc5772b6ac223845e18c3fc26f042713c83"
-  integrity sha512-EdxgKRXgYsNITy5mjjXjVE/CS8YENSdhiagGrLqjG0pvA2owgJ6i4l7wy/PFZGC0B1/H20lWKN7ONVDNYDZm7A==
+  version "18.7.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.8.tgz#6bbf2be6fbf9c187a5040d4277d24a06a18957a1"
+  integrity sha512-/YP55EMK2341JkODUb8DM9O0x1SIz2aBvyF33Uf1c76St3VpsMXEIW0nxuKkq/5cxnbz0RD9cfwNZHEAZQD3ag==
 
 abbrev@1:
   version "1.1.1"
@@ -748,9 +748,9 @@ pino-std-serializers@^6.0.0:
   integrity sha512-mMMOwSKrmyl+Y12Ri2xhH1lbzQxwwpuru9VjyJpgFIH4asSj88F2csdMwN6+M5g1Ll4rmsYghHLQJw81tgZ7LQ==
 
 pino@^8.0.0:
-  version "8.4.1"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-8.4.1.tgz#25c818489804364598fa27c11650021d986fbf70"
-  integrity sha512-rZnbTUNFiYBH1H2OfYYVNBEFRDhN2nRaEmBD2+MDmGXSGyps+YPJ55LzWZP90zg7zyWKy0ZMqGlk47AO6OaBqQ==
+  version "8.4.2"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-8.4.2.tgz#5de76e81b36e173d74244e0af4543e7ae241dbfd"
+  integrity sha512-PlXDeGhJZfAuVay+wtlS02s5j8uisQveZExYdAm9MwwxUQSz9R7Q78XtjM2tTa4sa5KJmygimZjZxXXuHgV6ew==
   dependencies:
     atomic-sleep "^1.0.0"
     fast-redact "^3.1.1"
