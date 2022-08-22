@@ -36,6 +36,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const id = (request.query as { id: string }).id;
       const format = (request.query as { format: string }).format;
       let sort = (request.query as { sort: string | string[] }).sort;
+      const status = (request.query as { status: string }).status;
+      const year = (request.query as { year: number }).year;
 
       if (genres) {
         JSON.parse(genres as string).forEach((genre: string) => {
@@ -57,7 +59,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         format,
         sort as string[],
         genres as string[],
-        id
+        id,
+        year,
+        status
       );
 
       reply.status(200).send(res);

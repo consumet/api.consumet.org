@@ -4,7 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.10"
-  resolved "https://github.com/consumet/consumet.ts.git#705d0919c4452ceecdb4ad45b30746dd1ce1b018"
+  resolved "https://github.com/consumet/consumet.ts.git#6aacad1a9fb61e52d121245cae33fcc4382f15e6"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -445,9 +445,9 @@ fast-json-stringify@^5.0.0:
     rfdc "^1.2.0"
 
 fast-redact@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/fast-redact/-/fast-redact-3.1.1.tgz#790fcff8f808c2e12fabbfb2be5cb2deda448fa0"
-  integrity sha512-odVmjC8x8jNeMZ3C+rPMESzXVSEU8tSWSHv9HFxP2mm89G/1WwqhrerJDQm9Zus8X6aoRgQDThKqptdNA6bt+A==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/fast-redact/-/fast-redact-3.1.2.tgz#d58e69e9084ce9fa4c1a6fa98a3e1ecf5d7839aa"
+  integrity sha512-+0em+Iya9fKGfEQGcd62Yv6onjBmmhV1uh86XVfOU8VwAe6kaFdQCWI9s0/Nnugx5Vd9tdbZ7e6gE2tR9dzXdw==
 
 fast-uri@^2.0.0, fast-uri@^2.1.0:
   version "2.1.0"
@@ -613,9 +613,9 @@ json-schema-traverse@^1.0.0:
   integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
 
 light-my-request@^5.0.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.5.0.tgz#34bfdef43c751abf91efbc82451f840ebfba4b41"
-  integrity sha512-G2O8o7f3sR8JP5NG+vtzUm0vpvDNh+/DpZH2GcFEFOkUHggmHSEwj9Vj4VTgPEDe/zANyhZJGFO6R57eeSMBAQ==
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.5.1.tgz#566d90928b9b960d44b6b2b74e072eec1f7015e4"
+  integrity sha512-Zd4oZjF7axSyc5rYQsbB0qsgY4LFFviZSbEywxf7Vi5UE3y3c7tYF/GeheQjBNYY+pQ55BF8UGGJTjneoxOS1w==
   dependencies:
     cookie "^0.5.0"
     process-warning "^2.0.0"
@@ -914,9 +914,9 @@ supports-color@^5.5.0:
     has-flag "^3.0.0"
 
 thread-stream@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/thread-stream/-/thread-stream-2.0.1.tgz#3fa74e2223e661a48f836494f7a64eeac5ac03c0"
-  integrity sha512-X7vWOdsHLkBq0si20ruEE2ttpS7WOVyD52xKu+TOjrRP9Qi9uB9ynHYpzZUbBptArBSuKYUn4mH+jEBnO2CRGg==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/thread-stream/-/thread-stream-2.1.0.tgz#d560dd8b9d09482b0e2e876a96c229c374870836"
+  integrity sha512-5+Pf2Ya31CsZyIPYYkhINzdTZ3guL+jHq7D8lkBybgGcSQIKDbid3NJku3SpCKeE/gACWAccDA/rH2B6doC5aA==
   dependencies:
     real-require "^0.2.0"
 
