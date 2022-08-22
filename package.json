@@ -25,7 +25,7 @@
         "@fastify/cors": "^8.1.0",
         "@fastify/rate-limit": "^7.3.0",
         "@types/fastify-cors": "^2.1.0",
-        "@types/node": "^18.6.4",
+        "@types/node": "^18.7.9",
         "axios": "^0.27.2",
         "cheerio": "^1.0.0-rc.11",
         "consumet.ts": "https://github.com/consumet/consumet.ts.git",
