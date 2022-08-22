@@ -151,6 +151,34 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     );
 
   fastify.get(
+    '/anilist/episodes/:id',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const id = (request.params as { id: string }).id;
+      let dub = (request.query as { dub?: string | boolean }).dub;
+
+      if (dub === 'true' || dub === '1') dub = true;
+      else dub = false;
+
+      const res = await anilist.fetchEpisodesListById(id, dub);
+
+      reply.status(200).send(res);
+    }
+  );
+
+  // anilist info without episodes
+  fastify.get(
+    '/anilist/data/:id',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const id = (request.params as { id: string }).id;
+
+      const res = await anilist.fetchAnilistInfoById(id);
+
+      reply.status(200).send(res);
+    }
+  );
+
+  // anilist info with episodes
+  fastify.get(
     '/anilist/info/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
