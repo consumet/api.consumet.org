@@ -154,13 +154,22 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/anilist/episodes/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
+      const provider = (request.query as { provider?: string }).provider;
       let dub = (request.query as { dub?: string | boolean }).dub;
+
+      if (typeof provider !== 'undefined') {
+        const possibleProvider = PROVIDERS_LIST.ANIME.find(
+          (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+        );
+        anilist = new META.Anilist(possibleProvider);
+      }
 
       if (dub === 'true' || dub === '1') dub = true;
       else dub = false;
 
       const res = await anilist.fetchEpisodesListById(id, dub);
 
+      anilist = new META.Anilist();
       reply.status(200).send(res);
     }
   );
