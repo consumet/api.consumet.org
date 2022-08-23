@@ -10,8 +10,12 @@
         "platformAutomerge": true
     },
     "packageRules": [{
+        "matchDatasources": [
+            "npm", "yarn"
+        ],
         "matchDepTypes": ["dependencies"],
         "matchPackagePatterns": ["@consumet/extensions"],
-        "automerge": true
+        "automerge": true,
+        "schedule": "0 */1 * * *"
     }]
 }
