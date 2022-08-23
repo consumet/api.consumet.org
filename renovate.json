@@ -16,6 +16,6 @@
         "matchDepTypes": ["dependencies"],
         "matchPackagePatterns": ["@consumet/extensions"],
         "automerge": true,
-        "schedule": "0 */1 * * *"
+        "schedule": "before 10pm"
     }]
 }
