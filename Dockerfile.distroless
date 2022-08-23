@@ -21,7 +21,7 @@ COPY . .
 
 
 # release layer (the only one in the final image)
-FROM gcr.io/distroless/nodejs:14 AS release
+FROM gcr.io/distroless/nodejs:18 AS release
 COPY --from=builder /app /app
 WORKDIR /app
 
