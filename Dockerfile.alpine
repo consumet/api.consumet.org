@@ -1,4 +1,4 @@
-FROM node:18.7-alpine as builder
+FROM node:18.8-alpine as builder
 
 LABEL version="1.0.0"
 LABEL description="Consumet API (fastify) Docker Image"
