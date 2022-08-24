@@ -4,8 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.10"
-  uid dc78d249ee726214b0a515b6b34744bd6fda923b
-  resolved "https://github.com/consumet/consumet.ts.git#dc78d249ee726214b0a515b6b34744bd6fda923b"
+  resolved "https://github.com/consumet/consumet.ts.git#b94ea4ff4ebd60d7c9db5ebce12cb46f2cd745e5"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -49,9 +48,9 @@
   integrity sha512-dPRyT40GiHRzSCll3/Jn2nPe25+E1VXc9tDwRAIKwFCxd5Np5wzgz1tmooWG3sV0qKgrBibihVoCna2ru4SEFg==
 
 "@fastify/fast-json-stringify-compiler@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@fastify/fast-json-stringify-compiler/-/fast-json-stringify-compiler-4.0.0.tgz#444139d0a12b3e3a8fcdda29da7e9a6c72c8e404"
-  integrity sha512-9pCi6c6tmGt/qfuf2koZQuSIG6ckP9q3mz+JoMmAq9eQ4EtA92sWoK7E0LJUn2FFTS/hp5kag+4+dWsV5ZfcXg==
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@fastify/fast-json-stringify-compiler/-/fast-json-stringify-compiler-4.1.0.tgz#ebf657ce4ec88e27ba311f7560eaa0b37de8719d"
+  integrity sha512-cTKBV2J9+u6VaKDhX7HepSfPSzw+F+TSd+k0wzifj4rG+4E5PjSFJCk19P8R6tr/72cuzgGd+mbB3jFT6lvAgw==
   dependencies:
     fast-json-stringify "^5.0.0"
 
@@ -144,9 +143,9 @@
     fastify-cors "*"
 
 "@types/node@^18.7.10":
-  version "18.7.11"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.11.tgz#486e72cfccde88da24e1f23ff1b7d8bfb64e6250"
-  integrity sha512-KZhFpSLlmK/sdocfSAjqPETTMd0ug6HIMIAwkwUpU79olnZdQtMxpQP+G1wDzCH7na+FltSIhbaZuKdwZ8RDrw==
+  version "18.7.13"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.13.tgz#23e6c5168333480d454243378b69e861ab5c011a"
+  integrity sha512-46yIhxSe5xEaJZXWdIBP7GU4HDTG8/eo0qd9atdiL+lFpA03y8KS+lkTN834TWJj5767GbWv4n/P6efyTFt1Dw==
 
 abbrev@1:
   version "1.1.1"

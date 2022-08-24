@@ -14,7 +14,7 @@
             "npm", "yarn"
         ],
         "matchDepTypes": ["dependencies"],
-        "matchPackagePatterns": ["@consumet/extensions"],
+        "matchPackagePatterns": ["*"],
         "automerge": true,
         "schedule": "before 10pm"
     }]
