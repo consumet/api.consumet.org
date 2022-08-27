@@ -224,6 +224,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   );
 
+  // anilist character info
+  fastify.get(
+    '/anilist/character/:id',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const id = (request.params as { id: string }).id;
+
+      const res = await anilist.fetchCharacterInfoById(id);
+
+      reply.status(200).send(res);
+    }
+  );
+
   fastify.get(
     '/anilist/watch/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {

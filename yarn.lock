@@ -4,7 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.0.10"
-  resolved "https://github.com/consumet/consumet.ts.git#b94ea4ff4ebd60d7c9db5ebce12cb46f2cd745e5"
+  resolved "https://github.com/consumet/consumet.ts.git#d2ba9d5c5260d9d03b1b3f3ecf133ff705196a06"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -21,9 +21,9 @@
     "@jridgewell/trace-mapping" "0.3.9"
 
 "@fastify/ajv-compiler@^3.1.1":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@fastify/ajv-compiler/-/ajv-compiler-3.1.2.tgz#9b3c4ae0f5feeb2a90ee797cff6dc26e1831795b"
-  integrity sha512-m2nzzQJeuVmeGOB9rnII9sZiY8AZ02a9WMQfMBfK1jxdFnxm3FPYKGbYpPjODj4halNogwpolyugbTNpnDCi0A==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@fastify/ajv-compiler/-/ajv-compiler-3.2.0.tgz#a165ffb877fe239571a68f7b22143034176dcb8a"
+  integrity sha512-JrqgKmZoh1AJojDZk699DupQ9+tz5gSy7/w+5DrkXy5whM5IcqdV3SjG5qnOqgVJT1nPtUMDY0xYus2j6vwJiw==
   dependencies:
     ajv "^8.10.0"
     ajv-formats "^2.1.1"
@@ -476,14 +476,14 @@ fastify-plugin@^3.0.0:
   integrity sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA==
 
 fastify-plugin@^4.0.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.2.0.tgz#fb28ec08312777ad343059177f13277ca3e7c3b1"
-  integrity sha512-hovKzEXZc2YgeuXn41/2EA/IaIOdRu1pB9WKgnzDBj3lhKSdDCEsckHa7I6LiT/LhflvAQX7ZY8IQ6eBX0htTg==
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.2.1.tgz#4b80020957938dbc44b8ad4a898fd8bcfbab3f65"
+  integrity sha512-dlGKiwLzRBKkEf5J5ho0uAD/Jdv8GQVUbriB3tAX3ehRUXE4gTV3lRd5inEg9li1aLzb0EGj8y2K4/8g1TN06g==
 
 fastify@^4.3.0:
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.5.2.tgz#6da18ee9c8a466b365614a377a7f448f8c50a46b"
-  integrity sha512-cDLhc0bh1ftzMoS7ccGGPUW/xTUnk6I51TktQqKFeJnhoAfk56tfn+xDs8JcJYfouPK23Ljx4OpMaEi+kIDwEg==
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.5.3.tgz#df4f00347f06e8f3d6ab35788d2d140668c2533c"
+  integrity sha512-Q8Zvkmg7GnioMCDX1jT2Q7iRqjywlnDZ1735D2Ipf7ashCM/3/bqPKv2Jo1ZF2iDExct2eP1C/tdhcj0GG/OuQ==
   dependencies:
     "@fastify/ajv-compiler" "^3.1.1"
     "@fastify/error" "^3.0.0"
@@ -491,7 +491,7 @@ fastify@^4.3.0:
     abstract-logging "^2.0.1"
     avvio "^8.1.3"
     find-my-way "^7.0.0"
-    light-my-request "^5.0.0"
+    light-my-request "^5.5.1"
     pino "^8.0.0"
     process-warning "^2.0.0"
     proxy-addr "^2.0.7"
@@ -612,7 +612,7 @@ json-schema-traverse@^1.0.0:
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz#ae7bcb3656ab77a73ba5c49bf654f38e6b6860e2"
   integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
 
-light-my-request@^5.0.0:
+light-my-request@^5.5.1:
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/light-my-request/-/light-my-request-5.5.1.tgz#566d90928b9b960d44b6b2b74e072eec1f7015e4"
   integrity sha512-Zd4oZjF7axSyc5rYQsbB0qsgY4LFFviZSbEywxf7Vi5UE3y3c7tYF/GeheQjBNYY+pQ55BF8UGGJTjneoxOS1w==
