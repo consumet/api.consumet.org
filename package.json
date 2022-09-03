@@ -23,7 +23,7 @@
     "dependencies": {
         "@consumet/extensions": "https://github.com/consumet/consumet.ts.git",
         "@fastify/cors": "^8.1.0",
-        "@fastify/rate-limit": "^7.3.0",
+        "@fastify/rate-limit": "^7.4.0",
         "@types/fastify-cors": "^2.1.0",
         "@types/node": "^18.7.10",
         "axios": "^0.27.2",
