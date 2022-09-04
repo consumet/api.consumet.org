@@ -38,6 +38,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       let sort = (request.query as { sort: string | string[] }).sort;
       const status = (request.query as { status: string }).status;
       const year = (request.query as { year: number }).year;
+      const season = (request.query as { season: string }).season;
 
       if (genres) {
         JSON.parse(genres as string).forEach((genre: string) => {
@@ -51,6 +52,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
       if (sort) sort = JSON.parse(sort as string);
 
+      if (season)
+        if (!['WINTER', 'SPRING', 'SUMMER', 'FALL'].includes(season))
+          return reply.status(400).send({ message: `${season} is not a valid season` });
+
       const res = await anilist.advancedSearch(
         query,
         type,
@@ -61,7 +66,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         genres as string[],
         id,
         year,
-        status
+        status,
+        season
       );
 
       reply.status(200).send(res);
@@ -97,8 +103,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
-      const weekStart = (request.query as { weekStart: number }).weekStart;
-      const weekEnd = (request.query as { weekEnd: number }).weekEnd;
+      const weekStart = (request.query as { weekStart: number | string }).weekStart;
+      const weekEnd = (request.query as { weekEnd: number | string }).weekEnd;
       const notYetAired = (request.query as { notYetAired: boolean }).notYetAired;
 
       const res = await anilist.fetchAiringSchedule(
