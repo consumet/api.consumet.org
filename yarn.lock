@@ -4,6 +4,7 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.1.0"
+  uid b3e00d1f1e36f0022ec27d767256b1f11e4d68e5
   resolved "https://github.com/consumet/consumet.ts.git#b3e00d1f1e36f0022ec27d767256b1f11e4d68e5"
   dependencies:
     ascii-url-encoder "^1.2.0"
