@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
+"@consumet/extensions@https://github.com/consumet/consumet.ts.git":
   version "1.1.0"
   uid "8e88462d85c0cb82617b19a80570e8ea5e2554de"
   resolved "https://github.com/consumet/consumet.ts.git#8e88462d85c0cb82617b19a80570e8ea5e2554de"
@@ -143,10 +143,17 @@
   dependencies:
     fastify-cors "*"
 
-"@types/node@^18.7.10":
+"@types/node@*", "@types/node@^18.7.10":
   version "18.7.15"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.15.tgz#20ae1ec80c57ee844b469f968a1cd511d4088b29"
   integrity sha512-XnjpaI8Bgc3eBag2Aw4t2Uj/49lLBSStHWfqKvIuXD7FIrZyMLWp8KuAFHAqxMZYTF9l08N1ctUn9YNybZJVmQ==
+
+"@types/ws@^8.5.3":
+  version "8.5.3"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.5.3.tgz#7d25a1ffbecd3c4f2d35068d0b283c037003274d"
+  integrity sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==
+  dependencies:
+    "@types/node" "*"
 
 abbrev@1:
   version "1.1.1"
@@ -328,6 +335,18 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
+
+"consumet.ts@https://github.com/consumet/consumet.ts.git":
+  version "1.1.0"
+  uid de96435dec3b1b51b65d765c790a7c8019e24d52
+  resolved "https://github.com/consumet/consumet.ts.git#de96435dec3b1b51b65d765c790a7c8019e24d52"
+  dependencies:
+    ascii-url-encoder "^1.2.0"
+    axios "^0.27.2"
+    cheerio "^1.0.0-rc.11"
+    crypto-js "^4.1.1"
+    form-data "^4.0.0"
+    ws "^8.8.1"
 
 cookie@^0.5.0:
   version "0.5.0"
