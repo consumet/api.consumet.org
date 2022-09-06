@@ -42,7 +42,7 @@ class RapidCloud {
 
       setInterval(() => {
         this.socket.close();
-      }, 7200000);
+      }, 8200000);
     } catch (err) {
       console.log(err);
     }
