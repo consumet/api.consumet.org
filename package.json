@@ -26,6 +26,7 @@
         "@fastify/rate-limit": "^7.3.0",
         "@types/fastify-cors": "^2.1.0",
         "@types/node": "^18.7.10",
+        "@types/ws": "^8.5.3",
         "axios": "^0.27.2",
         "cheerio": "^1.0.0-rc.11",
         "consumet.ts": "https://github.com/consumet/consumet.ts.git",
@@ -34,7 +35,8 @@
         "fastify-cors": "^6.1.0",
         "redis": "^4.3.0",
         "ts-node": "^10.9.1",
-        "typescript": "4.8.2"
+        "typescript": "4.8.2",
+        "ws": "^8.8.1"
     },
     "devDependencies": {
         "nodemon": "2.0.19"

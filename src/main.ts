@@ -12,6 +12,8 @@ import lightnovels from './routes/light-novels';
 import movies from './routes/movies';
 import meta from './routes/meta';
 
+import RapidCloud from './utils/rapid-cloud';
+
 (async () => {
   const PORT = Number(process.env.PORT);
   const fastify = Fastify({
@@ -41,6 +43,8 @@ import meta from './routes/meta';
   await fastify.register(lightnovels, { prefix: '/light-novels' });
   await fastify.register(movies, { prefix: '/movies' });
   await fastify.register(meta, { prefix: '/meta' });
+
+  await fastify.register(new RapidCloud().returnSID, { prefix: '/utils' });
 
   try {
     fastify.get('/', (_, rp) => {
