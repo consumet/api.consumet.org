@@ -1,3 +1,4 @@
+import ReconnectingWebSocket from 'reconnecting-websocket';
 import { WebSocket } from 'ws';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 
@@ -5,44 +6,38 @@ class RapidCloud {
   private readonly baseUrl =
     'wss://ws1.rapid-cloud.co/socket.io/?EIO=4&transport=websocket';
 
-  private socket: WebSocket;
+  private socket: ReconnectingWebSocket;
 
   public sId = undefined;
   constructor() {
-    this.socket = new WebSocket(this.baseUrl);
+    this.socket = new ReconnectingWebSocket(this.baseUrl, undefined, {
+      WebSocket: WebSocket,
+    });
     try {
-      this.socket.on('open', () => {
+      this.socket.onopen = () => {
         this.socket.send('40');
-      });
+      };
 
-      this.socket.on('close', (data) => {
-        console.log('Disconnected from RapidCloud');
-        this.sId = undefined;
-        this.socket = new WebSocket(this.baseUrl);
-      });
-
-      this.socket.on('message', (data: string) => {
-        data = data.toString();
+      this.socket.onmessage = ({ data }) => {
         if (data?.startsWith('40')) {
           this.sId = JSON.parse(data.split('40')[1]).sid;
         } else if (data == '2') {
           console.log("recieved pong from RapidCloud's server");
           this.socket.send('3');
         }
-      });
+      };
 
-      this.socket.on('error', (err) => {
-        this.socket.close();
-        console.log(err);
-      });
+      this.socket.onerror = (err) => {
+        console.error('Websocket error: ', err);
+      };
 
       setInterval(() => {
         this.socket.send('3');
       }, 25000);
 
       setInterval(() => {
-        this.socket.close();
-      }, 8200000);
+        this.socket.reconnect();
+      }, 7200000);
     } catch (err) {
       console.log(err);
     }
