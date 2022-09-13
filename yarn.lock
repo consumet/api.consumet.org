@@ -4,8 +4,8 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git", "consumet.ts@https://github.com/consumet/consumet.ts.git":
   version "1.1.0"
-  uid "8f12f9d84729026d46cc376e9817576b1054f5d6"
-  resolved "https://github.com/consumet/consumet.ts.git#8f12f9d84729026d46cc376e9817576b1054f5d6"
+  uid "8b43543bfcdf7fd8dc414a40c3b5477a803100d2"
+  resolved "https://github.com/consumet/consumet.ts.git#8b43543bfcdf7fd8dc414a40c3b5477a803100d2"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -144,9 +144,9 @@
     fastify-cors "*"
 
 "@types/node@*", "@types/node@^18.7.10":
-  version "18.7.16"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.16.tgz#0eb3cce1e37c79619943d2fd903919fc30850601"
-  integrity sha512-EQHhixfu+mkqHMZl1R2Ovuvn47PUw18azMJOTwSZr9/fhzHNGXAJ0ma0dayRVchprpCj0Kc1K1xKoWaATWF1qg==
+  version "18.7.17"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.17.tgz#52438111ea98f77475470fc62d79b9eb96bb2c92"
+  integrity sha512-0UyfUnt02zIuqp7yC8RYtDkp/vo8bFaQ13KkSEvUAohPOAlnVNbj5Fi3fgPSuwzakS+EvvnnZ4x9y7i6ASaSPQ==
 
 "@types/ws@^8.5.3":
   version "8.5.3"
