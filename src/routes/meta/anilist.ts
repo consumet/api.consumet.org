@@ -161,6 +161,26 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     );
 
   fastify.get(
+    '/anilist/servers/:id',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const id = (request.params as { id: string }).id;
+      const provider = (request.query as { provider?: string }).provider;
+
+      if (typeof provider !== 'undefined') {
+        const possibleProvider = PROVIDERS_LIST.ANIME.find(
+          (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+        );
+        anilist = new META.Anilist(possibleProvider);
+      }
+
+      const res = await anilist.fetchEpisodeServers(id);
+
+      anilist = new META.Anilist();
+      reply.status(200).send(res);
+    }
+  );
+
+  fastify.get(
     '/anilist/episodes/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
