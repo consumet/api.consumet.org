@@ -185,6 +185,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
       const provider = (request.query as { provider?: string }).provider;
+      let fetchFiller = (request.query as { fetchFiller?: string | boolean }).fetchFiller;
       let dub = (request.query as { dub?: string | boolean }).dub;
 
       if (typeof provider !== 'undefined') {
@@ -197,7 +198,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if (dub === 'true' || dub === '1') dub = true;
       else dub = false;
 
-      const res = await anilist.fetchEpisodesListById(id, dub);
+      if (fetchFiller === 'true' || fetchFiller === '1') fetchFiller = true;
+      else fetchFiller = false;
+
+      const res = await anilist.fetchEpisodesListById(id, dub, fetchFiller as boolean);
 
       anilist = new META.Anilist();
       reply.status(200).send(res);
@@ -223,6 +227,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const id = (request.params as { id: string }).id;
 
       const provider = (request.query as { provider?: string }).provider;
+      let fetchFiller = (request.query as { fetchFiller?: string | boolean }).fetchFiller;
       let isDub = (request.query as { dub?: string | boolean }).dub;
 
       if (typeof provider !== 'undefined') {
@@ -235,9 +240,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if (isDub === 'true' || isDub === '1') isDub = true;
       else isDub = false;
 
+      if (fetchFiller === 'true' || fetchFiller === '1') fetchFiller = true;
+      else fetchFiller = false;
+
       try {
         const res = await anilist
-          .fetchAnimeInfo(id, isDub as boolean)
+          .fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean)
           .catch((err) => reply.status(404).send({ message: err }));
 
         anilist = new META.Anilist();
