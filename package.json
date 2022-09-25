@@ -40,6 +40,6 @@
         "ws": "^8.8.1"
     },
     "devDependencies": {
-        "nodemon": "2.0.19"
+        "nodemon": "2.0.20"
     }
 }
