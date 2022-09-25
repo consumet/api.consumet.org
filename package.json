@@ -32,6 +32,7 @@
         "consumet.ts": "https://github.com/consumet/consumet.ts.git",
         "dotenv": "^16.0.1",
         "fastify": "^4.3.0",
+        "fastify-block-list": "^0.0.3",
         "fastify-cors": "^6.1.0",
         "reconnecting-websocket": "^4.4.0",
         "redis": "^4.3.0",
