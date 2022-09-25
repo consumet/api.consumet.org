@@ -3,7 +3,6 @@ require('dotenv').config();
 import Fastify from 'fastify';
 import FastifyCors from '@fastify/cors';
 import FastifyRateLimit from '@fastify/rate-limit';
-import fastifyBlocklist from 'fastify-block-list';
 
 import books from './routes/books';
 import anime from './routes/anime';
@@ -25,12 +24,9 @@ import RapidCloud from './utils/rapid-cloud';
     methods: 'GET',
   });
 
-  await fastify.register(fastifyBlocklist, {
-    blocklist: process.env.BLOCK_LIST?.split(' '),
-  });
   await fastify.register(FastifyRateLimit, {
     global: true,
-    max: 90,
+    max: 60,
     timeWindow: 60000,
     allowList: [],
     errorResponseBuilder(req, context) {
