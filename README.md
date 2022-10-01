@@ -35,6 +35,7 @@ Consumet scrapes data from various websites and provides APIs for accessing the 
   - [Heroku](#heroku)
 - [Documentation](#documentation)
 - [Development](#development)
+- [Showcases](#showcases)
 - [Provider Request](#provider-request)
 - [Support](#support)
 - [Related repositories](#related-repositories)
@@ -80,6 +81,9 @@ Please refer to the [documentation](https://docs.consumet.org). Join our [Discor
 
 ## Development
 Pull requests and stars are always welcome, for bugs and features create a new [issue](https://github.com/consumet/api.consumet.org/issues). If you're brave to make make a commit to the project see [CONTRIBUTING.md](https://github.com/consumet/consumet.ts/blob/master/docs/guides/contributing.md).
+
+## Showcases
+Showcases are welcome! If you have a project that uses Consumet API, please let us know by making a new discussion [here](https://github.com/consumet/api.consumet.org/discussions/categories/show-and-tell) or by joining our [Discord server](https://discord.gg/qTPfvMxzNH). We will add your project to our [showcases page](https://consumet.org/showcase).
 
 ## Provider Request
 Make a new [issue](https://github.com/consumet/consumet.ts/issues/new?assignees=&labels=provider+request&template=provider-request.yml) with the name of the provider on the title, as well as a link to the provider in the body paragraph.
