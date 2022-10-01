@@ -14,8 +14,6 @@ import meta from './routes/meta';
 
 import RapidCloud from './utils/rapid-cloud';
 
-const BLOCKED_IPS = ['172.111.9.228'];
-
 (async () => {
   const PORT = Number(process.env.PORT);
   const fastify = Fastify({
@@ -29,7 +27,7 @@ const BLOCKED_IPS = ['172.111.9.228'];
   await fastify.register(FastifyRateLimit, {
     global: true,
     max: 60,
-    timeWindow: 60000,
+    timeWindow: 90000,
     allowList: [],
     errorResponseBuilder(req, context) {
       return {
@@ -47,16 +45,6 @@ const BLOCKED_IPS = ['172.111.9.228'];
   await fastify.register(meta, { prefix: '/meta' });
 
   await fastify.register(new RapidCloud().returnSID, { prefix: '/utils' });
-
-  fastify.addHook('onRequest', function (request, reply, done) {
-    if (BLOCKED_IPS.includes(request.ip)) {
-      reply.status(403).send({
-        message: 'you are not allowed to access this api.',
-      });
-    }
-
-    done();
-  });
 
   try {
     fastify.get('/', (_, rp) => {
