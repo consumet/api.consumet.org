@@ -24,17 +24,17 @@ import RapidCloud from './utils/rapid-cloud';
     methods: 'GET',
   });
 
-  await fastify.register(FastifyRateLimit, {
-    global: true,
-    max: 60,
-    timeWindow: 90000,
-    allowList: [],
-    errorResponseBuilder(req, context) {
-      return {
-        message: 'if you are a human, please wait a bit before trying again.',
-      };
-    },
-  });
+//   await fastify.register(FastifyRateLimit, {
+//     global: true,
+//     max: 60,
+//     timeWindow: 90000,
+//     allowList: [],
+//     errorResponseBuilder(req, context) {
+//       return {
+//         message: 'if you are a human, please wait a bit before trying again.',
+//       };
+//     },
+//   });
 
   await fastify.register(books, { prefix: '/books' });
   await fastify.register(anime, { prefix: '/anime' });
