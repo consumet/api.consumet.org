@@ -3,9 +3,9 @@
 
 
 "@consumet/extensions@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.1.2.tgz#6abd010f6bc8c274271a6cc7e1c084abdc483b90"
-  integrity sha512-u8+Iz/axRrRo49NW+kLJQWAT8sWIoSM/IPaZD0PZq+H73PvdedTYBi5WxFaMLsMqY1ffDvUetGDyWcyKK4QM0w==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.1.3.tgz#95f2145167e6ccc6c7aa13eda0ea848b6a698eee"
+  integrity sha512-osDAbBLR5ffDpun4MRP0Q+pdw3w5aDtfQHiZQBvYX7tSgX9nSMdcWpBLOKVpsaBjZNqHc+UtTjHYJ1V8m+fY8w==
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
