@@ -24,7 +24,7 @@
         "@consumet/extensions": "^1.1.2",
         "@fastify/cors": "^8.1.0",
         "@types/fastify-cors": "^2.1.0",
-        "@types/node": "^18.7.10",
+        "@types/node": "^18.8.3",
         "@types/ws": "^8.5.3",
         "axios": "^1.0.0",
         "cheerio": "^1.0.0-rc.11",
