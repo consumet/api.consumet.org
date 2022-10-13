@@ -3,9 +3,9 @@
 
 
 "@consumet/extensions@^1.1.2":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.1.5.tgz#5b87067bec61d6bd5984d909e15174bc719fb168"
-  integrity sha512-iLwg+719vHDBsW5HH5+ZCqNCjfBoTmTOjavKO+fQjnIMhItG6X0OZB10P4vEoJGxj55Fvmuoj60WeBprSSxTUA==
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.1.6.tgz#6bcb8d72f7564767c6a93e565fa8d38034936aab"
+  integrity sha512-lrZ4zgUii6nmKm+j3pBTQE/t0ViW7T38eetzFGpj35EtgWzXChjLrbeCKeJIFySyocMvuLNiwzFSG9Qpc5feUA==
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -135,9 +135,9 @@
     fastify-cors "*"
 
 "@types/node@*", "@types/node@^18.7.10":
-  version "18.8.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.3.tgz#ce750ab4017effa51aed6a7230651778d54e327c"
-  integrity sha512-0os9vz6BpGwxGe9LOhgP/ncvYN5Tx1fNcd2TM3rD/aCGBkysb+ZWpXEocG24h6ZzOi13+VB8HndAQFezsSOw1w==
+  version "18.8.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.5.tgz#6a31f820c1077c3f8ce44f9e203e68a176e8f59e"
+  integrity sha512-Bq7G3AErwe5A/Zki5fdD3O6+0zDChhg671NfPjtIcbtzDNZTv4NPKMRFr7gtYPG7y+B8uTiNK4Ngd9T0FTar6Q==
 
 "@types/ws@^8.5.3":
   version "8.5.3"
