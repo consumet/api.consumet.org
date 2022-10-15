@@ -3,9 +3,9 @@
 
 
 "@consumet/extensions@^1.1.2":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.1.7.tgz#17c515642c7cb9c0dbadd3371b601b23a4a41653"
-  integrity sha512-nihfxus0rU+kWZn/PzpHp77vNp/WSMwJV1YsIeAY4u+2cIv+Pq9j2PdKmfDAjPAPtoKH3VKXc25edeCGKUseZw==
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.1.8.tgz#e2ea2979d0f5a673093308b894cfa26a61a83a17"
+  integrity sha512-duDcVWQD4EbGHNFWYhIpDsjkRChhbbnyAZnn3HhdwR1K7LmyEq/WMdd+imOyvhVhSO5TPAvrx9bvbb3Z3hvoHw==
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -135,9 +135,9 @@
     fastify-cors "*"
 
 "@types/node@*", "@types/node@^18.7.10":
-  version "18.8.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.5.tgz#6a31f820c1077c3f8ce44f9e203e68a176e8f59e"
-  integrity sha512-Bq7G3AErwe5A/Zki5fdD3O6+0zDChhg671NfPjtIcbtzDNZTv4NPKMRFr7gtYPG7y+B8uTiNK4Ngd9T0FTar6Q==
+  version "18.11.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.0.tgz#f38c7139247a1d619f6cc6f27b072606af7c289d"
+  integrity sha512-IOXCvVRToe7e0ny7HpT/X9Rb2RYtElG1a+VshjwT00HxrM2dWBApHQoqsI6WiY7Q03vdf2bCrIGzVrkF/5t10w==
 
 "@types/ws@^8.5.3":
   version "8.5.3"
@@ -241,9 +241,9 @@ axios@^0.27.2:
     form-data "^4.0.0"
 
 axios@^1.0.0:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.1.2.tgz#8b6f6c540abf44ab98d9904e8daf55351ca4a331"
-  integrity sha512-bznQyETwElsXl2RK7HLLwb5GPpOLlycxHCtrpDR/4RqqBzjARaOTo3jz4IgtntWUYee7Ne4S8UHd92VCuzPaWA==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.1.3.tgz#8274250dada2edf53814ed7db644b9c2866c1e35"
+  integrity sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -515,9 +515,9 @@ fastify-plugin@^3.0.0:
   integrity sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA==
 
 fastify-plugin@^4.0.0:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.2.1.tgz#4b80020957938dbc44b8ad4a898fd8bcfbab3f65"
-  integrity sha512-dlGKiwLzRBKkEf5J5ho0uAD/Jdv8GQVUbriB3tAX3ehRUXE4gTV3lRd5inEg9li1aLzb0EGj8y2K4/8g1TN06g==
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.3.0.tgz#c6eaa87a7a0d6d1d16129e43e31d6bc1d8868e53"
+  integrity sha512-M3+i368lV0OYTJ5TfClIoPKEKSOF7112iiPdwgfSR0gN98BjA1Nk+c6oBHtfcVt9KiMxl+EQKHC1QNWo3ZOpYQ==
 
 fastify@^4.3.0:
   version "4.8.1"
