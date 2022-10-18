@@ -3,9 +3,9 @@
 
 
 "@consumet/extensions@^1.1.2":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.1.8.tgz#e2ea2979d0f5a673093308b894cfa26a61a83a17"
-  integrity sha512-duDcVWQD4EbGHNFWYhIpDsjkRChhbbnyAZnn3HhdwR1K7LmyEq/WMdd+imOyvhVhSO5TPAvrx9bvbb3Z3hvoHw==
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.1.9.tgz#15b0c5c6429e4ec0a49fa01c3f4af05ca0d5c6a2"
+  integrity sha512-PkPIicmLr4u2sXagbz/9+bT4AysFV5xYxoTXQpPeeQcu7IfQgeIfN2pGsL5YtRgg93mXIpKIMGXqlBvB41XdtQ==
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -520,9 +520,9 @@ fastify-plugin@^4.0.0:
   integrity sha512-M3+i368lV0OYTJ5TfClIoPKEKSOF7112iiPdwgfSR0gN98BjA1Nk+c6oBHtfcVt9KiMxl+EQKHC1QNWo3ZOpYQ==
 
 fastify@^4.3.0:
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.8.1.tgz#45a341daa47e87e295ede5de31868ced2a1728c5"
-  integrity sha512-3an6yyXg7j5XPHTRxgFqUwIRaJPR7F8OPR8Uboo0SIgHx1orOqc9Y8Sl5Kz8+xK7JCy3c3mfRujskDjMu/nFfA==
+  version "4.9.2"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.9.2.tgz#0f5cfb3e1960320a9cae920efb59c3605c5577c7"
+  integrity sha512-Mk3hv7ZRet2huMYN6IJ8RGy1TAAC7LJsCEjxLf808zafAADNu43xRzbl7FSEIBxKyhntTM0F626Oc34LUNcUxQ==
   dependencies:
     "@fastify/ajv-compiler" "^3.3.1"
     "@fastify/error" "^3.0.0"
