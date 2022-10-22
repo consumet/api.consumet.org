@@ -4,11 +4,13 @@ import { PROVIDERS_LIST } from '@consumet/extensions';
 import mangadex from './mangadex';
 import mangahere from './mangahere';
 import mangakakalot from './mangakakalot';
+import mangasee123 from './mangasee123';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(mangadex, { prefix: '/' });
   await fastify.register(mangahere, { prefix: '/' });
   await fastify.register(mangakakalot, { prefix: '/' });
+  await fastify.register(mangasee123, { prefix: '/' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Manga');

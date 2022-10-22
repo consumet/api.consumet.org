@@ -21,7 +21,7 @@
     },
     "homepage": "https://github.com/consumet/consumet.ts#readme",
     "dependencies": {
-        "@consumet/extensions": "^1.1.2",
+        "@consumet/extensions": "^1.2.1",
         "@fastify/cors": "^8.1.0",
         "@types/fastify-cors": "^2.1.0",
         "@types/node": "^18.7.10",
