@@ -25,9 +25,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/anilist-manga/info',
+    '/anilist-manga/info/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const id = (request.query as { id: string }).id;
+      const id = (request.params as { id: string }).id;
       const provider = (request.query as { provider: string }).provider;
 
       if (typeof provider !== 'undefined') {
