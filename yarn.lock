@@ -3,9 +3,9 @@
 
 
 "@consumet/extensions@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.2.1.tgz#8c5003d751443b6675ccba6fd88295952916c615"
-  integrity sha512-YfzDRdn6IrPK0je0l2gPa2+TVuS9VHE6hC1MwsmeKV5Nw9Dv4m/8XVcoyQZ1ux37bVQGtX1kcNlIQzg3T3OKkQ==
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.2.2.tgz#214d1df0f52a6ab8638271b80515b3bfc4317299"
+  integrity sha512-VyT+QNNC2OBuMcZGppsbJ4l4pg3yLDCQ2o+uaKhAtz26rLE+IduVIKdplrnbouwTzw2bClcmNVi+Q3p+DBH/0w==
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -169,9 +169,9 @@ acorn-walk@^8.1.1:
   integrity sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==
 
 acorn@^8.4.1:
-  version "8.8.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.0.tgz#88c0187620435c7f6015803f5539dae05a9dbea8"
-  integrity sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==
+  version "8.8.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.1.tgz#0a3f9cbecc4ec3bea6f0a80b66ae8dd2da250b73"
+  integrity sha512-7zFpHzhnqYKrkYdUjF1HI1bzd0VygEGX8lFk4k5zVMqHEoES+P+7TKI+EvLO9WVMJ8eekdO0aDEK044xTXwPPA==
 
 ajv-formats@^2.1.1:
   version "2.1.1"
@@ -1049,9 +1049,9 @@ vary@^1.1.2:
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
 ws@^8.8.1:
-  version "8.9.0"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.9.0.tgz#2a994bb67144be1b53fe2d23c53c028adeb7f45e"
-  integrity sha512-Ja7nszREasGaYUYCI2k4lCKIRTt+y7XuqVoHR44YpI49TtryyqbqvDMn5eqfW7e6HzTukDRIsXqzVHScqRcafg==
+  version "8.10.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.10.0.tgz#00a28c09dfb76eae4eb45c3b565f771d6951aa51"
+  integrity sha512-+s49uSmZpvtAsd2h37vIPy1RBusaLawVe8of+GyEPsaJTCMpj/2v8NpeK1SHXjBlQ95lQTmQofOJnFiLoaN3yw==
 
 yallist@4.0.0, yallist@^4.0.0:
   version "4.0.0"
