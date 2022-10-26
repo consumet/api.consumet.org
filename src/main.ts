@@ -31,7 +31,7 @@ import RapidCloud from './utils/rapid-cloud';
   await fastify.register(movies, { prefix: '/movies' });
   await fastify.register(meta, { prefix: '/meta' });
 
-  await fastify.register(new RapidCloud().returnSID, { prefix: '/utils' });
+  //await fastify.register(new RapidCloud().returnSID, { prefix: '/utils' });
 
   try {
     fastify.get('/', (_, rp) => {
