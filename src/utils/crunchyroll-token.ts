@@ -3,7 +3,7 @@ import axios from 'axios';
 class CrunchyrollManager {
   private readonly baseUrl = 'https://api.kamyroll.tech';
 
-  public token = undefined;
+  #token = undefined;
 
   static async create() {
     const instance = new CrunchyrollManager();
@@ -38,11 +38,11 @@ class CrunchyrollManager {
       }
     );
 
-    this.token = data.data.access_token;
+    this.#token = data.data.access_token;
   };
 
-  get returnToken() {
-    return this.token;
+  get token() {
+    return this.#token;
   }
 }
 

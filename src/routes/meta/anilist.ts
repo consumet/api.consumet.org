@@ -244,16 +244,16 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       else fetchFiller = false;
 
       try {
-        const res = await anilist
-          .fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean)
-          .catch((err) => reply.status(404).send({ message: err }));
+        const res = await anilist.fetchAnimeInfo(
+          id,
+          isDub as boolean,
+          fetchFiller as boolean
+        );
 
         anilist = new META.Anilist();
         reply.status(200).send(res);
-      } catch (err) {
-        reply
-          .status(500)
-          .send({ message: 'Something went wrong. Contact developer for help.' });
+      } catch (err: any) {
+        reply.status(500).send({ message: err.message });
       }
     }
   );
