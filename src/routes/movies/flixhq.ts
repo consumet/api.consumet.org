@@ -23,6 +23,22 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     reply.status(200).send(res);
   });
+  
+  
+  fastify.get('/flixhq/recent-shows', async (request: FastifyRequest, reply: FastifyReply) => {
+    const res = await flixhq.fetchRecentTvShows();
+
+    reply.status(200).send(res);
+  });
+
+  
+  
+  fastify.get('/flixhq/recent-movies', async (request: FastifyRequest, reply: FastifyReply) => {
+    const res = await flixhq.fetchRecentMovies();
+
+    reply.status(200).send(res);
+  });
+
 
   fastify.get('/flixhq/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
