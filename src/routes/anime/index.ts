@@ -9,6 +9,7 @@ import animixplay from './animixplay';
 import animefox from './animefox';
 import enime from './enime';
 import crunchyroll from './crunchyroll';
+import bilibili from './bilibili';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(gogoanime, { prefix: '/' });
@@ -19,6 +20,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(animefox, { prefix: '/' });
   await fastify.register(enime, { prefix: '/' });
   await fastify.register(crunchyroll, { prefix: '/' });
+  await fastify.register(bilibili, { prefix: '/' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Anime 🗾');

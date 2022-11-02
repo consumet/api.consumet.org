@@ -12,6 +12,7 @@ import movies from './routes/movies';
 import meta from './routes/meta';
 
 import RapidCloud from './utils/rapid-cloud';
+import BilibiliUtilis from './utils/bilibili';
 
 (async () => {
   const PORT = Number(process.env.PORT);
@@ -32,6 +33,8 @@ import RapidCloud from './utils/rapid-cloud';
   await fastify.register(meta, { prefix: '/meta' });
 
   //await fastify.register(new RapidCloud().returnSID, { prefix: '/utils' });
+  await fastify.register(new BilibiliUtilis('en_US').returnDASH, { prefix: '/utils' });
+  await fastify.register(new BilibiliUtilis('en_US').returnVTT, { prefix: '/utils' });
 
   try {
     fastify.get('/', (_, rp) => {
