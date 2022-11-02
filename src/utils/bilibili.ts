@@ -25,7 +25,7 @@ class BilibiliUtilis {
           if (!ss.data.data)
             return reply.status(404).send({ message: 'No sources found' });
 
-          const dash = new BilibiliExtractor().toDash(ss.data.data);
+          const dash = new BilibiliExtractor().toDash(ss.data.data.playurl);
 
           return reply.status(200).send(dash);
         } catch (err) {
