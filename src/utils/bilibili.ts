@@ -17,17 +17,23 @@ class BilibiliUtilis {
           return reply.status(400).send({ message: 'episodeId is required' });
 
         try {
+          // const ss = await axios.get(
+          //   `${this.sgProxy}/${this.apiUrl}/playurl?s_locale=${this.locale}&platform=web&ep_id=${episodeId}`,
+          //   { headers: { cookie: String(process.env.BILIBILI_COOKIE) } }
+          // );
           const ss = await axios.get(
-            `${this.sgProxy}/${this.apiUrl}/playurl?s_locale=${this.locale}&platform=web&ep_id=${episodeId}`,
+            `https://kaguya.app/server/source?episode_id=${episodeId}&source_media_id=1&source_id=bilibili`,
             { headers: { cookie: String(process.env.BILIBILI_COOKIE) } }
           );
+          //kaguya.app/server/source?episode_id=11560397&source_media_id=1&source_id=bilibili
           //console.log(ss.data);
-          if (!ss.data.data)
+          if (!ss.data.sources)
             return reply.status(404).send({ message: 'No sources found' });
 
-          const dash = new BilibiliExtractor().toDash(ss.data.data.playurl);
+          const dash = await axios.get(ss.data.sources[0].file);
+          //const dash = new BilibiliExtractor().toDash(ss.data.data.playurl);
 
-          return reply.status(200).send(dash);
+          return reply.status(200).send(dash.data);
         } catch (err) {
           console.log(err);
           reply
