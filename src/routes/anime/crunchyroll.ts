@@ -9,8 +9,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       rp.status(200).send('Crunchyroll routes not loaded. ACCESS_TOKEN not found.');
     });
   } else {
-    const crunchyrollManager = await CrunchyrollManager.create();
-    const crunchyroll = await ANIME.Crunchyroll.create('en-US', crunchyrollManager.token);
+    const crunchyroll = await ANIME.Crunchyroll.create(
+      'en-US',
+      (
+        global as typeof globalThis & {
+          CrunchyrollToken: string;
+        }
+      ).CrunchyrollToken
+    );
     fastify.get('/crunchyroll', (_, rp) => {
       rp.status(200).send({
         intro:
@@ -28,7 +34,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
         const crnchyroll = await ANIME.Crunchyroll.create(
           locale,
-          crunchyrollManager.token
+          (
+            global as typeof globalThis & {
+              CrunchyrollToken: string;
+            }
+          ).CrunchyrollToken
         );
         const res = await crnchyroll.search(query);
 
@@ -45,7 +55,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
         const crnchyroll = await ANIME.Crunchyroll.create(
           locale,
-          crunchyrollManager.token
+          (
+            global as typeof globalThis & {
+              CrunchyrollToken: string;
+            }
+          ).CrunchyrollToken
         );
 
         if (typeof id === 'undefined')

@@ -13,9 +13,17 @@ import meta from './routes/meta';
 
 import RapidCloud from './utils/rapid-cloud';
 import BilibiliUtilis from './utils/bilibili';
+import CrunchyrollManager from './utils/crunchyroll-token';
 
 (async () => {
   const PORT = Number(process.env.PORT);
+  if (process.env.ACCESS_TOKEN !== undefined)
+    (
+      global as typeof globalThis & {
+        CrunchyrollToken: string;
+      }
+    ).CrunchyrollToken = (await CrunchyrollManager.create()).token!;
+
   const fastify = Fastify({
     logger: true,
   });

@@ -1,6 +1,8 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
 import { Genres } from '@consumet/extensions/dist/models';
+import Crunchyroll from '@consumet/extensions/dist/providers/anime/crunchyroll';
+import CrunchyrollManager from '../../utils/crunchyroll-token';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let anilist = new META.Anilist();
@@ -187,12 +189,24 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const provider = (request.query as { provider?: string }).provider;
       let fetchFiller = (request.query as { fetchFiller?: string | boolean }).fetchFiller;
       let dub = (request.query as { dub?: string | boolean }).dub;
+      const locale = (request.query as { locale?: string }).locale;
 
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
-        anilist = new META.Anilist(possibleProvider);
+        if (possibleProvider instanceof Crunchyroll) {
+          anilist = new META.Anilist(
+            await Crunchyroll.create(
+              locale ?? 'en-US',
+              (
+                global as typeof globalThis & {
+                  CrunchyrollToken: string;
+                }
+              ).CrunchyrollToken
+            )
+          );
+        } else anilist = new META.Anilist(possibleProvider);
       }
 
       if (dub === 'true' || dub === '1') dub = true;
@@ -229,12 +243,24 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const provider = (request.query as { provider?: string }).provider;
       let fetchFiller = (request.query as { fetchFiller?: string | boolean }).fetchFiller;
       let isDub = (request.query as { dub?: string | boolean }).dub;
+      const locale = (request.query as { locale?: string }).locale;
 
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
-        anilist = new META.Anilist(possibleProvider);
+        if (possibleProvider instanceof Crunchyroll) {
+          anilist = new META.Anilist(
+            await Crunchyroll.create(
+              locale ?? 'en-US',
+              (
+                global as typeof globalThis & {
+                  CrunchyrollToken: string;
+                }
+              ).CrunchyrollToken
+            )
+          );
+        } else anilist = new META.Anilist(possibleProvider);
       }
 
       if (isDub === 'true' || isDub === '1') isDub = true;
