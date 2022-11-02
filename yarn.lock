@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@^1.2.1":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.2.3.tgz#1f140bb00d32e3b8dab98220dd49c5dd2d1e200f"
-  integrity sha512-dopczomoc71sahF+cLJpefOwOTWb3/sHRbAGPLF9mMT0aa2cZi5krRjyj4Sp2yuWphakj/LixhQjKRKepoWncw==
+"@consumet/extensions@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.2.5.tgz#7c636fae4fed7f20703b44a7dd8d563a67834c7b"
+  integrity sha512-MCbKhbpKC+d1eoHLiMpox4repfXaJYwnjOBcUydC+g7XBSo5rtxzcy48bqHLihLTJdD7/53iwPHNnH1OvfeN4A==
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
