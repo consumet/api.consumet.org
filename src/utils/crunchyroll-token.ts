@@ -39,6 +39,11 @@ class CrunchyrollManager {
     );
 
     this.#token = data.data.access_token;
+    (
+      global as typeof globalThis & {
+        CrunchyrollToken: string;
+      }
+    ).CrunchyrollToken = this.#token;
   };
 
   get token() {
