@@ -306,7 +306,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
-        anilist = new META.Anilist(possibleProvider);
+        if (possibleProvider instanceof Crunchyroll) {
+          anilist = new META.Anilist(
+            await Crunchyroll.create(
+              locale ?? 'en-US',
+              (
+                global as typeof globalThis & {
+                  CrunchyrollToken: string;
+                }
+              ).CrunchyrollToken
+            )
+          );
+        } else anilist = new META.Anilist(possibleProvider);
       }
       try {
         const res = await anilist
