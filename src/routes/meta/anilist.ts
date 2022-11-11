@@ -309,7 +309,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         if (possibleProvider instanceof Crunchyroll) {
           anilist = new META.Anilist(
             await Crunchyroll.create(
-              locale ?? 'en-US',
+               'en-US',
               (
                 global as typeof globalThis & {
                   CrunchyrollToken: string;
