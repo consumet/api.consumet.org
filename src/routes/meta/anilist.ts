@@ -50,6 +50,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const year = (request.query as { year: number }).year;
       const season = (request.query as { season: string }).season;
 
+      anilist = new META.Anilist(
+        undefined,
+        typeof process.env.PROXIES !== 'undefined'
+          ? {
+              url: JSON.parse(process.env.PROXIES!)[
+                Math.random() * JSON.parse(process.env.PROXIES!).length
+              ],
+            }
+          : undefined
+      );
+
       if (genres) {
         JSON.parse(genres as string).forEach((genre: string) => {
           if (!Object.values(Genres).includes(genre as Genres)) {
@@ -90,6 +101,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
 
+      anilist = new META.Anilist(
+        undefined,
+        typeof process.env.PROXIES !== 'undefined'
+          ? {
+              url: JSON.parse(process.env.PROXIES!)[
+                Math.random() * JSON.parse(process.env.PROXIES!).length
+              ],
+            }
+          : undefined
+      );
+
       const res = await anilist.fetchTrendingAnime(page, perPage);
 
       reply.status(200).send(res);
@@ -101,6 +123,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
+
+      anilist = new META.Anilist(
+        undefined,
+        typeof process.env.PROXIES !== 'undefined'
+          ? {
+              url: JSON.parse(process.env.PROXIES!)[
+                Math.random() * JSON.parse(process.env.PROXIES!).length
+              ],
+            }
+          : undefined
+      );
 
       const res = await anilist.fetchPopularAnime(page, perPage);
 
@@ -133,6 +166,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     const genres = (request.query as { genres: string }).genres;
     const page = (request.query as { page: number }).page;
     const perPage = (request.query as { perPage: number }).perPage;
+
+    anilist = new META.Anilist(
+      undefined,
+      typeof process.env.PROXIES !== 'undefined'
+        ? {
+            url: JSON.parse(process.env.PROXIES!)[
+              Math.random() * JSON.parse(process.env.PROXIES!).length
+            ],
+          }
+        : undefined
+    );
 
     if (typeof genres === 'undefined')
       return reply.status(400).send({ message: 'genres is required' });
