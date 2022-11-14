@@ -2,10 +2,18 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
 import { Genres } from '@consumet/extensions/dist/models';
 import Crunchyroll from '@consumet/extensions/dist/providers/anime/crunchyroll';
-import CrunchyrollManager from '../../utils/crunchyroll-token';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  let anilist = new META.Anilist();
+  let anilist = new META.Anilist(
+    undefined,
+    typeof process.env.PROXIES !== 'undefined'
+      ? {
+          url: JSON.parse(process.env.PROXIES!)[
+            Math.random() * JSON.parse(process.env.PROXIES!).length
+          ],
+        }
+      : undefined
+  );
 
   fastify.get('/anilist', (_, rp) => {
     rp.status(200).send({
@@ -172,7 +180,16 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
-        anilist = new META.Anilist(possibleProvider);
+        anilist = new META.Anilist(
+          possibleProvider,
+          typeof process.env.PROXIES !== 'undefined'
+            ? {
+                url: JSON.parse(process.env.PROXIES!)[
+                  Math.random() * JSON.parse(process.env.PROXIES!).length
+                ],
+              }
+            : undefined
+        );
       }
 
       const res = await anilist.fetchEpisodeServers(id);
@@ -204,9 +221,26 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
                   CrunchyrollToken: string;
                 }
               ).CrunchyrollToken
-            )
+            ),
+            typeof process.env.PROXIES !== 'undefined'
+              ? {
+                  url: JSON.parse(process.env.PROXIES!)[
+                    Math.random() * JSON.parse(process.env.PROXIES!).length
+                  ],
+                }
+              : undefined
           );
-        } else anilist = new META.Anilist(possibleProvider);
+        } else
+          anilist = new META.Anilist(
+            possibleProvider,
+            typeof process.env.PROXIES !== 'undefined'
+              ? {
+                  url: JSON.parse(process.env.PROXIES!)[
+                    Math.random() * JSON.parse(process.env.PROXIES!).length
+                  ],
+                }
+              : undefined
+          );
       }
 
       if (dub === 'true' || dub === '1') dub = true;
@@ -217,7 +251,16 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
       const res = await anilist.fetchEpisodesListById(id, dub, fetchFiller as boolean);
 
-      anilist = new META.Anilist();
+      anilist = new META.Anilist(
+        undefined,
+        typeof process.env.PROXIES !== 'undefined'
+          ? {
+              url: JSON.parse(process.env.PROXIES!)[
+                Math.random() * JSON.parse(process.env.PROXIES!).length
+              ],
+            }
+          : undefined
+      );
       reply.status(200).send(res);
     }
   );
@@ -258,9 +301,26 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
                   CrunchyrollToken: string;
                 }
               ).CrunchyrollToken
-            )
+            ),
+            typeof process.env.PROXIES !== 'undefined'
+              ? {
+                  url: JSON.parse(process.env.PROXIES!)[
+                    Math.random() * JSON.parse(process.env.PROXIES!).length
+                  ],
+                }
+              : undefined
           );
-        } else anilist = new META.Anilist(possibleProvider);
+        } else
+          anilist = new META.Anilist(
+            possibleProvider,
+            typeof process.env.PROXIES !== 'undefined'
+              ? {
+                  url: JSON.parse(process.env.PROXIES!)[
+                    Math.random() * JSON.parse(process.env.PROXIES!).length
+                  ],
+                }
+              : undefined
+          );
       }
 
       if (isDub === 'true' || isDub === '1') isDub = true;
@@ -276,7 +336,16 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           fetchFiller as boolean
         );
 
-        anilist = new META.Anilist();
+        anilist = new META.Anilist(
+          undefined,
+          typeof process.env.PROXIES !== 'undefined'
+            ? {
+                url: JSON.parse(process.env.PROXIES!)[
+                  Math.random() * JSON.parse(process.env.PROXIES!).length
+                ],
+              }
+            : undefined
+        );
         reply.status(200).send(res);
       } catch (err: any) {
         reply.status(500).send({ message: err.message });
@@ -309,22 +378,48 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         if (possibleProvider instanceof Crunchyroll) {
           anilist = new META.Anilist(
             await Crunchyroll.create(
-               'en-US',
+              'en-US',
               (
                 global as typeof globalThis & {
                   CrunchyrollToken: string;
                 }
               ).CrunchyrollToken
-            )
+            ),
+            typeof process.env.PROXIES !== 'undefined'
+              ? {
+                  url: JSON.parse(process.env.PROXIES!)[
+                    Math.random() * JSON.parse(process.env.PROXIES!).length
+                  ],
+                }
+              : undefined
           );
-        } else anilist = new META.Anilist(possibleProvider);
+        } else
+          anilist = new META.Anilist(
+            possibleProvider,
+            typeof process.env.PROXIES !== 'undefined'
+              ? {
+                  url: JSON.parse(process.env.PROXIES!)[
+                    Math.random() * JSON.parse(process.env.PROXIES!).length
+                  ],
+                }
+              : undefined
+          );
       }
       try {
         const res = await anilist
           .fetchEpisodeSources(episodeId)
           .catch((err) => reply.status(404).send({ message: err }));
 
-        anilist = new META.Anilist();
+        anilist = new META.Anilist(
+          undefined,
+          typeof process.env.PROXIES !== 'undefined'
+            ? {
+                url: JSON.parse(process.env.PROXIES!)[
+                  Math.random() * JSON.parse(process.env.PROXIES!).length
+                ],
+              }
+            : undefined
+        );
         reply.status(200).send(res);
       } catch (err) {
         reply
