@@ -520,9 +520,9 @@ fastify-plugin@^4.0.0:
   integrity sha512-M3+i368lV0OYTJ5TfClIoPKEKSOF7112iiPdwgfSR0gN98BjA1Nk+c6oBHtfcVt9KiMxl+EQKHC1QNWo3ZOpYQ==
 
 fastify@^4.3.0:
-  version "4.9.2"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.9.2.tgz#0f5cfb3e1960320a9cae920efb59c3605c5577c7"
-  integrity sha512-Mk3hv7ZRet2huMYN6IJ8RGy1TAAC7LJsCEjxLf808zafAADNu43xRzbl7FSEIBxKyhntTM0F626Oc34LUNcUxQ==
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.10.0.tgz#9edc2bffcd36875aef2243f3d7d1fe6486610f6a"
+  integrity sha512-8yQPT+c/EbETjNxwM9PHeu2U4eXMoXTva0L9zoVgv7/ZCBtovWpfK4RKexhyh5Va3Jg82HovnfCxoZmwcZDfsQ==
   dependencies:
     "@fastify/ajv-compiler" "^3.3.1"
     "@fastify/error" "^3.0.0"
@@ -537,7 +537,7 @@ fastify@^4.3.0:
     rfdc "^1.3.0"
     secure-json-parse "^2.5.0"
     semver "^7.3.7"
-    tiny-lru "^9.0.2"
+    tiny-lru "^10.0.0"
 
 fastq@^1.6.1:
   version "1.13.0"
@@ -768,9 +768,9 @@ parse5-htmlparser2-tree-adapter@^7.0.0:
     parse5 "^7.0.0"
 
 parse5@^7.0.0:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/parse5/-/parse5-7.1.1.tgz#4649f940ccfb95d8754f37f73078ea20afe0c746"
-  integrity sha512-kwpuwzB+px5WUg9pyK0IcK/shltJN5/OVhQagxhCQNtT9Y9QRZqNY2e1cmbu/paRh5LMnz/oVTVLBpjFmMZhSg==
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-7.1.2.tgz#0736bebbfd77793823240a23b7fc5e010b7f8e32"
+  integrity sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==
   dependencies:
     entities "^4.4.0"
 
@@ -983,10 +983,10 @@ thread-stream@^2.0.0:
   dependencies:
     real-require "^0.2.0"
 
-tiny-lru@^9.0.2:
-  version "9.0.3"
-  resolved "https://registry.yarnpkg.com/tiny-lru/-/tiny-lru-9.0.3.tgz#f6a2121f433607a7f338881a23090829c1ea8cae"
-  integrity sha512-/i9GruRjXsnDgehxvy6iZ4AFNVxngEFbwzirhdulomMNPGPVV3ECMZOWSw0w4sRMZ9Al9m4jy08GPvRxRUGYlw==
+tiny-lru@^10.0.0:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/tiny-lru/-/tiny-lru-10.0.1.tgz#aaf5d22207e641ed1b176ac2e616d6cc2fc9ef66"
+  integrity sha512-Vst+6kEsWvb17Zpz14sRJV/f8bUWKhqm6Dc+v08iShmIJ/WxqWytHzCTd6m88pS33rE2zpX34TRmOpAJPloNCA==
 
 to-regex-range@^5.0.1:
   version "5.0.1"
