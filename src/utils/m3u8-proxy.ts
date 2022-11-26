@@ -5,6 +5,7 @@ import { decode } from 'punycode';
 
 class M3U8Proxy {
   private streamsbDomain: string = '';
+
   private getM3U8 = async (
     url: string,
     options: RequestInit | undefined
@@ -53,7 +54,10 @@ class M3U8Proxy {
         }
       );
       //const decodedData = Buffer.from(data, 'binary').toString('utf8');
-      reply.header('Content-Type', 'application/x-mpegURL');
+      reply.header(
+        'Content-Type',
+        decodedUrl.startsWith('https') ? 'application/x-mpegURL' : 'video/mp2t'
+      );
       reply.header('Access-Control-Allow-Origin', '*');
       reply.send(data);
     });
