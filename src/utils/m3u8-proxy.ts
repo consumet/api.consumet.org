@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 
 class M3U8Proxy {
-  private getM3U8 = async (url: string, options: {}): Promise<string> => {
+  private getM3U8 = async (url: string, options: AxiosRequestConfig): Promise<string> => {
     const data = await axios.get(url, options);
 
     return data.data;
@@ -27,6 +27,7 @@ class M3U8Proxy {
             'User-Agent':
               'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.35',
           },
+          responseType: 'arraybuffer',
         })
       );
     });
