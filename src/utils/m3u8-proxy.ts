@@ -41,7 +41,7 @@ class M3U8Proxy {
             this.streamsbDomain +
               decodeURIComponent(url) +
               '?' +
-              this.toQueryString(request.query),
+              this.toQueryString(request.params),
             {
               headers: {
                 'User-Agent':
