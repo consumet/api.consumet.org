@@ -56,7 +56,7 @@ class M3U8Proxy {
       //const decodedData = Buffer.from(data, 'binary').toString('utf8');
       reply.header(
         'Content-Type',
-        decodedUrl.startsWith('https') ? 'application/x-mpegURL' : 'video/mp2t'
+        decodedUrl.startsWith('https') ? 'application/vnd.apple.mpegurl' : 'video/mp2t'
       );
       reply.header('Access-Control-Allow-Origin', '*');
       reply.send(data);
