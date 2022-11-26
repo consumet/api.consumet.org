@@ -1,13 +1,7 @@
-// watchsb:"streamsb"
-// "User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.35"
-// Referer:"https://streamsss.net/e/zvjhho8caznt.html"
-
 import axios from 'axios';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 
 class M3U8Proxy {
-  #image = undefined;
-
   private getM3U8 = async (url: string, options: {}): Promise<string> => {
     const data = await axios.get(url, {
       ...options,
@@ -16,7 +10,7 @@ class M3U8Proxy {
     return data.data;
   };
 
-  public getImageProxy = async (fastify: FastifyInstance, options: RegisterOptions) => {
+  public getM3U8Proxy = async (fastify: FastifyInstance, options: RegisterOptions) => {
     fastify.get('/m3u8-proxy', async (request: FastifyRequest, reply: FastifyReply) => {
       const { url } = request.query as { url: string };
       // get headers from the query
@@ -41,4 +35,4 @@ class M3U8Proxy {
   };
 }
 
-export default ImageProxy;
+export default M3U8Proxy;

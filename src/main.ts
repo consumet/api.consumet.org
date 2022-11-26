@@ -15,6 +15,7 @@ import RapidCloud from './utils/rapid-cloud';
 import BilibiliUtilis from './utils/bilibili';
 import CrunchyrollManager from './utils/crunchyroll-token';
 import ImageProxy from './utils/image-proxy';
+import M3U8Proxy from './utils/m3u8-proxy';
 
 (async () => {
   const PORT = Number(process.env.PORT);
@@ -45,6 +46,7 @@ import ImageProxy from './utils/image-proxy';
   await fastify.register(new BilibiliUtilis('en_US').returnDASH, { prefix: '/utils' });
   await fastify.register(new BilibiliUtilis('en_US').returnVTT, { prefix: '/utils' });
   await fastify.register(new ImageProxy().getImageProxy, { prefix: '/utils' });
+  await fastify.register(new M3U8Proxy().getM3U8Proxy, { prefix: '/utils' });
 
   try {
     fastify.get('/', (_, rp) => {
