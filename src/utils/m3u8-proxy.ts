@@ -21,7 +21,7 @@ class M3U8Proxy {
 
       // return the image
       reply.send(
-        await this.getM3U8(url, {
+        await this.getM3U8(JSON.parse(url)[0], {
           headers: {
             referer: referer,
             'User-Agent':
