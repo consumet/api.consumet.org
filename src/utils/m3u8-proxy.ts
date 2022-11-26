@@ -9,9 +9,9 @@ class M3U8Proxy {
   private getM3U8 = async (
     url: string,
     options: RequestInit | undefined
-  ): Promise<string> => {
+  ): Promise<any> => {
     const data = await fetch(url, options);
-    const text = await data.text();
+    const text = await data.buffer();
 
     return text;
   };
@@ -59,6 +59,9 @@ class M3U8Proxy {
         decodedUrl.startsWith('https') ? 'application/vnd.apple.mpegurl' : 'video/mp2t'
       );
       reply.header('Access-Control-Allow-Origin', '*');
+      reply.header('Access-Control-Allow-Headers', '*');
+      reply.header('Access-Control-Allow-Methods', '*');
+
       reply.send(data);
     });
   };
