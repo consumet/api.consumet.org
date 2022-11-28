@@ -3,16 +3,15 @@
 
 
 "@consumet/extensions@^1.2.1":
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.2.8.tgz#517c8eb35af8509a94a0beaba2038bb57c2f979b"
-  integrity sha512-peswGT0bs60uNBFffP6FIc3WmaGBxgpBCksEp4l2nD8kO4QXTMIQU8or7vDa8ThVAwReeoSYWg1+A38d7K/HoA==
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.2.9.tgz#fae79de507bdaae9f42713e488e9ed4b68b66426"
+  integrity sha512-sQscaXgEJFFrNtDyBA1c3kKU+lZOYNy4WgYL+tuH6CL1WTy7ayqDpvlSHcDDqg/n4Mmysqt9E/K0kCal4lfZqw==
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
     cheerio "^1.0.0-rc.11"
     crypto-js "^4.1.1"
     form-data "^4.0.0"
-    ws "^8.8.1"
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
