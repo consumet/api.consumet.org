@@ -27,7 +27,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   );
 
-  fastify.get('/viewAsian/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/viewasian/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
@@ -50,7 +50,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get(
-    '/viewAsian/watch',
+    '/viewasian/watch',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.query as { episodeId: string }).episodeId;
       const server = (request.query as { server: StreamingServers }).server;
