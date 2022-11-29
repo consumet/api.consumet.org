@@ -17,6 +17,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         }
       ).CrunchyrollToken
     );
+    console.log(
+      (
+        global as typeof globalThis & {
+          CrunchyrollToken: string;
+        }
+      ).CrunchyrollToken
+    );
     fastify.get('/crunchyroll', (_, rp) => {
       rp.status(200).send({
         intro:

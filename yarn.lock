@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@^1.2.1":
+"@consumet/extensions@^1.2.9":
   version "1.2.9"
   resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.2.9.tgz#fae79de507bdaae9f42713e488e9ed4b68b66426"
   integrity sha512-sQscaXgEJFFrNtDyBA1c3kKU+lZOYNy4WgYL+tuH6CL1WTy7ayqDpvlSHcDDqg/n4Mmysqt9E/K0kCal4lfZqw==

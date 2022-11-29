@@ -2,9 +2,11 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 import { PROVIDERS_LIST } from '@consumet/extensions';
 
 import flixhq from './flixhq';
+import viewasian from './viewasian';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(flixhq, { prefix: '/' });
+  await fastify.register(viewasian, { prefix: '/' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Movies and TV Shows');
