@@ -24,7 +24,7 @@
         "@consumet/extensions": "^1.2.9",
         "@fastify/cors": "^8.1.0",
         "@types/fastify-cors": "^2.1.0",
-        "@types/node": "^18.7.10",
+        "@types/node": "^18.11.10",
         "@types/node-fetch": "^2.6.2",
         "@types/ws": "^8.5.3",
         "axios": "^1.0.0",
