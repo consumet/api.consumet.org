@@ -3,9 +3,9 @@
 
 
 "@consumet/extensions@^1.2.9":
-  version "1.2.10"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.2.10.tgz#a6514d74136c7f967be1510cfb637f574f177a41"
-  integrity sha512-HnHaEE/1sCqxzvroM3XqF66EOCMb6Zqv8C5VspkDiDIlwg2j+RP+0ppaIow2sfwl6gl5u88QAviP1LyRpPk1aQ==
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.2.11.tgz#98cf6a8a069233d119f92113df6d6c5c786a2acf"
+  integrity sha512-wONo26xHn95/LyLymqhExTS/QmaY7Q6Quocx27kMq+gCNaJL1C8/Jjarw+TKmgNHlF81ZlC9+ZeLTAHEH9MeOA==
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -43,9 +43,9 @@
   integrity sha512-pfBLfEykO5uqw5cIzGD24sPfbsLfjESIQSe8oqbcMpodUwO2swPQGvuhdD137+n/1WiSH24vq3z3th2ErFbxVg==
 
 "@fastify/error@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@fastify/error/-/error-3.0.0.tgz#bfcb7b33cec0196413083a91ef2edc7b2c88455b"
-  integrity sha512-dPRyT40GiHRzSCll3/Jn2nPe25+E1VXc9tDwRAIKwFCxd5Np5wzgz1tmooWG3sV0qKgrBibihVoCna2ru4SEFg==
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@fastify/error/-/error-3.1.0.tgz#e29376f7ec522a8abecbe7dc04756e92089b73ae"
+  integrity sha512-jmk3Q822+xi8jVzGsux3mWd+9O4rzVUGCqR2+JlF9LkCeeUmRdxPd2Je6S7IGMk5VTtB0xyB3crRQqklUyQ6dQ==
 
 "@fastify/fast-json-stringify-compiler@^4.1.0":
   version "4.1.0"
@@ -527,9 +527,9 @@ fastify-plugin@^3.0.0:
   integrity sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA==
 
 fastify-plugin@^4.0.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.3.0.tgz#c6eaa87a7a0d6d1d16129e43e31d6bc1d8868e53"
-  integrity sha512-M3+i368lV0OYTJ5TfClIoPKEKSOF7112iiPdwgfSR0gN98BjA1Nk+c6oBHtfcVt9KiMxl+EQKHC1QNWo3ZOpYQ==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.4.0.tgz#ce9fab1352390199c3d55569fea43779699b58ae"
+  integrity sha512-ovwFQG2qNy3jcCROiWpr94Hs0le+c7N/3t7m9aVwbFhkxcR/esp2xu25dP8e617HpQdmeDv+gFX4zagdUhDByw==
 
 fastify@^4.3.0:
   version "4.10.2"
@@ -553,9 +553,9 @@ fastify@^4.3.0:
     tiny-lru "^10.0.0"
 
 fastq@^1.6.1:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/fastq/-/fastq-1.13.0.tgz#616760f88a7526bdfc596b7cab8c18938c36b98c"
-  integrity sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/fastq/-/fastq-1.14.0.tgz#107f69d7295b11e0fccc264e1fc6389f623731ce"
+  integrity sha512-eR2D+V9/ExcbF9ls441yIuN6TI2ED1Y2ZcA5BmMtJsOkWOFRJQ0Jt0g1UwqXJJVAb+V+umH5Dfr8oh4EVP7VVg==
   dependencies:
     reusify "^1.0.4"
 
