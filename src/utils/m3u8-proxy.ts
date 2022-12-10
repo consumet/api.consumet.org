@@ -1,19 +1,11 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import fetch, { RequestInit } from 'node-fetch';
-import { decode } from 'punycode';
 
 class M3U8Proxy {
-  private streamsbDomain: string = '';
+  private getM3U8 = async (url: string, options: AxiosRequestConfig): Promise<any> => {
+    const data = await axios.get(url, options);
 
-  private getM3U8 = async (
-    url: string,
-    options: RequestInit | undefined
-  ): Promise<any> => {
-    const data = await fetch(url, options);
-    const text = await data.buffer();
-
-    return text;
+    return data.data;
   };
 
   private toQueryString = (obj: any) => {
@@ -49,14 +41,15 @@ class M3U8Proxy {
           headers: {
             'User-Agent':
               'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.35',
-            watchsb: 'sbstream',
+            watchsb: 'streamsb',
           },
         }
       );
+
       //const decodedData = Buffer.from(data, 'binary').toString('utf8');
       reply.header(
         'Content-Type',
-        decodedUrl.startsWith('https') ? 'application/x-mpegURL' : 'video/mp2t'
+        decodedUrl.startsWith('https') ? 'application/vnd.apple.mpegurl' : 'video/mp2t'
       );
       reply.header('Access-Control-Allow-Origin', '*');
       reply.header('Access-Control-Allow-Headers', '*');
