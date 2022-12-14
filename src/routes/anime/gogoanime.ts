@@ -53,6 +53,24 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
+    '/gogoanime/genre/:genre', 
+    async (request: FastifyRequest, reply: FastifyReply) => {
+        const genre = (request.params as { genre: string }).genre
+        const page = (request.query as { page: number }).page
+
+        try {
+            const res = await gogoanime
+            .fetchGenreInfo(genre, page)
+            .catch((err) => reply.status(404).send({ message: err }))
+            reply.status(200).send(res);
+        } catch {
+            reply
+            .status(500)
+            .send({ message: "Something went wrong. Please try again later."})
+        }
+    })
+
+  fastify.get(
     '/gogoanime/watch/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
