@@ -26,7 +26,7 @@
         "@types/fastify-cors": "^2.1.0",
         "@types/node": "^18.7.10",
         "@types/ws": "^8.5.3",
-        "axios": "^0.27.2",
+        "axios": "^1.2.1",
         "cheerio": "^1.0.0-rc.11",
         "dotenv": "^16.0.1",
         "fastify": "^4.3.0",
