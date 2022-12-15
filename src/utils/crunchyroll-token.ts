@@ -17,7 +17,7 @@ class CrunchyrollManager {
 
       setInterval(async () => {
         await this.fetchToken();
-      }, 8.28e7);
+      }, 3.6e6);
     } catch (err) {
       console.log(err);
     }
