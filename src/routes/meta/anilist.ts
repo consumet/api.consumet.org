@@ -381,7 +381,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       else fetchFiller = false;
 
       try {
-const res = await cache.fetch(
+        const res = await cache.fetch(
           `anilist:info;${id};${isDub};${fetchFiller};${provider ?? 'gogoanime'}`,
           async () =>
             anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean),
