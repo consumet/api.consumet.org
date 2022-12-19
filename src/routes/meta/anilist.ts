@@ -1,8 +1,10 @@
+import { Redis } from 'ioredis';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
 import { Genres } from '@consumet/extensions/dist/models';
 import Crunchyroll from '@consumet/extensions/dist/providers/anime/crunchyroll';
 import cache from '../../utils/cache';
+import { redis } from '../../main';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let anilist = new META.Anilist(
     undefined,
@@ -111,13 +113,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             }
           : undefined
       );
-
-      const res = cache.fetch(
-        `anilist:trending`,
-        async () => await anilist.fetchTrendingAnime(page, perPage),
-        60 * 60
-      );
-      reply.status(200).send(await res);
+      redis
+        ? reply
+            .status(200)
+            .send(
+              await cache.fetch(
+                redis as Redis,
+                `anilist:trending`,
+                async () => await anilist.fetchTrendingAnime(page, perPage),
+                60 * 60
+              )
+            )
+        : reply.status(200).send(await anilist.fetchTrendingAnime(page, perPage));
     }
   );
 
@@ -138,12 +145,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           : undefined
       );
 
-      const res = cache.fetch(
-        'anilist:popular',
-        async () => await anilist.fetchPopularAnime(page, perPage),
-        60 * 60
-      );
-      reply.status(200).send(await res);
+      redis
+        ? reply
+            .status(200)
+            .send(
+              await cache.fetch(
+                redis as Redis,
+                'anilist:popular',
+                async () => await anilist.fetchPopularAnime(page, perPage),
+                60 * 60
+              )
+            )
+        : reply.status(200).send(await anilist.fetchPopularAnime(page, perPage));
     }
   );
 
@@ -381,14 +394,23 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       else fetchFiller = false;
 
       try {
-        const res = cache.fetch(
-          `anilist:info;${id};${isDub};${fetchFiller};${provider ?? 'gogoanime'}`,
-          async () =>
-            anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean),
-          dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
-        );
-
-        reply.status(200).send(await res);
+        redis
+          ? reply
+              .status(200)
+              .send(
+                await cache.fetch(
+                  redis as Redis,
+                  `anilist:info;${id};${isDub};${fetchFiller};${provider ?? 'gogoanime'}`,
+                  async () =>
+                    anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean),
+                  dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
+                )
+              )
+          : reply
+              .status(200)
+              .send(
+                await anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean)
+              );
 
         anilist = new META.Anilist(
           undefined,

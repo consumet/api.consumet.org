@@ -1,5 +1,6 @@
 require('dotenv').config();
-
+import Redis from 'ioredis';
+export const redis = process.env.REDIS_URL && new Redis(`${process.env.REDIS_URL}`);
 import Fastify from 'fastify';
 import FastifyCors from '@fastify/cors';
 
@@ -19,6 +20,7 @@ import M3U8Proxy from './utils/m3u8-proxy';
 
 (async () => {
   const PORT = Number(process.env.PORT) || 3000;
+
   if (process.env.ACCESS_TOKEN !== undefined)
     (
       global as typeof globalThis & {
