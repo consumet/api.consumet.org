@@ -2,7 +2,7 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
 import { Genres } from '@consumet/extensions/dist/models';
 import Crunchyroll from '@consumet/extensions/dist/providers/anime/crunchyroll';
-
+import cache from '../../utils/cache';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let anilist = new META.Anilist(
     undefined,
@@ -112,9 +112,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           : undefined
       );
 
-      const res = await anilist.fetchTrendingAnime(page, perPage);
-
-      reply.status(200).send(res);
+      const resFetcher = async () => {
+        const res = await anilist.fetchTrendingAnime(page, perPage);
+        return res;
+      };
+      const res = cache.fetch(`anilist:trending`, resFetcher, 60 * 60);
+      reply.status(200).send(await res);
     }
   );
 
@@ -135,9 +138,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           : undefined
       );
 
-      const res = await anilist.fetchPopularAnime(page, perPage);
-
-      reply.status(200).send(res);
+      const resFetcher = async () => {
+        const res = await anilist.fetchPopularAnime(page, perPage);
+        return res;
+      };
+      const res = cache.fetch('anilist:popular', resFetcher, 60 * 60);
+      reply.status(200).send(await res);
     }
   );
 
@@ -326,16 +332,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/anilist/info/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
-
+      const today = new Date();
+      const dayOfWeek = today.getDay();
       const provider = (request.query as { provider?: string }).provider;
       let fetchFiller = (request.query as { fetchFiller?: string | boolean }).fetchFiller;
       let isDub = (request.query as { dub?: string | boolean }).dub;
       const locale = (request.query as { locale?: string }).locale;
-
+      console.log(`${provider}`);
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
+
         if (possibleProvider instanceof Crunchyroll) {
           anilist = new META.Anilist(
             await Crunchyroll.create(
@@ -354,7 +362,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
                 }
               : undefined
           );
-        } else
+        } else {
+          console.log('PP:', possibleProvider);
           anilist = new META.Anilist(
             possibleProvider,
             typeof process.env.PROXIES !== 'undefined'
@@ -365,6 +374,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
                 }
               : undefined
           );
+        }
       }
 
       if (isDub === 'true' || isDub === '1') isDub = true;
@@ -374,12 +384,32 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       else fetchFiller = false;
 
       try {
-        const res = await anilist.fetchAnimeInfo(
-          id,
-          isDub as boolean,
-          fetchFiller as boolean
-        );
+        const resFetcher = async () => {
+          const res = await anilist.fetchAnimeInfo(
+            id,
+            isDub as boolean,
+            fetchFiller as boolean
+          );
+          return res;
+        };
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+          const res = cache.fetch(
+            `anilist:info;${id};${isDub};${fetchFiller};${provider ?? 'gogoanime'}`,
+            resFetcher,
+            // 2hrs
+            60 * 120
+          );
 
+          reply.status(200).send(await res);
+        } else {
+          const res = cache.fetch(
+            `anilist:info;${id};${isDub};${fetchFiller};${provider ?? 'gogoanime'}`,
+            resFetcher,
+            // 30 min
+            (60 * 60) / 2
+          );
+          reply.status(200).send(await res);
+        }
         anilist = new META.Anilist(
           undefined,
           typeof process.env.PROXIES !== 'undefined'
@@ -390,7 +420,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               }
             : undefined
         );
-        reply.status(200).send(res);
       } catch (err: any) {
         reply.status(500).send({ message: err.message });
       }

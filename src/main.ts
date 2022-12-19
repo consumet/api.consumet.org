@@ -18,7 +18,7 @@ import ImageProxy from './utils/image-proxy';
 import M3U8Proxy from './utils/m3u8-proxy';
 
 (async () => {
-  const PORT = Number(process.env.PORT);
+  const PORT = Number(process.env.PORT) || 3000;
   if (process.env.ACCESS_TOKEN !== undefined)
     (
       global as typeof globalThis & {
