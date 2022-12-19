@@ -27,6 +27,7 @@ import M3U8Proxy from './utils/m3u8-proxy';
     ).CrunchyrollToken = (await CrunchyrollManager.create()).token!;
 
   const fastify = Fastify({
+    maxParamLength: 1000,
     logger: true,
   });
   await fastify.register(FastifyCors, {
