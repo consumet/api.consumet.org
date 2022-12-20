@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+import Redis from 'ioredis';
 import Fastify from 'fastify';
 import FastifyCors from '@fastify/cors';
 
@@ -17,8 +17,19 @@ import CrunchyrollManager from './utils/crunchyroll-token';
 import ImageProxy from './utils/image-proxy';
 import M3U8Proxy from './utils/m3u8-proxy';
 
+export const redis =
+  process.env.REDIS_HOST &&
+  new Redis({
+    host: process.env.REDIS_HOST,
+    port: Number(process.env.REDIS_PORT),
+    username: process.env.REDIS_USERNAME,
+    password: process.env.REDIS_PASSWORD,
+    tls: {},
+  });
+
 (async () => {
-  const PORT = Number(process.env.PORT);
+  const PORT = Number(process.env.PORT) || 3000;
+
   if (process.env.ACCESS_TOKEN !== undefined)
     (
       global as typeof globalThis & {
