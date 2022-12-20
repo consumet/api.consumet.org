@@ -3,8 +3,10 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
 import { Genres } from '@consumet/extensions/dist/models';
 import Crunchyroll from '@consumet/extensions/dist/providers/anime/crunchyroll';
+
 import cache from '../../utils/cache';
 import { redis } from '../../main';
+
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let anilist = new META.Anilist(
     undefined,
@@ -150,7 +152,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             .status(200)
             .send(
               await cache.fetch(
-                redis as Redis,
+                redis,
                 'anilist:popular',
                 async () => await anilist.fetchPopularAnime(page, perPage),
                 60 * 60
@@ -399,7 +401,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               .status(200)
               .send(
                 await cache.fetch(
-                  redis as Redis,
+                  redis,
                   `anilist:info;${id};${isDub};${fetchFiller};${provider ?? 'gogoanime'}`,
                   async () =>
                     anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean),
