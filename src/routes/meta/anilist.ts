@@ -121,7 +121,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             .send(
               await cache.fetch(
                 redis as Redis,
-                `anilist:trending`,
+                `anilist:trending;${page};${perPage}`,
                 async () => await anilist.fetchTrendingAnime(page, perPage),
                 60 * 60
               )
@@ -152,8 +152,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             .status(200)
             .send(
               await cache.fetch(
-                redis,
-                'anilist:popular',
+                redis as Redis,
+                `anilist:popular;${page};${perPage}`,
                 async () => await anilist.fetchPopularAnime(page, perPage),
                 60 * 60
               )
