@@ -267,6 +267,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get(
     '/anilist/episodes/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
+      const today = new Date();
+      const dayOfWeek = today.getDay();
       const id = (request.params as { id: string }).id;
       const provider = (request.query as { provider?: string }).provider;
       let fetchFiller = (request.query as { fetchFiller?: string | boolean }).fetchFiller;
@@ -314,19 +316,42 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if (fetchFiller === 'true' || fetchFiller === '1') fetchFiller = true;
       else fetchFiller = false;
 
-      const res = await anilist.fetchEpisodesListById(id, dub, fetchFiller as boolean);
+      try {
+        redis
+          ? reply
+              .status(200)
+              .send(
+                await cache.fetch(
+                  redis,
+                  `anilist:episodes;${id};${dub};${fetchFiller};${
+                    provider ?? 'gogoanime'
+                  }`,
+                  async () =>
+                    anilist.fetchEpisodesListById(
+                      id,
+                      dub as boolean,
+                      fetchFiller as boolean
+                    ),
+                  dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
+                )
+              )
+          : reply
+              .status(200)
+              .send(await anilist.fetchEpisodesListById(id, dub, fetchFiller as boolean));
 
-      anilist = new META.Anilist(
-        undefined,
-        typeof process.env.PROXIES !== 'undefined'
-          ? {
-              url: JSON.parse(process.env.PROXIES!)[
-                Math.random() * JSON.parse(process.env.PROXIES!).length
-              ],
-            }
-          : undefined
-      );
-      reply.status(200).send(res);
+        anilist = new META.Anilist(
+          undefined,
+          typeof process.env.PROXIES !== 'undefined'
+            ? {
+                url: JSON.parse(process.env.PROXIES!)[
+                  Math.random() * JSON.parse(process.env.PROXIES!).length
+                ],
+              }
+            : undefined
+        );
+      } catch (err) {
+        return reply.status(404).send({ message: 'Anime not found' });
+      }
     }
   );
 
@@ -448,6 +473,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
       const provider = (request.query as { provider?: string }).provider;
 
+      const today = new Date();
+      const dayOfWeek = today.getDay();
+
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
@@ -483,9 +511,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           );
       }
       try {
-        const res = await anilist
-          .fetchEpisodeSources(episodeId)
-          .catch((err) => reply.status(404).send({ message: err }));
+        redis
+          ? reply
+              .status(200)
+              .send(
+                await cache.fetch(
+                  redis,
+                  `anilist:watch;${episodeId};${provider ?? 'gogoanime'}`,
+                  async () => anilist.fetchEpisodeSources(episodeId),
+                  600
+                )
+              )
+          : reply.status(200).send(await anilist.fetchEpisodeSources(episodeId));
 
         anilist = new META.Anilist(
           undefined,
@@ -497,7 +534,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               }
             : undefined
         );
-        reply.status(200).send(res);
       } catch (err) {
         reply
           .status(500)
