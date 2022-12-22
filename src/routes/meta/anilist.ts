@@ -324,7 +324,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
                 await cache.fetch(
                   redis,
                   `anilist:episodes;${id};${dub};${fetchFiller};${
-                    provider ?? 'gogoanime'
+                    anilist.provider.name.toLowerCase()
                   }`,
                   async () =>
                     anilist.fetchEpisodesListById(
@@ -427,7 +427,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               .send(
                 await cache.fetch(
                   redis,
-                  `anilist:info;${id};${isDub};${fetchFiller};${provider ?? 'gogoanime'}`,
+                  `anilist:info;${id};${isDub};${fetchFiller};${
+                    anilist.provider.name.toLowerCase()
+                  }`,
                   async () =>
                     anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean),
                   dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
@@ -517,7 +519,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               .send(
                 await cache.fetch(
                   redis,
-                  `anilist:watch;${episodeId};${provider ?? 'gogoanime'}`,
+                  `anilist:watch;${episodeId};${
+                    anilist.provider.name.toLowerCase()
+                  }`,
                   async () => anilist.fetchEpisodeSources(episodeId),
                   600
                 )
