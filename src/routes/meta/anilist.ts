@@ -6,19 +6,9 @@ import Crunchyroll from '@consumet/extensions/dist/providers/anime/crunchyroll';
 
 import cache from '../../utils/cache';
 import { redis } from '../../main';
+import Anilist from '@consumet/extensions/dist/providers/meta/anilist';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  let anilist = new META.Anilist(
-    undefined,
-    typeof process.env.PROXIES !== 'undefined'
-      ? {
-          url: JSON.parse(process.env.PROXIES!)[
-            Math.random() * JSON.parse(process.env.PROXIES!).length
-          ],
-        }
-      : undefined
-  );
-
   fastify.get('/anilist', (_, rp) => {
     rp.status(200).send({
       intro:
@@ -29,6 +19,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get('/anilist/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+    const anilist = generateAnilistMeta();
+  
     const query = (request.params as { query: string }).query;
 
     const page = (request.query as { page: number }).page;
@@ -54,16 +46,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const year = (request.query as { year: number }).year;
       const season = (request.query as { season: string }).season;
 
-      anilist = new META.Anilist(
-        undefined,
-        typeof process.env.PROXIES !== 'undefined'
-          ? {
-              url: JSON.parse(process.env.PROXIES!)[
-                Math.random() * JSON.parse(process.env.PROXIES!).length
-              ],
-            }
-          : undefined
-      );
+      const anilist = generateAnilistMeta();
 
       if (genres) {
         JSON.parse(genres as string).forEach((genre: string) => {
@@ -101,20 +84,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get(
     '/anilist/trending',
-    async (request: FastifyRequest, reply: FastifyReply) => {
+    async (request: FastifyRequest, reply: FastifyReply) => { 
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
 
-      anilist = new META.Anilist(
-        undefined,
-        typeof process.env.PROXIES !== 'undefined'
-          ? {
-              url: JSON.parse(process.env.PROXIES!)[
-                Math.random() * JSON.parse(process.env.PROXIES!).length
-              ],
-            }
-          : undefined
-      );
+      const anilist = generateAnilistMeta();
+
       redis
         ? reply
             .status(200)
@@ -136,16 +111,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
 
-      anilist = new META.Anilist(
-        undefined,
-        typeof process.env.PROXIES !== 'undefined'
-          ? {
-              url: JSON.parse(process.env.PROXIES!)[
-                Math.random() * JSON.parse(process.env.PROXIES!).length
-              ],
-            }
-          : undefined
-      );
+      const anilist = generateAnilistMeta();
 
       redis
         ? reply
@@ -171,6 +137,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const weekEnd = (request.query as { weekEnd: number | string }).weekEnd;
       const notYetAired = (request.query as { notYetAired: boolean }).notYetAired;
 
+      const anilist = generateAnilistMeta();
+
       const res = await anilist.fetchAiringSchedule(
         page,
         perPage,
@@ -188,16 +156,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     const page = (request.query as { page: number }).page;
     const perPage = (request.query as { perPage: number }).perPage;
 
-    anilist = new META.Anilist(
-      undefined,
-      typeof process.env.PROXIES !== 'undefined'
-        ? {
-            url: JSON.parse(process.env.PROXIES!)[
-              Math.random() * JSON.parse(process.env.PROXIES!).length
-            ],
-          }
-        : undefined
-    );
+    const anilist = generateAnilistMeta();
 
     if (typeof genres === 'undefined')
       return reply.status(400).send({ message: 'genres is required' });
@@ -220,6 +179,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
 
+      const anilist = generateAnilistMeta();
+
       const res = await anilist.fetchRecentEpisodes(provider, page, perPage);
 
       reply.status(200).send(res);
@@ -228,6 +189,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     fastify.get(
       '/anilist/random-anime',
       async (request: FastifyRequest, reply: FastifyReply) => {
+        const anilist = generateAnilistMeta();
+
         const res = await anilist.fetchRandomAnime().catch((err) => {
           return reply.status(404).send({ message: 'Anime not found' });
         });
@@ -240,6 +203,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
       const provider = (request.query as { provider?: string }).provider;
+
+      let anilist = generateAnilistMeta();
 
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
@@ -274,6 +239,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       let fetchFiller = (request.query as { fetchFiller?: string | boolean }).fetchFiller;
       let dub = (request.query as { dub?: string | boolean }).dub;
       const locale = (request.query as { locale?: string }).locale;
+
+      let anilist = generateAnilistMeta();
 
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
@@ -361,6 +328,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
 
+      const anilist = generateAnilistMeta();
       const res = await anilist.fetchAnilistInfoById(id);
 
       reply.status(200).send(res);
@@ -378,6 +346,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       let fetchFiller = (request.query as { fetchFiller?: string | boolean }).fetchFiller;
       let isDub = (request.query as { dub?: string | boolean }).dub;
       const locale = (request.query as { locale?: string }).locale;
+
+      let anilist = generateAnilistMeta();
+
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
@@ -463,6 +434,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = (request.params as { id: string }).id;
 
+      const anilist = generateAnilistMeta();
       const res = await anilist.fetchCharacterInfoById(id);
 
       reply.status(200).send(res);
@@ -477,6 +449,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
       const today = new Date();
       const dayOfWeek = today.getDay();
+
+      let anilist = generateAnilistMeta();
 
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
@@ -546,5 +520,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   );
 };
+
+const generateAnilistMeta = (): Anilist => {
+  return new Anilist(
+    undefined,
+    typeof process.env.PROXIES !== 'undefined'
+      ? {
+          url: JSON.parse(process.env.PROXIES!)[
+            Math.random() * JSON.parse(process.env.PROXIES!).length
+          ],
+        }
+      : undefined
+  );
+}
 
 export default routes;
