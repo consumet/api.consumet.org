@@ -51,9 +51,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const chapterId = (request.params as { chapterId: string }).chapterId;
 
       try {
-        const res = await mangadex
-          .fetchChapterPages(chapterId)
-          .catch((err) => reply.status(404).send({ message: err }));
+        const res = await mangadex.fetchChapterPages(chapterId);
 
         reply.status(200).send(res);
       } catch (err) {
