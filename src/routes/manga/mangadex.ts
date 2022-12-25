@@ -55,7 +55,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
         reply.status(200).send(res);
       } catch (err) {
-        console.log({ err });
         reply
           .status(500)
           .send({ message: 'Something went wrong. Please try again later.' });
