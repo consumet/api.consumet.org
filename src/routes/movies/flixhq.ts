@@ -23,22 +23,52 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     reply.status(200).send(res);
   });
-  
-  
-  fastify.get('/flixhq/recent-shows', async (request: FastifyRequest, reply: FastifyReply) => {
-    const res = await flixhq.fetchRecentTvShows();
 
-    reply.status(200).send(res);
-  });
+  fastify.get(
+    '/flixhq/recent-shows',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const res = await flixhq.fetchRecentTvShows();
 
-  
-  
-  fastify.get('/flixhq/recent-movies', async (request: FastifyRequest, reply: FastifyReply) => {
-    const res = await flixhq.fetchRecentMovies();
+      reply.status(200).send(res);
+    }
+  );
 
-    reply.status(200).send(res);
-  });
+  fastify.get(
+    '/flixhq/recent-movies',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const res = await flixhq.fetchRecentMovies();
 
+      reply.status(200).send(res);
+    }
+  );
+
+  fastify.get(
+    '/flixhq/trending',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const type = (request.query as { type: string }).type;
+      try {
+        if (!type) {
+          const res = {
+            results: [
+              ...(await flixhq.fetchTrendingMovies()),
+              ...(await flixhq.fetchTrendingTvShows()),
+            ],
+          };
+          return reply.status(200).send(res);
+        }
+        const res =
+          type === 'tv'
+            ? await flixhq.fetchTrendingTvShows()
+            : await flixhq.fetchTrendingMovies();
+        reply.status(200).send(res);
+      } catch (error) {
+        reply.status(500).send({
+          message:
+            'Something went wrong. Please try again later. or contact the developers.',
+        });
+      }
+    }
+  );
 
   fastify.get('/flixhq/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
