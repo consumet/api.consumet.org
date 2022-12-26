@@ -31,7 +31,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get(
-    '/gogoanime/info/:id',
+    '/info/:id',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const id = decodeURIComponent((request.params as { id: string }).id);
 
@@ -50,7 +50,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/gogoanime/genre/:genre',
+    '/genre/:genre',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const genre = (request.params as { genre: string }).genre;
       const page = (request.query as { page: number }).page;
@@ -69,7 +69,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/gogoanime/watch/:episodeId',
+    '/watch/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
       const server = (request.query as { server: StreamingServers }).server;
@@ -93,7 +93,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/gogoanime/servers/:episodeId',
+    '/servers/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
 
@@ -112,7 +112,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/gogoanime/top-airing',
+    '/top-airing',
     async (request: FastifyRequest, reply: FastifyReply) => {
       try {
         const page = (request.query as { page: number }).page;
@@ -129,7 +129,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/gogoanime/recent-episodes',
+    '/recent-episodes',
     async (request: FastifyRequest, reply: FastifyReply) => {
       try {
         const type = (request.query as { type: number }).type;
