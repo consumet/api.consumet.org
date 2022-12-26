@@ -4,7 +4,7 @@ import { MANGA } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const mangahere = new MANGA.MangaHere();
 
-  fastify.get('/mangahere', (_, rp) => {
+  fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the MangaHere provider: check out the provider's website @ ${mangahere.toString.baseUrl}`,
       routes: ['/:query', '/info', '/read'],
@@ -12,20 +12,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get(
-    '/mangahere/:query',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const query = (request.params as { query: string }).query;
+  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+    const query = (request.params as { query: string }).query;
 
-      const page = (request.query as { page: number }).page;
+    const page = (request.query as { page: number }).page;
 
-      const res = await mangahere.search(query, page);
+    const res = await mangahere.search(query, page);
 
-      reply.status(200).send(res);
-    }
-  );
+    reply.status(200).send(res);
+  });
 
-  fastify.get('/mangahere/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
@@ -44,7 +41,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/mangahere/read', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/read', async (request: FastifyRequest, reply: FastifyReply) => {
     const chapterId = (request.query as { chapterId: string }).chapterId;
 
     if (typeof chapterId === 'undefined')

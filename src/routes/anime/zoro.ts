@@ -5,7 +5,7 @@ import { StreamingServers } from '@consumet/extensions/dist/models';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const zoro = new ANIME.Zoro();
 
-  fastify.get('/zoro', (_, rp) => {
+  fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
         "Welcome to the zoro provider: check out the provider's website @ https://zoro.to/",
@@ -14,7 +14,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/zoro/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
     const page = (request.query as { page: number }).page;
@@ -25,7 +25,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get(
-    '/zoro/recent-episodes',
+    '/recent-episodes',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const page = (request.query as { page: number }).page;
 
@@ -35,7 +35,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   );
 
-  fastify.get('/zoro/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
@@ -54,7 +54,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/zoro/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
 
     const server = (request.query as { server: string }).server as StreamingServers;

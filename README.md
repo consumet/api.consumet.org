@@ -34,6 +34,7 @@ Consumet scrapes data from various websites and provides APIs for accessing the 
   - [Docker](#docker)
   - [Heroku](#heroku)
   - [Vercel](#vercel)
+  - [Render](#render)
 - [Documentation](#documentation)
 - [Development](#development)
 - [Showcases](#showcases)
@@ -81,6 +82,11 @@ Host your own instance of Consumet API on Heroku using the button below.
 Host your own instance of Consumet API on Vercel using the button below.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fconsumet%2Fapi.consumet.org)
+
+### Render
+Host your own instance of Consumet API on Render using the button below.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/consumet/api.consumet.org)
 
 ## Documentation
 Please refer to the [documentation](https://docs.consumet.org). Join our [Discord server](https://discord.gg/qTPfvMxzNH) if you need any additional help or have any questions, comments, or suggestions.

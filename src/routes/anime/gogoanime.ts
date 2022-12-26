@@ -5,7 +5,7 @@ import { StreamingServers } from '@consumet/extensions/dist/models';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const gogoanime = new ANIME.Gogoanime();
 
-  fastify.get('/gogoanime', (_, rp) => {
+  fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
         "Welcome to the gogoanime provider: check out the provider's website @ https://gogoanime.gg/",
@@ -21,17 +21,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get(
-    '/gogoanime/:query',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const query = (request.params as { query: string }).query;
-      const page = (request.query as { page: number }).page || 1;
+  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+    const query = (request.params as { query: string }).query;
+    const page = (request.query as { page: number }).page || 1;
 
-      const res = await gogoanime.search(query, page);
+    const res = await gogoanime.search(query, page);
 
-      reply.status(200).send(res);
-    }
-  );
+    reply.status(200).send(res);
+  });
 
   fastify.get(
     '/gogoanime/info/:id',
@@ -53,22 +50,23 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 
   fastify.get(
-    '/gogoanime/genre/:genre', 
+    '/gogoanime/genre/:genre',
     async (request: FastifyRequest, reply: FastifyReply) => {
-        const genre = (request.params as { genre: string }).genre
-        const page = (request.query as { page: number }).page
+      const genre = (request.params as { genre: string }).genre;
+      const page = (request.query as { page: number }).page;
 
-        try {
-            const res = await gogoanime
-            .fetchGenreInfo(genre, page)
-            .catch((err) => reply.status(404).send({ message: err }))
-            reply.status(200).send(res);
-        } catch {
-            reply
-            .status(500)
-            .send({ message: "Something went wrong. Please try again later."})
-        }
-    })
+      try {
+        const res = await gogoanime
+          .fetchGenreInfo(genre, page)
+          .catch((err) => reply.status(404).send({ message: err }));
+        reply.status(200).send(res);
+      } catch {
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Please try again later.' });
+      }
+    }
+  );
 
   fastify.get(
     '/gogoanime/watch/:episodeId',

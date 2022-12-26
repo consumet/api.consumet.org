@@ -4,7 +4,7 @@ import { ANIME } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const enime = new ANIME.Enime();
 
-  fastify.get('/enime', (_, rp) => {
+  fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
         "Welcome to the enime provider: check out the provider's website @ https://enime.com/",
@@ -13,7 +13,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/enime/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
     const res = await enime.search(query);
@@ -21,7 +21,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('/enime/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
@@ -40,7 +40,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/enime/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
 
     if (typeof episodeId === 'undefined')

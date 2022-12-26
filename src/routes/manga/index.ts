@@ -7,10 +7,10 @@ import mangakakalot from './mangakakalot';
 import mangasee123 from './mangasee123';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  await fastify.register(mangadex, { prefix: '/' });
-  await fastify.register(mangahere, { prefix: '/' });
-  await fastify.register(mangakakalot, { prefix: '/' });
-  await fastify.register(mangasee123, { prefix: '/' });
+  await fastify.register(mangadex, { prefix: '/mangadex' });
+  await fastify.register(mangahere, { prefix: '/mangahere' });
+  await fastify.register(mangakakalot, { prefix: '/mangakakalot' });
+  await fastify.register(mangasee123, { prefix: '/mangasee123' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Manga');

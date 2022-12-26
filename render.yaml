@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: consumet-api # Name of the service
+    env: docker
+    repo: https://github.com/consumet/api.consumet.org.git
+    plan: free
+    branch: main
+    envVars:
+      - key: PORT
+        value: 3000

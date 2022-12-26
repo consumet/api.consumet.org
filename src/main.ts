@@ -11,11 +11,8 @@ import lightnovels from './routes/light-novels';
 import movies from './routes/movies';
 import meta from './routes/meta';
 
-import RapidCloud from './utils/rapid-cloud';
-import BilibiliUtilis from './utils/bilibili';
+import Utils from './utils';
 import CrunchyrollManager from './utils/crunchyroll-token';
-import ImageProxy from './utils/image-proxy';
-import M3U8Proxy from './utils/m3u8-proxy';
 
 export const redis =
   process.env.REDIS_HOST &&
@@ -29,6 +26,9 @@ export const redis =
 
 (async () => {
   const PORT = Number(process.env.PORT) || 3000;
+
+  console.log(`Starting server on port ${PORT}... 🚀`);
+  if (!process.env.REDIS_HOST) console.warn('Redis not found. Cache disabled.');
 
   if (process.env.ACCESS_TOKEN !== undefined)
     (
@@ -54,11 +54,7 @@ export const redis =
   await fastify.register(movies, { prefix: '/movies' });
   await fastify.register(meta, { prefix: '/meta' });
 
-  //await fastify.register(new RapidCloud().returnSID, { prefix: '/utils' });
-  await fastify.register(new BilibiliUtilis('en_US').returnDASH, { prefix: '/utils' });
-  await fastify.register(new BilibiliUtilis('en_US').returnVTT, { prefix: '/utils' });
-  await fastify.register(new ImageProxy().getImageProxy, { prefix: '/utils' });
-  await fastify.register(new M3U8Proxy().getM3U8Proxy, { prefix: '/utils' });
+  await fastify.register(Utils, { prefix: '/utils' });
 
   try {
     fastify.get('/', (_, rp) => {

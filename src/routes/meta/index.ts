@@ -6,9 +6,9 @@ import anilistManga from './anilist-manga';
 import mal from './mal';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  await fastify.register(anilist, { prefix: '/' });
-  await fastify.register(anilistManga, { prefix: '/' });
-  await fastify.register(mal, { prefix: '/' });
+  await fastify.register(anilist, { prefix: '/anilist' });
+  await fastify.register(anilistManga, { prefix: '/anilist-manga' });
+  await fastify.register(mal, { prefix: '/mal' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Meta');

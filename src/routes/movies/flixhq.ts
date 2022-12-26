@@ -5,7 +5,7 @@ import { StreamingServers } from '@consumet/extensions/dist/models';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const flixhq = new MOVIES.FlixHQ();
 
-  fastify.get('/flixhq', (_, rp) => {
+  fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
         "Welcome to the flixhq provider: check out the provider's website @ https://flixhq.to/",
@@ -14,7 +14,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/flixhq/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = decodeURIComponent((request.params as { query: string }).query);
 
     const page = (request.query as { page: number }).page;
@@ -24,53 +24,44 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get(
-    '/flixhq/recent-shows',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const res = await flixhq.fetchRecentTvShows();
+  fastify.get('/recent-shows', async (request: FastifyRequest, reply: FastifyReply) => {
+    const res = await flixhq.fetchRecentTvShows();
 
-      reply.status(200).send(res);
-    }
-  );
+    reply.status(200).send(res);
+  });
 
-  fastify.get(
-    '/flixhq/recent-movies',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const res = await flixhq.fetchRecentMovies();
+  fastify.get('/recent-movies', async (request: FastifyRequest, reply: FastifyReply) => {
+    const res = await flixhq.fetchRecentMovies();
 
-      reply.status(200).send(res);
-    }
-  );
+    reply.status(200).send(res);
+  });
 
-  fastify.get(
-    '/flixhq/trending',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const type = (request.query as { type: string }).type;
-      try {
-        if (!type) {
-          const res = {
-            results: [
-              ...(await flixhq.fetchTrendingMovies()),
-              ...(await flixhq.fetchTrendingTvShows()),
-            ],
-          };
-          return reply.status(200).send(res);
-        }
-        const res =
-          type === 'tv'
-            ? await flixhq.fetchTrendingTvShows()
-            : await flixhq.fetchTrendingMovies();
-        reply.status(200).send(res);
-      } catch (error) {
-        reply.status(500).send({
-          message:
-            'Something went wrong. Please try again later. or contact the developers.',
-        });
+  fastify.get('/trending', async (request: FastifyRequest, reply: FastifyReply) => {
+    const type = (request.query as { type: string }).type;
+    try {
+      if (!type) {
+        const res = {
+          results: [
+            ...(await flixhq.fetchTrendingMovies()),
+            ...(await flixhq.fetchTrendingTvShows()),
+          ],
+        };
+        return reply.status(200).send(res);
       }
+      const res =
+        type === 'tv'
+          ? await flixhq.fetchTrendingTvShows()
+          : await flixhq.fetchTrendingMovies();
+      reply.status(200).send(res);
+    } catch (error) {
+      reply.status(500).send({
+        message:
+          'Something went wrong. Please try again later. or contact the developers.',
+      });
     }
-  );
+  });
 
-  fastify.get('/flixhq/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
@@ -92,7 +83,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/flixhq/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
     const mediaId = (request.query as { mediaId: string }).mediaId;
     const server = (request.query as { server: StreamingServers }).server;

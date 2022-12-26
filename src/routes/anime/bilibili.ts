@@ -5,7 +5,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   if (!process.env.BILIBILI_COOKIE) return;
   const bilibili = new ANIME.Bilibili(process.env.BILIBILI_COOKIE);
 
-  fastify.get('/bilibili', (_, rp) => {
+  fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
         "Welcome to the bilibili provider: check out the provider's website @ https://bilibili.to/",
@@ -14,18 +14,15 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get(
-    '/bilibili/:query',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const query = (request.params as { query: string }).query;
+  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+    const query = (request.params as { query: string }).query;
 
-      const res = await bilibili.search(query);
+    const res = await bilibili.search(query);
 
-      reply.status(200).send(res);
-    }
-  );
+    reply.status(200).send(res);
+  });
 
-  fastify.get('/bilibili/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
@@ -44,7 +41,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/bilibili/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
 
     if (typeof episodeId === 'undefined')
