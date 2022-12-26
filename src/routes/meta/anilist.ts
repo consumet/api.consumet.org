@@ -32,7 +32,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get(
-    'anilist/advanced-search',
+    '/advanced-search',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const query = (request.query as { query: string }).query;
       const page = (request.query as { page: number }).page;
