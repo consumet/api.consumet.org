@@ -4,11 +4,12 @@ import { PROVIDERS_LIST } from '@consumet/extensions';
 import anilist from './anilist';
 import anilistManga from './anilist-manga';
 import mal from './mal';
-
+import tmdb from './tmdb';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(anilist, { prefix: '/anilist' });
   await fastify.register(anilistManga, { prefix: '/anilist-manga' });
   await fastify.register(mal, { prefix: '/mal' });
+  await fastify.register(tmdb, { prefix: '/tmdb' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Meta');
