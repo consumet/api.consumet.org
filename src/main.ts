@@ -2,7 +2,6 @@ require('dotenv').config();
 import Redis from 'ioredis';
 import Fastify from 'fastify';
 import FastifyCors from '@fastify/cors';
-
 import books from './routes/books';
 import anime from './routes/anime';
 import manga from './routes/manga';
@@ -30,7 +29,8 @@ export const tmdbApi = process.env.apiKey && process.env.apiKey;
 
   console.log(`Starting server on port ${PORT}... 🚀`);
   if (!process.env.REDIS_HOST) console.warn('Redis not found. Cache disabled.');
-
+  if (!process.env.tmdbApi)
+    console.warn('TMDB api key not found. the TMDB meta route may not work');
   if (process.env.ACCESS_TOKEN !== undefined)
     (
       global as typeof globalThis & {
