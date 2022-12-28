@@ -24,6 +24,7 @@ export const redis =
     tls: {},
   });
 
+export const tmdbApi = process.env.apiKey && process.env.apiKey;
 (async () => {
   const PORT = Number(process.env.PORT) || 3000;
 
