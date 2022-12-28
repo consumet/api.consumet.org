@@ -1,10 +1,10 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
 import CrunchyrollManager from '../../utils/crunchyroll-token';
-
+import chalk from 'chalk';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   if (process.env.ACCESS_TOKEN === undefined) {
-    console.error('Crunchyroll routes not loaded. ACCESS_TOKEN not found.');
+    console.error(chalk.red('Crunchyroll routes not loaded. ACCESS_TOKEN not found.'));
     fastify.get('/crunchyroll', (_, rp) => {
       rp.status(200).send('Crunchyroll routes not loaded. ACCESS_TOKEN not found.');
     });
