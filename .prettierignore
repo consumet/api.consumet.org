@@ -1,0 +1,9 @@
+node_modules
+*.js
+*.md
+*.json
+*.lock
+*.yml
+*.yaml
+Dockerfile
+Dockerfile.*

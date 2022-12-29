@@ -4,9 +4,11 @@ import CrunchyrollManager from '../../utils/crunchyroll-token';
 import chalk from 'chalk';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   if (process.env.ACCESS_TOKEN === undefined) {
-    console.error(chalk.red('Crunchyroll routes not loaded. ACCESS_TOKEN not found.'));
+    console.error(
+      chalk.red('ACCESS_TOKEN not found. Crunchyroll routes are not loaded.')
+    );
     fastify.get('/crunchyroll', (_, rp) => {
-      rp.status(200).send('Crunchyroll routes not loaded. ACCESS_TOKEN not found.');
+      rp.status(200).send('ACCESS_TOKEN not found. Crunchyroll routes are not loaded.');
     });
   } else {
     const crunchyroll = await ANIME.Crunchyroll.create(

@@ -3,10 +3,11 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
 import { Genres } from '@consumet/extensions/dist/models';
 import Crunchyroll from '@consumet/extensions/dist/providers/anime/kamyroll';
+import Anilist from '@consumet/extensions/dist/providers/meta/anilist';
+import { StreamingServers } from '@consumet/extensions/dist/models';
 
 import cache from '../../utils/cache';
 import { redis } from '../../main';
-import Anilist from '@consumet/extensions/dist/providers/meta/anilist';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/', (_, rp) => {
@@ -418,9 +419,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
       const provider = (request.query as { provider?: string }).provider;
+      const server = (request.query as { server?: StreamingServers }).server;
 
-      const today = new Date();
-      const dayOfWeek = today.getDay();
+      if (server && !Object.values(StreamingServers).includes(server))
+        return reply.status(400).send('Invalid server');
 
       let anilist = generateAnilistMeta();
 
@@ -465,12 +467,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               .send(
                 await cache.fetch(
                   redis,
-                  `anilist:watch;${episodeId};${anilist.provider.name.toLowerCase()}`,
-                  async () => anilist.fetchEpisodeSources(episodeId),
+                  `anilist:watch;${episodeId};${anilist.provider.name.toLowerCase()};${server}`,
+                  async () => anilist.fetchEpisodeSources(episodeId, server),
                   600
                 )
               )
-          : reply.status(200).send(await anilist.fetchEpisodeSources(episodeId));
+          : reply.status(200).send(await anilist.fetchEpisodeSources(episodeId, server));
 
         anilist = new META.Anilist(
           undefined,

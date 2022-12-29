@@ -32,7 +32,7 @@ export const tmdbApi = process.env.apiKey && process.env.apiKey;
     console.warn(chalk.yellowBright('Redis not found. Cache disabled.'));
   if (!process.env.tmdbApi)
     console.warn(
-      chalk.yellowBright('TMDB api key not found. the TMDB meta route may not work')
+      chalk.yellowBright('TMDB api key not found. the TMDB meta route may not work.')
     );
   if (process.env.ACCESS_TOKEN !== undefined)
     (
