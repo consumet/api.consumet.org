@@ -27,7 +27,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     const provider = (request.query as { provider?: string }).provider;
     let tmdb = new META.TMDB(tmdbApi);
 
-    if (!type) return reply.status(500).send({ message: "The 'type' query is required" });
+    if (!type) return reply.status(400).send({ message: "The 'type' query is required" });
 
     if (typeof provider !== 'undefined') {
       const possibleProvider = PROVIDERS_LIST.MOVIES.find(
