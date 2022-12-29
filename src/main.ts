@@ -2,7 +2,6 @@ require('dotenv').config();
 import Redis from 'ioredis';
 import Fastify from 'fastify';
 import FastifyCors from '@fastify/cors';
-
 import books from './routes/books';
 import anime from './routes/anime';
 import manga from './routes/manga';
@@ -10,7 +9,7 @@ import comics from './routes/comics';
 import lightnovels from './routes/light-novels';
 import movies from './routes/movies';
 import meta from './routes/meta';
-
+import chalk from 'chalk';
 import Utils from './utils';
 import CrunchyrollManager from './utils/crunchyroll-token';
 
@@ -24,12 +23,17 @@ export const redis =
     tls: {},
   });
 
+export const tmdbApi = process.env.apiKey && process.env.apiKey;
 (async () => {
   const PORT = Number(process.env.PORT) || 3000;
 
-  console.log(`Starting server on port ${PORT}... 🚀`);
-  if (!process.env.REDIS_HOST) console.warn('Redis not found. Cache disabled.');
-
+  console.log(chalk.green(`Starting server on port ${PORT}... 🚀`));
+  if (!process.env.REDIS_HOST)
+    console.warn(chalk.yellowBright('Redis not found. Cache disabled.'));
+  if (!process.env.tmdbApi)
+    console.warn(
+      chalk.yellowBright('TMDB api key not found. the TMDB meta route may not work')
+    );
   if (process.env.ACCESS_TOKEN !== undefined)
     (
       global as typeof globalThis & {
