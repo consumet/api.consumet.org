@@ -108,6 +108,21 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .send({ message: 'Something went wrong. Please try again later.' });
     }
   });
+
+  fastify.get('/servers', async (request: FastifyRequest, reply: FastifyReply) => {
+    const episodeId = (request.query as { episodeId: string }).episodeId;
+    const mediaId = (request.query as { mediaId: string }).mediaId;
+    try {
+      const res = await flixhq.fetchEpisodeServers(episodeId, mediaId);
+
+      reply.status(200).send(res);
+    } catch (error) {
+      reply.status(500).send({
+        message:
+          'Something went wrong. Please try again later. or contact the developers.',
+      });
+    }
+  });
 };
 
 export default routes;
