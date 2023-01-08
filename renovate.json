@@ -15,7 +15,7 @@
         ],
         "matchDepTypes": ["dependencies"],
         "matchPackagePatterns": ["*"],
-        "automerge": true,
+        "automerge": false,
         "schedule": "before 10pm"
     }]
 }
