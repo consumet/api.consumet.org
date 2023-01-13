@@ -28,7 +28,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     if (typeof id === 'undefined')
       return reply.status(400).send({ message: 'id is required' });
-    
+
     try {
       const res = await mangadex
         .fetchMangaInfo(id)
@@ -42,25 +42,22 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get(
-    '/read',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const chapterId = (request.query as { chapterId: string }).chapterId;
-      
-      if (typeof chapterId === 'undefined')
-        return reply.status(400).send({ message: 'chapterId is required' });
-      
-      try {
-        const res = await mangadex.fetchChapterPages(chapterId);
+  fastify.get('/read', async (request: FastifyRequest, reply: FastifyReply) => {
+    const chapterId = (request.query as { chapterId: string }).chapterId;
 
-        reply.status(200).send(res);
-      } catch (err) {
-        reply
-          .status(500)
-          .send({ message: 'Something went wrong. Please try again later.' });
-      }
+    if (typeof chapterId === 'undefined')
+      return reply.status(400).send({ message: 'chapterId is required' });
+
+    try {
+      const res = await mangadex.fetchChapterPages(chapterId);
+
+      reply.status(200).send(res);
+    } catch (err) {
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Please try again later.' });
     }
-  );
+  });
 };
 
 export default routes;
