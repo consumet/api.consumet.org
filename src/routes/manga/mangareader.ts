@@ -5,7 +5,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
-      intro: `Welcome to the Mangapill provider: check out the provider's website @ ${managreader.toString.baseUrl}`,
+      intro: `Welcome to the MangaReader provider: check out the provider's website @ ${managreader.toString.baseUrl}`,
       routes: ['/:query', '/info', '/read'],
       documentation: 'https://docs.consumet.org/#tag/mangapill',
     });
