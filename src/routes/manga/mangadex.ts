@@ -23,9 +23,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('/info/:id', async (request: FastifyRequest, reply: FastifyReply) => {
-    const id = decodeURIComponent((request.params as { id: string }).id);
+  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
+    const id = decodeURIComponent((request.query as { id: string }).id);
 
+    if (typeof id === 'undefined')
+      return reply.status(400).send({ message: 'id is required' });
+    
     try {
       const res = await mangadex
         .fetchMangaInfo(id)
@@ -40,10 +43,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get(
-    '/read/:chapterId',
+    '/read',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const chapterId = (request.params as { chapterId: string }).chapterId;
-
+      const chapterId = (request.query as { chapterId: string }).chapterId;
+      
+      if (typeof chapterId === 'undefined')
+        return reply.status(400).send({ message: 'chapterId is required' });
+      
       try {
         const res = await mangadex.fetchChapterPages(chapterId);
 
