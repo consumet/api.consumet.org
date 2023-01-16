@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.3.2.tgz#0b92271dd100c35e4f7ab5f7c3b527c6c8c254f4"
-  integrity sha512-WyESipwyORzPZjIGHDTVSM0Yi9cr8vo1+sPdm8GudCNU5NeoKaUjU8XKRaveFaVJjmxtfIEowoCbRsTQz6krcQ==
+"@consumet/extensions@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.3.0.tgz#1f551d71ecbad37fcd15b08f95b4e79ed73f7cab"
+  integrity sha512-LyahnyArBswmS72zs9pqyZT8euQHtyVjycp+eRYQdjo+Hy6LKJNGPqIM0VdmTwQNsT0r1+NilWykdrnSU950LA==
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -513,9 +513,9 @@ fastify-plugin@^3.0.0:
   integrity sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA==
 
 fastify-plugin@^4.0.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.4.0.tgz#ce9fab1352390199c3d55569fea43779699b58ae"
-  integrity sha512-ovwFQG2qNy3jcCROiWpr94Hs0le+c7N/3t7m9aVwbFhkxcR/esp2xu25dP8e617HpQdmeDv+gFX4zagdUhDByw==
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.5.0.tgz#8b853923a0bba6ab6921bb8f35b81224e6988d91"
+  integrity sha512-79ak0JxddO0utAXAQ5ccKhvs6vX2MGyHHMMsmZkBANrq3hXc1CHzvNPHOcvTsVMEPl5I+NT+RO4YKMGehOfSIg==
 
 fastify@^4.10.2:
   version "4.11.0"
@@ -623,9 +623,9 @@ ignore-by-default@^1.0.1:
   integrity sha512-Ius2VYcGNk7T90CppJqcIkS5ooHUZyIQK+ClZfMfMNFEF9VSE73Fq+906u/CWu92x4gzZMWOwfFYckPObzdEbA==
 
 ioredis@^5.2.4:
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.2.4.tgz#9e262a668bc29bae98f2054c1e0d7efd86996b96"
-  integrity sha512-qIpuAEt32lZJQ0XyrloCRdlEdUUNGG9i0UOk6zgzK6igyudNWqEBxfH6OlbnOOoBBvr1WB02mm8fR55CnikRng==
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.2.5.tgz#c62dc3945ad2a8f0323fbb2765b934a84a68cde0"
+  integrity sha512-7HKo/ClM2DGLRXdFq8ruS3Uuadensz4A76wPOU0adqlOqd1qkhoLPDaBhmVhUhNGpB+J65/bhLmNB8DDY99HJQ==
   dependencies:
     "@ioredis/commands" "^1.1.1"
     cluster-key-slot "^1.1.0"
@@ -834,9 +834,9 @@ pino@^8.5.0:
     thread-stream "^2.0.0"
 
 prettier@^2.8.1:
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.2.tgz#c4ea1b5b454d7c4b59966db2e06ed7eec5dfd160"
-  integrity sha512-BtRV9BcncDyI2tsuS19zzhzoxD8Dh8LiCx7j7tHzrkz8GFXAexeWFdi22mjE1d16dftH2qNaytVxqiRTGlMfpw==
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.3.tgz#ab697b1d3dd46fb4626fbe2f543afe0cc98d8632"
+  integrity sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==
 
 process-warning@^1.0.0:
   version "1.0.0"
@@ -867,9 +867,9 @@ pstree.remy@^1.1.8:
   integrity sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w==
 
 punycode@^2.1.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
-  integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.2.0.tgz#2092cc57cd2582c38e4e7e8bb869dc8d3148bc74"
+  integrity sha512-LN6QV1IJ9ZhxWTNdktaPClrNfp8xdSAYS0Zk2ddX7XsXZAxckMHPCBcHRo0cTcEIgYPRiGEkmji3Idkh2yFtYw==
 
 quick-format-unescaped@^4.0.3:
   version "4.0.4"
@@ -948,9 +948,9 @@ safe-stable-stringify@^2.3.1:
   integrity sha512-gMxvPJYhP0O9n2pvcfYfIuYgbledAOJFcqRThtPRmjscaipiwcwPPKLytpVzMkG2HAN87Qmo2d4PtGiri1dSLA==
 
 secure-json-parse@^2.5.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/secure-json-parse/-/secure-json-parse-2.6.0.tgz#95d89f84adf32d76ff7800e68a673b129fe918b0"
-  integrity sha512-B9osKohb6L+EZ6Kve3wHKfsAClzOC/iISA2vSuCe5Jx5NAKiwitfxx8ZKYapHXr0sYRj7UZInT7pLb3rp2Yx6A==
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/secure-json-parse/-/secure-json-parse-2.7.0.tgz#5a5f9cd6ae47df23dba3151edd06855d47e09862"
+  integrity sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==
 
 semver@^5.7.1:
   version "5.7.1"
@@ -1013,9 +1013,9 @@ supports-color@^7.1.0:
     has-flag "^4.0.0"
 
 thread-stream@^2.0.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/thread-stream/-/thread-stream-2.2.0.tgz#310c03a253f729094ce5d4638ef5186dfa80a9e8"
-  integrity sha512-rUkv4/fnb4rqy/gGy7VuqK6wE1+1DOCOWy4RMeaV69ZHMP11tQKZvZSip1yTgrKCMZzEMcCL/bKfHvSfDHx+iQ==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/thread-stream/-/thread-stream-2.3.0.tgz#4fc07fb39eff32ae7bad803cb7dd9598349fed33"
+  integrity sha512-kaDqm1DET9pp3NXwR8382WHbnpXnRkN9xGN9dQt3B2+dmXiW8X1SOwmFOxAErEQ47ObhZ96J6yhZNXuyCOL7KA==
   dependencies:
     real-require "^0.2.0"
 
