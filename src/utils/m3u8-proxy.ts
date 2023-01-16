@@ -63,8 +63,7 @@ class M3U8Proxy {
       fastify.get('/m3u8/*', async(request: FastifyRequest, reply: FastifyReply)=>{
       const params = (request.params as any)['*'].split('/');
       const queries = request.query as any;
-      var url = atob(params.shift());
-       
+      var url = Buffer.from(params.shift(), 'base64').toString("utf8");
       try
       {
         var req = await axios.get(url,{ headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36' }});
