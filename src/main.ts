@@ -42,7 +42,7 @@ export const tmdbApi = process.env.apiKey && process.env.apiKey;
     ).CrunchyrollToken = (await CrunchyrollManager.create()).token!;
 
   const fastify = Fastify({
-    maxParamLength: 1000,
+    maxParamLength: 2000,
     logger: true,
   });
   await fastify.register(FastifyCors, {
@@ -70,7 +70,7 @@ export const tmdbApi = process.env.apiKey && process.env.apiKey;
         error: 'page not found',
       });
     });
-
+    
     fastify.listen({ port: PORT, host: '0.0.0.0' }, (e, address) => {
       if (e) throw e;
       console.log(`server listening on ${address}`);

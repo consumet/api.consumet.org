@@ -1,13 +1,12 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-
 class M3U8Proxy {
   private getM3U8 = async (url: string, options: AxiosRequestConfig): Promise<any> => {
     const data = await axios.get(url, options);
 
     return data.data;
   };
-
+  
   private toQueryString = (obj: any) => {
     const parts = [];
     for (const i in obj) {
@@ -19,6 +18,10 @@ class M3U8Proxy {
   };
 
   public getM3U8Proxy = async (fastify: FastifyInstance, options: RegisterOptions) => {
+
+    
+
+
     fastify.get('/m3u8-proxy/*', async (request: FastifyRequest, reply: FastifyReply) => {
       // split params
       const params = (request.params as any)['*'].split('/');
@@ -54,10 +57,30 @@ class M3U8Proxy {
       reply.header('Access-Control-Allow-Origin', '*');
       reply.header('Access-Control-Allow-Headers', '*');
       reply.header('Access-Control-Allow-Methods', '*');
-
       reply.send(data);
     });
+
+      fastify.get('/m3u8/*', async(request: FastifyRequest, reply: FastifyReply)=>{
+      const params = (request.params as any)['*'].split('/');
+      const queries = request.query as any;
+      var url = Buffer.from(params.shift(), 'base64').toString("utf8");
+      try
+      {
+        var req = await axios.get(url,{ headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36' }});
+        const pattern = new RegExp('https://', 'g')
+        const final = req.data.toString().replace(pattern, `https://cors.proxy.consumet.org/https://` );
+        reply
+        .header('Content-Type', 'application/vnd.apple.mpegurl')
+        .header('Content-Disposition', 'attachment; filename=stream.m3u8')
+        .status(200)
+        .send(Buffer.from(final));
+      }
+      catch(error)
+      {
+        reply.status(400).send(error);
+      }
+    });
+   }
   };
-}
 
 export default M3U8Proxy;
