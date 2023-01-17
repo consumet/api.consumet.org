@@ -3,7 +3,7 @@ import { PROVIDERS_LIST } from '@consumet/extensions';
 
 import RapidCloud from './rapid-cloud';
 import BilibiliUtilis from './bilibili';
-import CrunchyrollManager from './crunchyroll-token';
+import KamyrollManager from './kamyroll-token';
 import ImageProxy from './image-proxy';
 import M3U8Proxy from './m3u8-proxy';
 import Providers from './providers';

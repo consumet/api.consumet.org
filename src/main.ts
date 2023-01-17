@@ -11,7 +11,7 @@ import movies from './routes/movies';
 import meta from './routes/meta';
 import chalk from 'chalk';
 import Utils from './utils';
-import CrunchyrollManager from './utils/crunchyroll-token';
+import KamyrollManager from './utils/kamyroll-token';
 
 export const redis =
   process.env.REDIS_HOST &&
@@ -39,7 +39,7 @@ export const tmdbApi = process.env.apiKey && process.env.apiKey;
       global as typeof globalThis & {
         CrunchyrollToken: string;
       }
-    ).CrunchyrollToken = (await CrunchyrollManager.create()).token!;
+    ).CrunchyrollToken = (await KamyrollManager.create()).token!;
 
   const fastify = Fastify({
     maxParamLength: 1000,

@@ -1,17 +1,18 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
-import CrunchyrollManager from '../../utils/crunchyroll-token';
+import KamyrollManager from '../../utils/kamyroll-token';
 import chalk from 'chalk';
+
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   if (process.env.ACCESS_TOKEN === undefined) {
     console.error(
-      chalk.red('ACCESS_TOKEN not found. Crunchyroll routes are not loaded.')
+      chalk.red('ACCESS_TOKEN not found. Kamyroll routes are not loaded.')
     );
-    fastify.get('/crunchyroll', (_, rp) => {
-      rp.status(200).send('ACCESS_TOKEN not found. Crunchyroll routes are not loaded.');
+    fastify.get('/kamyroll', (_, rp) => {
+      rp.status(200).send('ACCESS_TOKEN not found. Kamyroll routes are not loaded.');
     });
   } else {
-    const crunchyroll = await ANIME.Crunchyroll.create(
+    const kamyroll = await ANIME.Kamyroll.create(
       'en-US',
       (
         global as typeof globalThis & {
@@ -29,9 +30,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     fastify.get('/', (_, rp) => {
       rp.status(200).send({
         intro:
-          "Welcome to the crunchyroll provider: check out the provider's website @ https://crunchyroll.to/",
+          "Welcome to the kamyroll provider.",
         routes: ['/:query', '/info/:id', '/watch/:episodeId'],
-        documentation: 'https://docs.consumet.org/#tag/crunchyroll',
+        documentation: 'https://docs.consumet.org/#tag/kamyroll',
       });
     });
 
@@ -39,7 +40,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const query = (request.params as { query: string }).query;
       const locale = (request.query as { locale: string }).locale;
 
-      const crnchyroll = await ANIME.Crunchyroll.create(
+      const kamyroll = await ANIME.Kamyroll.create(
         locale,
         (
           global as typeof globalThis & {
@@ -47,7 +48,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           }
         ).CrunchyrollToken
       );
-      const res = await crnchyroll.search(query);
+      const res = await kamyroll.search(query);
 
       reply.status(200).send(res);
     });
@@ -57,7 +58,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const mediaType = (request.query as { mediaType: string }).mediaType;
       const locale = (request.query as { locale: string }).locale;
 
-      const crnchyroll = await ANIME.Crunchyroll.create(
+      const kamyroll = await ANIME.Kamyroll.create(
         locale,
         (
           global as typeof globalThis & {
@@ -73,7 +74,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         return reply.status(400).send({ message: 'mediaType is required' });
 
       try {
-        const res = await crnchyroll
+        const res = await kamyroll
           .fetchAnimeInfo(id, mediaType)
           .catch((err) => reply.status(404).send({ message: err }));
 
@@ -94,7 +95,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         return reply.status(400).send({ message: 'episodeId is required' });
 
       try {
-        const res = await crunchyroll
+        const res = await kamyroll
           .fetchEpisodeSources(episodeId, format, type)
           .catch((err) => reply.status(404).send({ message: err }));
 

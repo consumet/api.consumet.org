@@ -2,7 +2,7 @@ import { Redis } from 'ioredis';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
 import { Genres } from '@consumet/extensions/dist/models';
-import Crunchyroll from '@consumet/extensions/dist/providers/anime/kamyroll';
+import Kamyroll from '@consumet/extensions/dist/providers/anime/kamyroll';
 import Anilist from '@consumet/extensions/dist/providers/meta/anilist';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
@@ -233,9 +233,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const possibleProvider = PROVIDERS_LIST.ANIME.find(
         (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
       );
-      if (possibleProvider instanceof Crunchyroll) {
+      if (possibleProvider instanceof Kamyroll) {
         anilist = new META.Anilist(
-          await Crunchyroll.create(
+          await Kamyroll.create(
             locale ?? 'en-US',
             (
               global as typeof globalThis & {
@@ -333,9 +333,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
       );
 
-      if (possibleProvider instanceof Crunchyroll) {
+      if (possibleProvider instanceof Kamyroll) {
         anilist = new META.Anilist(
-          await Crunchyroll.create(
+          await Kamyroll.create(
             locale ?? 'en-US',
             (
               global as typeof globalThis & {
@@ -430,9 +430,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
-        if (possibleProvider instanceof Crunchyroll) {
+        if (possibleProvider instanceof Kamyroll) {
           anilist = new META.Anilist(
-            await Crunchyroll.create(
+            await Kamyroll.create(
               'en-US',
               (
                 global as typeof globalThis & {

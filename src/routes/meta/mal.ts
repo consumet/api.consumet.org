@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
-import Crunchyroll from '@consumet/extensions/dist/providers/anime/kamyroll';
+import Kamyroll from '@consumet/extensions/dist/providers/anime/kamyroll';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let mal = new META.Myanimelist();
@@ -38,9 +38,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const possibleProvider = PROVIDERS_LIST.ANIME.find(
         (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
       );
-      if (possibleProvider instanceof Crunchyroll) {
+      if (possibleProvider instanceof Kamyroll) {
         mal = new META.Myanimelist(
-          await Crunchyroll.create(
+          await Kamyroll.create(
             locale ?? 'en-US',
             (
               global as typeof globalThis & {
@@ -78,9 +78,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
-        if (possibleProvider instanceof Crunchyroll) {
+        if (possibleProvider instanceof Kamyroll) {
           mal = new META.Myanimelist(
-            await Crunchyroll.create(
+            await Kamyroll.create(
               'en-US',
               (
                 global as typeof globalThis & {

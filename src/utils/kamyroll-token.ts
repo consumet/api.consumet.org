@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-class CrunchyrollManager {
+class KamyrollManager {
   private readonly baseUrl = 'https://api.kamyroll.tech';
 
   #token = undefined;
 
   static async create() {
-    const instance = new CrunchyrollManager();
+    const instance = new KamyrollManager();
     await instance.init();
     return instance;
   }
@@ -52,4 +52,4 @@ class CrunchyrollManager {
   }
 }
 
-export default CrunchyrollManager;
+export default KamyrollManager;
