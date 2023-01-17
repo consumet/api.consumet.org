@@ -5,9 +5,7 @@ import chalk from 'chalk';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   if (process.env.ACCESS_TOKEN === undefined) {
-    console.error(
-      chalk.red('ACCESS_TOKEN not found. Kamyroll routes are not loaded.')
-    );
+    console.error(chalk.red('ACCESS_TOKEN not found. Kamyroll routes are not loaded.'));
     fastify.get('/kamyroll', (_, rp) => {
       rp.status(200).send('ACCESS_TOKEN not found. Kamyroll routes are not loaded.');
     });
@@ -29,8 +27,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     );
     fastify.get('/', (_, rp) => {
       rp.status(200).send({
-        intro:
-          "Welcome to the kamyroll provider.",
+        intro: 'Welcome to the kamyroll provider.',
         routes: ['/:query', '/info/:id', '/watch/:episodeId'],
         documentation: 'https://docs.consumet.org/#tag/kamyroll',
       });
