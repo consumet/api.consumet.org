@@ -24,19 +24,16 @@ class CrunchyrollManager {
   }
 
   private fetchToken = async () => {
-    const data = await axios.get(
-      `${this.baseUrl}/auth/v1/token`,
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        params: {
-            device_id: 'com.service.data',
-            device_type: 'consumet.org',
-            access_token: process.env.ACCESS_TOKEN!,
-        }
-      }
-    );
+    const data = await axios.get(`${this.baseUrl}/auth/v1/token`, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        device_id: 'com.service.data',
+        device_type: 'consumet.org',
+        access_token: process.env.ACCESS_TOKEN!,
+      },
+    });
 
     this.#token = data.data.access_token;
     //ts-ignore
