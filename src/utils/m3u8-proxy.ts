@@ -57,6 +57,33 @@ class M3U8Proxy {
 
       reply.send(data);
     });
+
+    fastify.get('/m3u8/*', async (request: FastifyRequest, reply: FastifyReply) => {
+      const params = (request.params as any)['*'];
+
+      var url = Buffer.from(params.shift(), 'base64').toString('utf8');
+      try {
+        var req = await axios.get(url, {
+          headers: {
+            'User-Agent':
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+          },
+        });
+
+        const pattern = new RegExp('https://', 'g');
+        const final = req.data
+          .toString()
+          .replace(pattern, `https://cors.proxy.consumet.org/https://`);
+
+        reply
+          .header('Content-Type', 'application/vnd.apple.mpegurl')
+          .header('Content-Disposition', 'attachment; filename=stream.m3u8')
+          .status(200)
+          .send(Buffer.from(final));
+      } catch (error) {
+        reply.status(400).send(error);
+      }
+    });
   };
 }
 
