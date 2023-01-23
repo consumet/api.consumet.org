@@ -337,11 +337,6 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
-content-type@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
-  integrity sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
-
 cookie@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
@@ -452,6 +447,11 @@ events@^3.3.0:
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
+fast-content-type-parse@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/fast-content-type-parse/-/fast-content-type-parse-1.0.0.tgz#cddce00df7d7efb3727d375a598e4904bfcb751c"
+  integrity sha512-Xbc4XcysUXcsP5aHUU7Nq3OwvHq97C+WnbkeIefpeYLX+ryzFJlU6OStFJhs6Ol0LkUGpcK+wL0JwfM+FCU5IA==
+
 fast-decode-uri-component@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/fast-decode-uri-component/-/fast-decode-uri-component-1.0.1.tgz#46f8b6c22b30ff7a81357d4f59abfae938202543"
@@ -517,17 +517,17 @@ fastify-plugin@^4.0.0:
   resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.5.0.tgz#8b853923a0bba6ab6921bb8f35b81224e6988d91"
   integrity sha512-79ak0JxddO0utAXAQ5ccKhvs6vX2MGyHHMMsmZkBANrq3hXc1CHzvNPHOcvTsVMEPl5I+NT+RO4YKMGehOfSIg==
 
-fastify@^4.10.2:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.11.0.tgz#7fa5614c81a618e67a7a467f0f1b33c43f4ff7d2"
-  integrity sha512-JteZ8pjEqd+6n+azQnQfSJV8MUMxAmxbvC2Dx/Mybj039Lf/u3kda9Kq84uy/huCpqCzZoyHIZS5JFGF3wLztw==
+fastify@^4.12.0:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.12.0.tgz#e5330215d95702336693b38b2e66d34ee8300d3e"
+  integrity sha512-Hh2GCsOCqnOuewWSvqXlpq5V/9VA+/JkVoooQWUhrU6gryO9+/UGOoF/dprGcKSDxkM/9TkMXSffYp8eA/YhYQ==
   dependencies:
     "@fastify/ajv-compiler" "^3.3.1"
     "@fastify/error" "^3.0.0"
     "@fastify/fast-json-stringify-compiler" "^4.1.0"
     abstract-logging "^2.0.1"
     avvio "^8.2.0"
-    content-type "^1.0.4"
+    fast-content-type-parse "^1.0.0"
     find-my-way "^7.3.0"
     light-my-request "^5.6.1"
     pino "^8.5.0"
