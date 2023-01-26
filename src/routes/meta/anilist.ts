@@ -2,7 +2,6 @@ import { Redis } from 'ioredis';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
 import { Genres } from '@consumet/extensions/dist/models';
-import Kamyroll from '@consumet/extensions/dist/providers/anime/kamyroll';
 import Anilist from '@consumet/extensions/dist/providers/meta/anilist';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
@@ -233,35 +232,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const possibleProvider = PROVIDERS_LIST.ANIME.find(
         (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
       );
-      if (possibleProvider instanceof Kamyroll) {
-        anilist = new META.Anilist(
-          await Kamyroll.create(
-            locale ?? 'en-US',
-            (
-              global as typeof globalThis & {
-                CrunchyrollToken: string;
-              }
-            ).CrunchyrollToken
-          ),
-          typeof process.env.PROXIES !== 'undefined'
-            ? {
-                url: JSON.parse(process.env.PROXIES!)[
-                  Math.random() * JSON.parse(process.env.PROXIES!).length
-                ],
-              }
-            : undefined
-        );
-      } else
-        anilist = new META.Anilist(
-          possibleProvider,
-          typeof process.env.PROXIES !== 'undefined'
-            ? {
-                url: JSON.parse(process.env.PROXIES!)[
-                  Math.random() * JSON.parse(process.env.PROXIES!).length
-                ],
-              }
-            : undefined
-        );
+
+      anilist = new META.Anilist(
+        possibleProvider,
+        typeof process.env.PROXIES !== 'undefined'
+          ? {
+              url: JSON.parse(process.env.PROXIES!)[
+                Math.random() * JSON.parse(process.env.PROXIES!).length
+              ],
+            }
+          : undefined
+      );
     }
 
     if (dub === 'true' || dub === '1') dub = true;
@@ -333,35 +314,16 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
       );
 
-      if (possibleProvider instanceof Kamyroll) {
-        anilist = new META.Anilist(
-          await Kamyroll.create(
-            locale ?? 'en-US',
-            (
-              global as typeof globalThis & {
-                CrunchyrollToken: string;
-              }
-            ).CrunchyrollToken
-          ),
-          typeof process.env.PROXIES !== 'undefined'
-            ? {
-                url: JSON.parse(process.env.PROXIES!)[
-                  Math.random() * JSON.parse(process.env.PROXIES!).length
-                ],
-              }
-            : undefined
-        );
-      } else
-        anilist = new META.Anilist(
-          possibleProvider,
-          typeof process.env.PROXIES !== 'undefined'
-            ? {
-                url: JSON.parse(process.env.PROXIES!)[
-                  Math.random() * JSON.parse(process.env.PROXIES!).length
-                ],
-              }
-            : undefined
-        );
+      anilist = new META.Anilist(
+        possibleProvider,
+        typeof process.env.PROXIES !== 'undefined'
+          ? {
+              url: JSON.parse(process.env.PROXIES!)[
+                Math.random() * JSON.parse(process.env.PROXIES!).length
+              ],
+            }
+          : undefined
+      );
     }
 
     if (isDub === 'true' || isDub === '1') isDub = true;
@@ -430,35 +392,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
-        if (possibleProvider instanceof Kamyroll) {
-          anilist = new META.Anilist(
-            await Kamyroll.create(
-              'en-US',
-              (
-                global as typeof globalThis & {
-                  CrunchyrollToken: string;
-                }
-              ).CrunchyrollToken
-            ),
-            typeof process.env.PROXIES !== 'undefined'
-              ? {
-                  url: JSON.parse(process.env.PROXIES!)[
-                    Math.random() * JSON.parse(process.env.PROXIES!).length
-                  ],
-                }
-              : undefined
-          );
-        } else
-          anilist = new META.Anilist(
-            possibleProvider,
-            typeof process.env.PROXIES !== 'undefined'
-              ? {
-                  url: JSON.parse(process.env.PROXIES!)[
-                    Math.random() * JSON.parse(process.env.PROXIES!).length
-                  ],
-                }
-              : undefined
-          );
+
+        anilist = new META.Anilist(
+          possibleProvider,
+          typeof process.env.PROXIES !== 'undefined'
+            ? {
+                url: JSON.parse(process.env.PROXIES!)[
+                  Math.random() * JSON.parse(process.env.PROXIES!).length
+                ],
+              }
+            : undefined
+        );
       }
       try {
         redis

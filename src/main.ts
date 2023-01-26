@@ -11,7 +11,6 @@ import movies from './routes/movies';
 import meta from './routes/meta';
 import chalk from 'chalk';
 import Utils from './utils';
-import KamyrollManager from './utils/kamyroll-token';
 
 export const redis =
   process.env.REDIS_HOST &&
@@ -34,12 +33,6 @@ export const tmdbApi = process.env.apiKey && process.env.apiKey;
     console.warn(
       chalk.yellowBright('TMDB api key not found. the TMDB meta route may not work.')
     );
-  if (process.env.ACCESS_TOKEN !== undefined)
-    (
-      global as typeof globalThis & {
-        CrunchyrollToken: string;
-      }
-    ).CrunchyrollToken = (await KamyrollManager.create()).token!;
 
   const fastify = Fastify({
     maxParamLength: 1000,

@@ -8,7 +8,6 @@ import nineanime from './9anime';
 import animefox from './animefox';
 import enime from './enime';
 import crunchyroll from './crunchyroll';
-import kamyroll from './kamyroll';
 import bilibili from './bilibili';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
@@ -19,7 +18,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(animefox, { prefix: '/animefox' });
   await fastify.register(enime, { prefix: '/enime' });
   await fastify.register(crunchyroll, { prefix: '/crunchyroll' });
-  await fastify.register(kamyroll, { prefix: '/kamyroll' });
   await fastify.register(bilibili, { prefix: '/bilibili' });
 
   fastify.get('/', async (request: any, reply: any) => {
