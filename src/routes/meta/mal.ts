@@ -1,6 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { META, PROVIDERS_LIST } from '@consumet/extensions';
-import Kamyroll from '@consumet/extensions/dist/providers/anime/kamyroll';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let mal = new META.Myanimelist();
@@ -38,18 +37,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const possibleProvider = PROVIDERS_LIST.ANIME.find(
         (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
       );
-      if (possibleProvider instanceof Kamyroll) {
-        mal = new META.Myanimelist(
-          await Kamyroll.create(
-            locale ?? 'en-US',
-            (
-              global as typeof globalThis & {
-                CrunchyrollToken: string;
-              }
-            ).CrunchyrollToken
-          )
-        );
-      } else mal = new META.Myanimelist(possibleProvider);
+
+      mal = new META.Myanimelist(possibleProvider);
     }
 
     if (isDub === 'true' || isDub === '1') isDub = true;
@@ -78,18 +67,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
-        if (possibleProvider instanceof Kamyroll) {
-          mal = new META.Myanimelist(
-            await Kamyroll.create(
-              'en-US',
-              (
-                global as typeof globalThis & {
-                  CrunchyrollToken: string;
-                }
-              ).CrunchyrollToken
-            )
-          );
-        } else mal = new META.Myanimelist(possibleProvider);
+
+        mal = new META.Myanimelist(possibleProvider);
       }
       try {
         const res = await mal
