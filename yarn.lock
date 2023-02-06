@@ -105,9 +105,9 @@
     fastify-cors "*"
 
 "@types/node@*", "@types/node@^18.11.17":
-  version "18.11.18"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
-  integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
+  version "18.11.19"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.19.tgz#35e26df9ec441ab99d73e99e9aca82935eea216d"
+  integrity sha512-YUgMWAQBWLObABqrvx8qKO1enAvBUdjZOAWQ5grBAkp5LQv45jBvYKZ3oFS9iKRCQyFjqw6iuEa1vmFqtxYLZw==
 
 "@types/ws@^8.5.3":
   version "8.5.4"
@@ -475,9 +475,9 @@ fast-json-stringify@^5.0.0:
     rfdc "^1.2.0"
 
 fast-querystring@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/fast-querystring/-/fast-querystring-1.1.0.tgz#bb645c365db88a3b6433fb6484f7e9e66764cfb9"
-  integrity sha512-LWkjBCZlxjnSanuPpZ6mHswjy8hQv3VcPJsQB3ltUF2zjvrycr0leP3TSTEEfvQ1WEMSRl5YNsGqaft9bjLqEw==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/fast-querystring/-/fast-querystring-1.1.1.tgz#f4c56ef56b1a954880cfd8c01b83f9e1a3d3fda2"
+  integrity sha512-qR2r+e3HvhEFmpdHMv//U8FnFlnYjaC6QKDuaXALDkw2kvHO8WDjxH+f/rHGR4Me4pnk8p9JAkRNTjYHAKRn2Q==
   dependencies:
     fast-decode-uri-component "^1.0.1"
 
