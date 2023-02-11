@@ -13,6 +13,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
+  fastify.get(
+    '/recent-episodes',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const page = (request.query as { page: number }).page;
+      reply.status(200).send(await marin.recentEpisodes(page));
+    }
+  );
+
   fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
