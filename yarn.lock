@@ -2,9 +2,15 @@
 # yarn lockfile v1
 
 
+<<<<<<< HEAD
 "@consumet/extensions@^1.4.6":
   version "1.4.7"
   resolved "https://registry.npmjs.org/@consumet/extensions/-/extensions-1.4.7.tgz"
+=======
+"@consumet/extensions@^1.4.1":
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.4.7.tgz#4053ce70768e992c18e78db43aec151f492204df"
+>>>>>>> 86bd9b53cc097f66490961758921768a1c03fb6e
   integrity sha512-KQFyacHVHH4RH9W/lVeOr7l9vJC0qyGdpEeoJAxepIUs5OhBS994+vxzSE3GboCJRtOMhjrJcCZv0cIwK819Xg==
   dependencies:
     ascii-url-encoder "^1.2.0"
