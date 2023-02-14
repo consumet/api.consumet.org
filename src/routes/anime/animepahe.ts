@@ -45,12 +45,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
 
       try {
-        const res = await animepahe
-          .fetchEpisodeSources(episodeId)
-          .catch((err) => reply.status(404).send({ message: err }));
+        const res = await animepahe.fetchEpisodeSources(episodeId);
 
         reply.status(200).send(res);
       } catch (err) {
+        console.log(err);
         reply
           .status(500)
           .send({ message: 'Something went wrong. Contact developer for help.' });
