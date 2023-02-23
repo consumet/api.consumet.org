@@ -3,7 +3,7 @@ import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const nineanime = await ANIME.NineAnime.create();
+  const nineanime = new ANIME.NineAnime();
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({

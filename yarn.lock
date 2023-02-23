@@ -2,10 +2,9 @@
 # yarn lockfile v1
 
 
-"@consumet/extensions@^1.4.10":
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/@consumet/extensions/-/extensions-1.4.10.tgz#509c5899694326b8924ec633d3daa7b0e5e5c6d5"
-  integrity sha512-4JInxxBj29ts+BgFIxUP9AvfM4YKRNJpKDze4r8Zm3zBbznKmtgHcdh9u96Lm3AanfYhTmtg1euJcQc6ahMRkw==
+"@consumet/extensions@https://github.com/consumet/consumet.ts":
+  version "1.4.12"
+  resolved "https://github.com/consumet/consumet.ts#aa011fde891fd3e88a37b6799739f12a7b79cd3c"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
