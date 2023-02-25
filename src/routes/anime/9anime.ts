@@ -3,7 +3,7 @@ import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const nineanime = new ANIME.NineAnime();
+  const nineanime = new ANIME.NineAnime(process.env.NINE_ANIME_HELPER_URL);
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
@@ -24,16 +24,15 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
-    const id = (request.query as { id: string }).id;
+  fastify.get('/info/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+    const id = (request.params as { id: string }).id;
+    const isDub = (request.query as { dub: string }).dub;
 
     if (typeof id === 'undefined')
       return reply.status(400).send({ message: 'id is required' });
 
     try {
-      const res = await nineanime
-        .fetchAnimeInfo(id)
-        .catch((err) => reply.status(404).send({ message: err }));
+      const res = await nineanime.fetchAnimeInfo(id, isDub === 'true' ? true : false);
 
       reply.status(200).send(res);
     } catch (err) {
@@ -43,45 +42,50 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
-    const episodeId = (request.query as { episodeId: string }).episodeId;
+  fastify.get(
+    '/watch/:episodeId',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const episodeId = (request.params as { episodeId: string }).episodeId;
 
-    const server = (request.query as { server: string }).server as StreamingServers;
+      const server = (request.query as { server: string }).server as StreamingServers;
 
-    if (server && !Object.values(StreamingServers).includes(server))
-      return reply.status(400).send({ message: 'server is invalid' });
+      if (server && !Object.values(StreamingServers).includes(server))
+        return reply.status(400).send({ message: 'server is invalid' });
 
-    if (typeof episodeId === 'undefined')
-      return reply.status(400).send({ message: 'id is required' });
+      if (typeof episodeId === 'undefined')
+        return reply.status(400).send({ message: 'id is required' });
 
-    try {
-      const res = await nineanime
-        .fetchEpisodeSources(episodeId, server)
-        .catch((err) => reply.status(404).send({ message: err }));
+      try {
+        const res = await nineanime.fetchEpisodeSources(episodeId, server);
 
-      reply.status(200).send(res);
-    } catch (err) {
-      reply
-        .status(500)
-        .send({ message: 'Something went wrong. Contact developer for help.' });
+        reply.status(200).send(res);
+      } catch (err) {
+        console.error(err);
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Contact developer for help.' });
+      }
     }
-  });
+  );
 
-  fastify.get('/servers', async (request: FastifyRequest, reply: FastifyReply) => {
-    const episodeId = (request.query as { episodeId: string }).episodeId;
+  fastify.get(
+    '/servers/:episodeId',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const episodeId = (request.params as { episodeId: string }).episodeId;
 
-    try {
-      const res = await nineanime
-        .fetchEpisodeServers(episodeId)
-        .catch((err) => reply.status(404).send({ message: err }));
+      try {
+        const res = await nineanime
+          .fetchEpisodeServers(episodeId)
+          .catch((err) => reply.status(404).send({ message: err }));
 
-      reply.status(200).send(res);
-    } catch (err) {
-      reply
-        .status(500)
-        .send({ message: 'Something went wrong. Please try again later.' });
+        reply.status(200).send(res);
+      } catch (err) {
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Please try again later.' });
+      }
     }
-  });
+  );
 };
 
 export default routes;
