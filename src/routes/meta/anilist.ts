@@ -199,16 +199,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const possibleProvider = PROVIDERS_LIST.ANIME.find(
         (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
       );
-      anilist = new META.Anilist(
-        possibleProvider,
-        typeof process.env.PROXIES !== 'undefined'
-          ? {
-              url: JSON.parse(process.env.PROXIES!)[
-                Math.random() * JSON.parse(process.env.PROXIES!).length
-              ],
-            }
-          : undefined
-      );
+      anilist = new META.Anilist(possibleProvider, {
+        url: process.env.PROXY as string | string[],
+      });
     }
 
     const res = await anilist.fetchEpisodeServers(id);
@@ -233,16 +226,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
       );
 
-      anilist = new META.Anilist(
-        possibleProvider,
-        typeof process.env.PROXIES !== 'undefined'
-          ? {
-              url: JSON.parse(process.env.PROXIES!)[
-                Math.random() * JSON.parse(process.env.PROXIES!).length
-              ],
-            }
-          : undefined
-      );
+      anilist = new META.Anilist(possibleProvider, {
+        url: process.env.PROXY as string | string[],
+      });
     }
 
     if (dub === 'true' || dub === '1') dub = true;
@@ -272,16 +258,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             .status(200)
             .send(await anilist.fetchEpisodesListById(id, dub, fetchFiller as boolean));
 
-      anilist = new META.Anilist(
-        undefined,
-        typeof process.env.PROXIES !== 'undefined'
-          ? {
-              url: JSON.parse(process.env.PROXIES!)[
-                Math.random() * JSON.parse(process.env.PROXIES!).length
-              ],
-            }
-          : undefined
-      );
+      anilist = new META.Anilist(undefined, {
+        url: process.env.PROXY as string | string[],
+      });
     } catch (err) {
       return reply.status(404).send({ message: 'Anime not found' });
     }
@@ -314,16 +293,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
       );
 
-      anilist = new META.Anilist(
-        possibleProvider,
-        typeof process.env.PROXIES !== 'undefined'
-          ? {
-              url: JSON.parse(process.env.PROXIES!)[
-                Math.random() * JSON.parse(process.env.PROXIES!).length
-              ],
-            }
-          : undefined
-      );
+      anilist = new META.Anilist(possibleProvider, {
+        url: process.env.PROXY as string | string[],
+      });
     }
 
     if (isDub === 'true' || isDub === '1') isDub = true;
@@ -351,16 +323,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               await anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean)
             );
 
-      anilist = new META.Anilist(
-        undefined,
-        typeof process.env.PROXIES !== 'undefined'
-          ? {
-              url: JSON.parse(process.env.PROXIES!)[
-                Math.random() * JSON.parse(process.env.PROXIES!).length
-              ],
-            }
-          : undefined
-      );
+      anilist = new META.Anilist(undefined, {
+        url: process.env.PROXY as string | string[],
+      });
     } catch (err: any) {
       reply.status(500).send({ message: err.message });
     }
@@ -393,16 +358,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
 
-        anilist = new META.Anilist(
-          possibleProvider,
-          typeof process.env.PROXIES !== 'undefined'
-            ? {
-                url: JSON.parse(process.env.PROXIES!)[
-                  Math.random() * JSON.parse(process.env.PROXIES!).length
-                ],
-              }
-            : undefined
-        );
+        anilist = new META.Anilist(possibleProvider, {
+          url: process.env.PROXY as string | string[],
+        });
       }
       try {
         redis
@@ -418,16 +376,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               )
           : reply.status(200).send(await anilist.fetchEpisodeSources(episodeId, server));
 
-        anilist = new META.Anilist(
-          undefined,
-          typeof process.env.PROXIES !== 'undefined'
-            ? {
-                url: JSON.parse(process.env.PROXIES!)[
-                  Math.random() * JSON.parse(process.env.PROXIES!).length
-                ],
-              }
-            : undefined
-        );
+        anilist = new META.Anilist(undefined, {
+          url: process.env.PROXY as string | string[],
+        });
       } catch (err) {
         reply
           .status(500)
@@ -438,16 +389,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 };
 
 const generateAnilistMeta = (): Anilist => {
-  return new Anilist(
-    undefined,
-    typeof process.env.PROXIES !== 'undefined'
-      ? {
-          url: JSON.parse(process.env.PROXIES!)[
-            Math.random() * JSON.parse(process.env.PROXIES!).length
-          ],
-        }
-      : undefined
-  );
+  return new Anilist(undefined, {
+    url: process.env.PROXY as string | string[],
+  });
 };
 
 export default routes;

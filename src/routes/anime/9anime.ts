@@ -3,9 +3,13 @@ import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const nineanime = new ANIME.NineAnime(process.env.NINE_ANIME_HELPER_URL, {
-    url: process.env.NINE_ANIME_PROXY as string,
-  });
+  const nineanime = new ANIME.NineAnime(
+    process.env.NINE_ANIME_HELPER_URL,
+    {
+      url: process.env.NINE_ANIME_PROXY as string,
+    },
+    process.env?.NINE_ANIME_HELPER_KEY as string
+  );
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
@@ -76,9 +80,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
 
       try {
-        const res = await nineanime
-          .fetchEpisodeServers(episodeId)
-          .catch((err) => reply.status(404).send({ message: err }));
+        const res = await nineanime.fetchEpisodeServers(episodeId);
 
         reply.status(200).send(res);
       } catch (err) {
