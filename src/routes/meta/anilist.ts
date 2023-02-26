@@ -1,12 +1,13 @@
 import { Redis } from 'ioredis';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import { META, PROVIDERS_LIST } from '@consumet/extensions';
+import { ANIME, META, PROVIDERS_LIST } from '@consumet/extensions';
 import { Genres } from '@consumet/extensions/dist/models';
 import Anilist from '@consumet/extensions/dist/providers/meta/anilist';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 import cache from '../../utils/cache';
 import { redis } from '../../main';
+import NineAnime from '@consumet/extensions/dist/providers/anime/9anime';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/', (_, rp) => {
@@ -173,7 +174,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
 
-      const anilist = generateAnilistMeta();
+      const anilist = generateAnilistMeta(provider);
 
       const res = await anilist.fetchRecentEpisodes(provider, page, perPage);
 
@@ -193,16 +194,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     const id = (request.params as { id: string }).id;
     const provider = (request.query as { provider?: string }).provider;
 
-    let anilist = generateAnilistMeta();
-
-    if (typeof provider !== 'undefined') {
-      const possibleProvider = PROVIDERS_LIST.ANIME.find(
-        (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
-      );
-      anilist = new META.Anilist(possibleProvider, {
-        url: process.env.PROXY as string | string[],
-      });
-    }
+    let anilist = generateAnilistMeta(provider);
 
     const res = await anilist.fetchEpisodeServers(id);
 
@@ -219,17 +211,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     let dub = (request.query as { dub?: string | boolean }).dub;
     const locale = (request.query as { locale?: string }).locale;
 
-    let anilist = generateAnilistMeta();
-
-    if (typeof provider !== 'undefined') {
-      const possibleProvider = PROVIDERS_LIST.ANIME.find(
-        (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
-      );
-
-      anilist = new META.Anilist(possibleProvider, {
-        url: process.env.PROXY as string | string[],
-      });
-    }
+    let anilist = generateAnilistMeta(provider);
 
     if (dub === 'true' || dub === '1') dub = true;
     else dub = false;
@@ -257,10 +239,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         : reply
             .status(200)
             .send(await anilist.fetchEpisodesListById(id, dub, fetchFiller as boolean));
-
-      anilist = new META.Anilist(undefined, {
-        url: process.env.PROXY as string | string[],
-      });
     } catch (err) {
       return reply.status(404).send({ message: 'Anime not found' });
     }
@@ -286,17 +264,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     let isDub = (request.query as { dub?: string | boolean }).dub;
     const locale = (request.query as { locale?: string }).locale;
 
-    let anilist = generateAnilistMeta();
-
-    if (typeof provider !== 'undefined') {
-      const possibleProvider = PROVIDERS_LIST.ANIME.find(
-        (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
-      );
-
-      anilist = new META.Anilist(possibleProvider, {
-        url: process.env.PROXY as string | string[],
-      });
-    }
+    let anilist = generateAnilistMeta(provider);
 
     if (isDub === 'true' || isDub === '1') isDub = true;
     else isDub = false;
@@ -322,10 +290,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             .send(
               await anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean)
             );
-
-      anilist = new META.Anilist(undefined, {
-        url: process.env.PROXY as string | string[],
-      });
     } catch (err: any) {
       reply.status(500).send({ message: err.message });
     }
@@ -351,17 +315,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if (server && !Object.values(StreamingServers).includes(server))
         return reply.status(400).send('Invalid server');
 
-      let anilist = generateAnilistMeta();
+      let anilist = generateAnilistMeta(provider);
 
-      if (typeof provider !== 'undefined') {
-        const possibleProvider = PROVIDERS_LIST.ANIME.find(
-          (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
-        );
-
-        anilist = new META.Anilist(possibleProvider, {
-          url: process.env.PROXY as string | string[],
-        });
-      }
       try {
         redis
           ? reply
@@ -388,10 +343,30 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   );
 };
 
-const generateAnilistMeta = (): Anilist => {
-  return new Anilist(undefined, {
-    url: process.env.PROXY as string | string[],
-  });
+const generateAnilistMeta = (provider: string | undefined = undefined): Anilist => {
+  if (typeof provider !== 'undefined') {
+    let possibleProvider = PROVIDERS_LIST.ANIME.find(
+      (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+    );
+
+    if (possibleProvider instanceof NineAnime) {
+      possibleProvider = new ANIME.NineAnime(
+        process.env?.NINE_ANIME_HELPER_URL,
+        {
+          url: process.env?.NINE_ANIME_PROXY as string,
+        },
+        process.env?.NINE_ANIME_HELPER_KEY as string
+      );
+    }
+
+    return new META.Anilist(possibleProvider, {
+      url: process.env.PROXY as string | string[],
+    });
+  } else {
+    return new Anilist(undefined, {
+      url: process.env.PROXY as string | string[],
+    });
+  }
 };
 
 export default routes;
