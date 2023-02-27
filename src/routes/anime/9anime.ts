@@ -32,13 +32,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get('/info/:id', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
-    const isDub = (request.query as { dub: string }).dub;
 
     if (typeof id === 'undefined')
       return reply.status(400).send({ message: 'id is required' });
 
     try {
-      const res = await nineanime.fetchAnimeInfo(id, isDub === 'true' ? true : false);
+      const res = await nineanime.fetchAnimeInfo(id);
 
       reply.status(200).send(res);
     } catch (err) {
