@@ -23,38 +23,36 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     const page = (request.query as { page: number }).page;
 
-    let res = await cache.fetch(
+    let res = redis ? await cache.fetch(
       redis as Redis,
       `flixhq:${query}:${page}`,
       async () => await flixhq.search(query, page ? page : 1),
-      60 * 60 * 6
-    );
-
-    res = !res ? await flixhq.search(query, page ? page : 1) : res;
+      60 * 60 * 6 
+    ) : await flixhq.search(query, page ? page : 1)
 
     reply.status(200).send(res);
   });
 
   fastify.get('/recent-shows', async (request: FastifyRequest, reply: FastifyReply) => {
-    let res = await cache.fetch(
+    let res = redis ? await cache.fetch(
       redis as Redis,
       `flixhq:recent-shows`,
       async () => await flixhq.fetchRecentTvShows(),
       60 * 60 * 3
-    );
+    ) : await flixhq.fetchRecentTvShows()
 
-    res = !res ? await flixhq.fetchRecentTvShows() : res;
+ 
 
     reply.status(200).send(res);
   });
 
   fastify.get('/recent-movies', async (request: FastifyRequest, reply: FastifyReply) => {
-    let res = await cache.fetch(
+    let res = redis ? await cache.fetch(
       redis as Redis,
       `flixhq:recent-movies`,
       async () => await flixhq.fetchRecentMovies(),
       60 * 60 * 3
-    );
+    ) : await flixhq.fetchRecentMovies()
 
     reply.status(200).send(res);
   });
@@ -72,7 +70,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         return reply.status(200).send(res);
       }
 
-      let res = await cache.fetch(
+      let res = redis ? await cache.fetch(
         redis as Redis,
         `flixhq:trending:${type}`,
         async () =>
@@ -80,14 +78,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             ? await flixhq.fetchTrendingTvShows()
             : await flixhq.fetchTrendingMovies(),
         60 * 60 * 3
-      );
-
-      res = !res
-        ? type === 'tv'
-          ? await flixhq.fetchTrendingTvShows()
-          : await flixhq.fetchTrendingMovies()
-        : res;
-
+      ) : type === 'tv'
+      ? await flixhq.fetchTrendingTvShows()
+      : await flixhq.fetchTrendingMovies()
+      
       reply.status(200).send(res);
     } catch (error) {
       reply.status(500).send({
@@ -106,14 +100,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       });
 
     try {
-      let res = await cache.fetch(
+      let res = redis ? await cache.fetch(
         redis as Redis,
         `flixhq:info:${id}`,
         async () => await flixhq.fetchMediaInfo(id),
         60 * 60 * 3
-      );
-
-      res = !res ? await flixhq.fetchMediaInfo(id) : res;
+      ) : await flixhq.fetchMediaInfo(id)
 
       reply.status(200).send(res);
     } catch (err) {
@@ -138,14 +130,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'Invalid server query' });
 
     try {
-      let res = await cache.fetch(
+      let res = redis ? await cache.fetch(
         redis as Redis,
         `flixhq:watch:${episodeId}:${mediaId}:${server}`,
         async () => await flixhq.fetchEpisodeSources(episodeId, mediaId, server),
         60 * 30
-      );
-
-      res = !res ? await flixhq.fetchEpisodeSources(episodeId, mediaId, server) : res;
+      ) : await flixhq.fetchEpisodeSources(episodeId, mediaId, server)
 
       reply.status(200).send(res);
     } catch (err) {
@@ -159,12 +149,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
     const mediaId = (request.query as { mediaId: string }).mediaId;
     try {
-      let res = await cache.fetch(
+      let res = redis ? await cache.fetch(
         redis as Redis,
         `flixhq:servers:${episodeId}:${mediaId}`,
         async () => await flixhq.fetchEpisodeServers(episodeId, mediaId),
         60 * 30
-      );
+      ) : await flixhq.fetchEpisodeServers(episodeId, mediaId)
 
       reply.status(200).send(res);
     } catch (error) {
