@@ -3,9 +3,9 @@
 
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git":
-  version "1.4.14"
-  uid "3224942ef952858a234502d06fd903154c8c9b34"
-  resolved "https://github.com/consumet/consumet.ts.git#3224942ef952858a234502d06fd903154c8c9b34"
+  version "1.4.15"
+  uid f32c06ddaef142d22e9dc870fa49ad8d9772a353
+  resolved "https://github.com/consumet/consumet.ts.git#f32c06ddaef142d22e9dc870fa49ad8d9772a353"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -20,7 +20,7 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@fastify/ajv-compiler@^3.3.1":
+"@fastify/ajv-compiler@^3.5.0":
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/@fastify/ajv-compiler/-/ajv-compiler-3.5.0.tgz#459bff00fefbf86c96ec30e62e933d2379e46670"
   integrity sha512-ebbEtlI7dxXF5ziNdr05mOY8NnDiPB1XvAlLHctRt/Rc+C3LCOVW5imUVX+mhvUhnNzmPBHewUkOFgGlCxgdAA==
@@ -105,9 +105,9 @@
     fastify-cors "*"
 
 "@types/node@*", "@types/node@^18.11.17":
-  version "18.14.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.14.2.tgz#c076ed1d7b6095078ad3cf21dfeea951842778b1"
-  integrity sha512-1uEQxww3DaghA0RxqHx0O0ppVlo43pJhepY51OxuQIKHpjbnYLA7vcdwioNPzIqmC2u3I/dmylcqjlh0e7AyUA==
+  version "18.14.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.14.6.tgz#ae1973dd2b1eeb1825695bb11ebfb746d27e3e93"
+  integrity sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==
 
 "@types/ws@^8.5.3":
   version "8.5.4"
@@ -518,11 +518,11 @@ fastify-plugin@^4.0.0:
   integrity sha512-79ak0JxddO0utAXAQ5ccKhvs6vX2MGyHHMMsmZkBANrq3hXc1CHzvNPHOcvTsVMEPl5I+NT+RO4YKMGehOfSIg==
 
 fastify@^4.10.2:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.13.0.tgz#5726d4c63acae1b5e34c7643e233a0be8169009a"
-  integrity sha512-p9ibdFWH3pZ7KPgmfHPKGUy2W4EWU2TEpwlcu58w4CwGyU3ARFfh2kwq6zpZ5W2ZGVbufi4tZbqHIHAlX/9Z/A==
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.14.0.tgz#05e388e93b7014c1381a44c021c4c9cfcba9d984"
+  integrity sha512-oJSHlM/XbGdJpe2MKMJBsrvrkPDrHDZlAB9qzuUJIpnBtpDE394bzdFsH4KnsUI1e8zxzFl+GNBEXC64N/IPuw==
   dependencies:
-    "@fastify/ajv-compiler" "^3.3.1"
+    "@fastify/ajv-compiler" "^3.5.0"
     "@fastify/error" "^3.0.0"
     "@fastify/fast-json-stringify-compiler" "^4.1.0"
     abstract-logging "^2.0.1"
