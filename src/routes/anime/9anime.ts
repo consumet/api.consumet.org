@@ -93,7 +93,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get(
     '/helper',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const actions = ["vrf", "searchVrf", "decrypt"];
+      const actions = ["vrf", "searchVrf", "decrypt", "vizcloud"];
 
       const action = (request.query as { action: string }).action;
 
@@ -116,6 +116,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             break;
           case "decrypt":
             res.vrf = await nineanime.decrypt(query);
+            break;
+          case "vizcloud":
+            res.vrf = await nineanime.vizcloud(query);
             break;
         }
 
