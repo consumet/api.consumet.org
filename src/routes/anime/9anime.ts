@@ -89,6 +89,45 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       }
     }
   );
+
+  fastify.get(
+    '/helper',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const actions = ["vrf", "searchVrf", "decrypt"];
+
+      const action = (request.query as { action: string }).action;
+
+      const query = (request.query as { query: string }).query;
+
+      if (action && !actions.includes(action))
+        return reply.status(400).send({ message: 'action is invalid' });
+
+      if (typeof query === 'undefined')
+        return reply.status(400).send({ message: 'query is required' });
+
+      const res = {} as { vrf: string };
+      try {
+        switch (action) {
+          case "vrf":
+            res.vrf = await nineanime.ev(query);
+            break;
+          case "searchVrf":
+            res.vrf = await nineanime.searchVrf(query);
+            break;
+          case "decrypt":
+            res.vrf = await nineanime.decrypt(query);
+            break;
+        }
+
+        reply.status(200).send(res);
+      } catch (err) {
+        console.error(err);
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Contact developer for help.' });
+      }
+    }
+  );
 };
 
 export default routes;
