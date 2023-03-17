@@ -99,7 +99,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
       const query = (request.query as { query: string }).query;
 
-      if (action && !actions.includes(action))
+      if (!action)
         return reply.status(400).send({ message: 'action is invalid' });
 
       if (typeof query === 'undefined')
@@ -119,6 +119,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             break;
           case "vizcloud":
             res = await nineanime.vizcloud(query);
+            break;
+          default:
+            res = await nineanime.customRequest(query, action);
             break;
         }
 
