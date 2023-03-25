@@ -9,6 +9,9 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const fmovies = new MOVIES.Fmovies(
     process.env.NINE_ANIME_HELPER_URL,
+    {
+      url: process.env.NINE_ANIME_PROXY as string,
+    },
     process.env?.NINE_ANIME_HELPER_KEY
   );
 
