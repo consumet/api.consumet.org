@@ -4,8 +4,8 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git":
   version "1.4.16"
-  uid "65e190b17c4e0e86466195fe51929a893a75782d"
-  resolved "https://github.com/consumet/consumet.ts.git#65e190b17c4e0e86466195fe51929a893a75782d"
+  uid "972efd01d5de7cebd2deb57e312da527a566b04b"
+  resolved "https://github.com/consumet/consumet.ts.git#972efd01d5de7cebd2deb57e312da527a566b04b"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -47,7 +47,7 @@
   resolved "https://registry.yarnpkg.com/@fastify/error/-/error-3.2.0.tgz#9010e0acfe07965f5fc7d2b367f58f042d0f4106"
   integrity sha512-KAfcLa+CnknwVi5fWogrLXgidLic+GXnLjijXdpl8pvkvbXU5BGa37iZO9FGvsh9ZL4y+oFi5cbHBm5UOG+dmQ==
 
-"@fastify/fast-json-stringify-compiler@^4.1.0":
+"@fastify/fast-json-stringify-compiler@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@fastify/fast-json-stringify-compiler/-/fast-json-stringify-compiler-4.2.0.tgz#52d047fac76b0d75bd660f04a5dd606659f57c5a"
   integrity sha512-ypZynRvXA3dibfPykQN3RB5wBdEUgSGgny8Qc6k163wYPLD4mEGEDkACp+00YmqkGvIm8D/xYoHajwyEdWD/eg==
@@ -105,9 +105,9 @@
     fastify-cors "*"
 
 "@types/node@*", "@types/node@^18.11.17":
-  version "18.15.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.3.tgz#f0b991c32cfc6a4e7f3399d6cb4b8cf9a0315014"
-  integrity sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==
+  version "18.15.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.10.tgz#4ee2171c3306a185d1208dad5f44dae3dee4cfe3"
+  integrity sha512-9avDaQJczATcXgfmMAW3MIWArOO7A+m90vuCFLr8AotWf8igO/mRoYukrk2cqZVtv38tHs33retzHEilM7FpeQ==
 
 "@types/ws@^8.5.3":
   version "8.5.4"
@@ -432,7 +432,7 @@ dotenv@^16.0.3:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
   integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
-entities@^4.2.0, entities@^4.3.0, entities@^4.4.0:
+entities@^4.2.0, entities@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/entities/-/entities-4.4.0.tgz#97bdaba170339446495e653cfd2db78962900174"
   integrity sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA==
@@ -518,17 +518,17 @@ fastify-plugin@^4.0.0:
   integrity sha512-79ak0JxddO0utAXAQ5ccKhvs6vX2MGyHHMMsmZkBANrq3hXc1CHzvNPHOcvTsVMEPl5I+NT+RO4YKMGehOfSIg==
 
 fastify@^4.10.2:
-  version "4.14.1"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.14.1.tgz#be1b27a13910c74ecb8625de4fa42feab9703259"
-  integrity sha512-yjrDeXe77j9gRlSV2UJry8mcFWbD0NQ5JYjnPi4tkFjHZVaG3/BD5wxOmRzGnHPC0YvaBJ0XWrIfFPl2IHRa1w==
+  version "4.15.0"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.15.0.tgz#4ebadaea706217467a332341f9cfa632072d51f2"
+  integrity sha512-m/CaRN8nf5uyYdrDe2qqq+0z3oGyE+A++qlKQoLJTI4WI0nWK9D6R3FxXQ3MVwt/md977GMR4F43pE9oqrS2zw==
   dependencies:
     "@fastify/ajv-compiler" "^3.5.0"
     "@fastify/error" "^3.0.0"
-    "@fastify/fast-json-stringify-compiler" "^4.1.0"
+    "@fastify/fast-json-stringify-compiler" "^4.2.0"
     abstract-logging "^2.0.1"
     avvio "^8.2.0"
     fast-content-type-parse "^1.0.0"
-    find-my-way "^7.3.0"
+    find-my-way "^7.6.0"
     light-my-request "^5.6.1"
     pino "^8.5.0"
     process-warning "^2.0.0"
@@ -552,7 +552,7 @@ fill-range@^7.0.1:
   dependencies:
     to-regex-range "^5.0.1"
 
-find-my-way@^7.3.0:
+find-my-way@^7.6.0:
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-7.6.0.tgz#f1e271fd1aafe87e87860662f9940124274f73c7"
   integrity sha512-H7berWdHJ+5CNVr4ilLWPai4ml7Y2qAsxjw3pfeBxPigZmaDTzF0wjJLj90xRCmGcWYcyt050yN+34OZDJm1eQ==
@@ -603,14 +603,14 @@ has-flag@^4.0.0:
   integrity sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==
 
 htmlparser2@^8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-8.0.1.tgz#abaa985474fcefe269bc761a779b544d7196d010"
-  integrity sha512-4lVbmc1diZC7GUJQtRQ5yBAeUCL1exyMwmForWkRLnwyzWBFxN633SALPMGYaWZvKe9j1pRZJpauvmxENSp/EA==
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-8.0.2.tgz#f002151705b383e62433b5cf466f5b716edaec21"
+  integrity sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==
   dependencies:
     domelementtype "^2.3.0"
-    domhandler "^5.0.2"
+    domhandler "^5.0.3"
     domutils "^3.0.1"
-    entities "^4.3.0"
+    entities "^4.4.0"
 
 ieee754@^1.2.1:
   version "1.2.1"
@@ -834,9 +834,9 @@ pino@^8.5.0:
     thread-stream "^2.0.0"
 
 prettier@^2.8.1:
-  version "2.8.4"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.4.tgz#34dd2595629bfbb79d344ac4a91ff948694463c3"
-  integrity sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==
+  version "2.8.7"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.7.tgz#bb79fc8729308549d28fe3a98fce73d2c0656450"
+  integrity sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw==
 
 process-warning@^1.0.0:
   version "1.0.0"
@@ -982,16 +982,16 @@ simple-update-notifier@^1.0.7:
     semver "~7.0.0"
 
 sonic-boom@^3.1.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-3.2.1.tgz#972ceab831b5840a08a002fa95a672008bda1c38"
-  integrity sha512-iITeTHxy3B9FGu8aVdiDXUVAcHMF9Ss0cCsAOo2HfCrmVGT3/DT5oYaeu0M/YKZDlKTvChEyPq0zI9Hf33EX6A==
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-3.3.0.tgz#cffab6dafee3b2bcb88d08d589394198bee1838c"
+  integrity sha512-LYxp34KlZ1a2Jb8ZQgFCK3niIHzibdwtwNUWKg0qQRzsDoJ3Gfgkf8KdBTFU3SkejDEIlWwnSnpVdOZIhFMl/g==
   dependencies:
     atomic-sleep "^1.0.0"
 
 split2@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/split2/-/split2-4.1.0.tgz#101907a24370f85bb782f08adaabe4e281ecf809"
-  integrity sha512-VBiJxFkxiXRlUIeyMQi8s4hgvKCSjtknJv/LVYbrgALPwf5zSKmEwV9Lst25AkvMDnvxODugjdl6KZgwKM1WYQ==
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/split2/-/split2-4.2.0.tgz#c9c5920904d148bab0b9f67145f245a86aadbfa4"
+  integrity sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==
 
 standard-as-callback@^2.1.0:
   version "2.1.0"
@@ -1020,9 +1020,9 @@ thread-stream@^2.0.0:
     real-require "^0.2.0"
 
 tiny-lru@^10.0.0:
-  version "10.2.2"
-  resolved "https://registry.yarnpkg.com/tiny-lru/-/tiny-lru-10.2.2.tgz#dba7e921a9f940e841a7f4e5aef1cb478ecdb07f"
-  integrity sha512-yx+e2W/6E0SBEuXG+3M1fibQyyMDbz3jd/8EPyodw+LQVcUXA6tfNGUzktEy1PgZlresc6PiC4HQiyeZM2lGzA==
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/tiny-lru/-/tiny-lru-10.3.0.tgz#2ddc88bbe8d9a2c761df673ebef52a82182a64b3"
+  integrity sha512-vTKRT2AEO1sViFDWAIzZVpV8KURCaMtnHa4RZB3XqtYLbrTO/fLDXKPEX9kVWq9u+nZREkwakbcmzGgvJm8QKA==
 
 to-regex-range@^5.0.1:
   version "5.0.1"
