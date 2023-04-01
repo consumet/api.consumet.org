@@ -9,7 +9,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     rp.status(200).send({
       intro:
         "Welcome to the zoro provider: check out the provider's website @ https://zoro.to/",
-      routes: ['/:query', '/info/:id', '/watch/:episodeId'],
+      routes: ['/:query', '/info/:id', '/watch/:episodeId', '/key/:keyID'],
       documentation: 'https://docs.consumet.org/#tag/zoro',
     });
   });
@@ -52,6 +52,23 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .status(500)
         .send({ message: 'Something went wrong. Contact developer for help.' });
     }
+  });
+
+  fastify.get('/key/:keyID', async (request: FastifyRequest, reply: FastifyReply) => {
+    const keyID = parseInt((request.params as { keyID: string }).keyID);
+
+    if (keyID !== 4 && keyID !== 6)
+      return reply.status(400).send({ message: 'keyID must be either 4 or 6.' });
+      try {
+        const key = await zoro.getKey(keyID);
+        reply
+          .status(200)
+          .send(key);
+      } catch (err) {
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Contact developer for help.' });
+      }
   });
 
   fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
