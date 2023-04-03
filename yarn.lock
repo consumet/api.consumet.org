@@ -3,9 +3,9 @@
 
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git":
-  version "1.4.16"
-  uid "972efd01d5de7cebd2deb57e312da527a566b04b"
-  resolved "https://github.com/consumet/consumet.ts.git#972efd01d5de7cebd2deb57e312da527a566b04b"
+  version "1.4.17"
+  uid "2e3509dfd6d00c4440b4f8b9e4ca191f62c1660b"
+  resolved "https://github.com/consumet/consumet.ts.git#2e3509dfd6d00c4440b4f8b9e4ca191f62c1660b"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -105,9 +105,9 @@
     fastify-cors "*"
 
 "@types/node@*", "@types/node@^18.11.17":
-  version "18.15.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.10.tgz#4ee2171c3306a185d1208dad5f44dae3dee4cfe3"
-  integrity sha512-9avDaQJczATcXgfmMAW3MIWArOO7A+m90vuCFLr8AotWf8igO/mRoYukrk2cqZVtv38tHs33retzHEilM7FpeQ==
+  version "18.15.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.11.tgz#b3b790f09cb1696cffcec605de025b088fa4225f"
+  integrity sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==
 
 "@types/ws@^8.5.3":
   version "8.5.4"
@@ -463,9 +463,9 @@ fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
 
 fast-json-stringify@^5.0.0:
-  version "5.6.2"
-  resolved "https://registry.yarnpkg.com/fast-json-stringify/-/fast-json-stringify-5.6.2.tgz#1ea6c2b8d0f27f297f682d1af039398a603af507"
-  integrity sha512-F6xkRrXvtGbAiDSEI5Rk7qk2P63Y9kc8bO6Dnsd3Rt6sBNr2QxNFWs0JbKftgiyOfGxnJaRoHe4SizCTqeAyrA==
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/fast-json-stringify/-/fast-json-stringify-5.7.0.tgz#b0a04c848fdeb6ecd83440c71a4db35067023bed"
+  integrity sha512-sBVPTgnAZseLu1Qgj6lUbQ0HfjFhZWXAmpZ5AaSGkyLh5gAXBga/uPJjQPHpDFjC9adWIpdOcCLSDTgrZ7snoQ==
   dependencies:
     "@fastify/deepmerge" "^1.0.0"
     ajv "^8.10.0"
@@ -1020,9 +1020,9 @@ thread-stream@^2.0.0:
     real-require "^0.2.0"
 
 tiny-lru@^10.0.0:
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/tiny-lru/-/tiny-lru-10.3.0.tgz#2ddc88bbe8d9a2c761df673ebef52a82182a64b3"
-  integrity sha512-vTKRT2AEO1sViFDWAIzZVpV8KURCaMtnHa4RZB3XqtYLbrTO/fLDXKPEX9kVWq9u+nZREkwakbcmzGgvJm8QKA==
+  version "10.4.1"
+  resolved "https://registry.yarnpkg.com/tiny-lru/-/tiny-lru-10.4.1.tgz#dec67a62115a4cb31d2065b8116d010daac362fe"
+  integrity sha512-buLIzw7ppqymuO3pt10jHk/6QMeZLbidihMQU+N6sogF6EnBzG0qtDWIHuhw1x3dyNgVL/KTGIZsTK81+yCzLg==
 
 to-regex-range@^5.0.1:
   version "5.0.1"
