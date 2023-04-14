@@ -29,16 +29,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     const page = (request.query as { page: number }).page;
 
-    let res = redis ? await cache.fetch(
-      redis as Redis,
-      `fmovies:${query}:${page}`,
-      async () => await fmovies.search(query, page ? page : 1),
-      60 * 60 * 6 
-    ) : await fmovies.search(query, page ? page : 1)
+    let res = redis
+      ? await cache.fetch(
+          redis as Redis,
+          `fmovies:${query}:${page}`,
+          async () => await fmovies.search(query, page ? page : 1),
+          60 * 60 * 6
+        )
+      : await fmovies.search(query, page ? page : 1);
 
     reply.status(200).send(res);
   });
-
 
   fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
@@ -49,12 +50,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       });
 
     try {
-      let res = redis ? await cache.fetch(
-        redis as Redis,
-        `fmovies:info:${id}`,
-        async () => await fmovies.fetchMediaInfo(id),
-        60 * 60 * 3
-      ) : await fmovies.fetchMediaInfo(id)
+      let res = redis
+        ? await cache.fetch(
+            redis as Redis,
+            `fmovies:info:${id}`,
+            async () => await fmovies.fetchMediaInfo(id),
+            60 * 60 * 3
+          )
+        : await fmovies.fetchMediaInfo(id);
 
       reply.status(200).send(res);
     } catch (err) {
@@ -79,12 +82,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'Invalid server query' });
 
     try {
-      let res = redis ? await cache.fetch(
-        redis as Redis,
-        `fmovies:watch:${episodeId}:${mediaId}:${server}`,
-        async () => await fmovies.fetchEpisodeSources(episodeId, mediaId, server),
-        60 * 30
-      ) : await fmovies.fetchEpisodeSources(episodeId, mediaId, server)
+      let res = redis
+        ? await cache.fetch(
+            redis as Redis,
+            `fmovies:watch:${episodeId}:${mediaId}:${server}`,
+            async () => await fmovies.fetchEpisodeSources(episodeId, mediaId, server),
+            60 * 30
+          )
+        : await fmovies.fetchEpisodeSources(episodeId, mediaId, server);
 
       reply.status(200).send(res);
     } catch (err) {
@@ -93,7 +98,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .send({ message: 'Something went wrong. Please try again later.' });
     }
   });
-
 };
 
 export default routes;
