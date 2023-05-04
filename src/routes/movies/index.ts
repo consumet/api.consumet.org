@@ -6,7 +6,7 @@ import viewasian from './viewasian';
 import dramacool from './dramacool';
 import fmovies from './fmovies';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  await fastify.register(flixhq, { prefix: '/flixhq' });
+  await fastify.register(flixhq, { prefix: '/flix' });
   await fastify.register(viewasian, { prefix: '/viewasian' });
   await fastify.register(dramacool, { prefix: '/dramacool' });
   await fastify.register(fmovies, { prefix: '/fmovies' });
