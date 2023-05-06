@@ -90,50 +90,46 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   );
 
-  fastify.get(
-    '/helper',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const actions = ["vrf", "searchVrf", "decrypt", "vizcloud"];
+  fastify.get('/helper', async (request: FastifyRequest, reply: FastifyReply) => {
+    const actions = ['vrf', 'searchVrf', 'decrypt', 'vizcloud'];
 
-      const action = (request.query as { action: string }).action;
+    const action = (request.query as { action: string }).action;
 
-      const query = (request.query as { query: string }).query;
+    const query = (request.query as { query: string }).query;
 
-      if (!action)
-        return reply.status(400).send({ message: 'action is invalid' });
+    if (!action) return reply.status(400).send({ message: 'action is invalid' });
 
-      if (typeof query === 'undefined')
-        return reply.status(400).send({ message: 'query is required' });
+    if (typeof query === 'undefined')
+      return reply.status(400).send({ message: 'query is required' });
 
-      let res = {} as any;
-      try {
-        switch (action) {
-          case "vrf":
-            res = await nineanime.ev(query, true);
-            break;
-          case "searchVrf":
-            res = await nineanime.searchVrf(query, true);
-            break;
-          case "decrypt":
-            res = await nineanime.decrypt(query, true);
-            break;
-          case "vizcloud":
-            res = await nineanime.vizcloud(query);
-            break;
-          default:
-            res = await nineanime.customRequest(query, action);
-            break;
-        }
-
-        reply.status(200).send(res);
-      } catch (err) {
-        console.error(err);
-        reply
-          .status(500)
-          .send({ message: 'Something went wrong. Contact developer for help.' });
+    let res = {} as any;
+    try {
+      switch (action) {
+        case 'vrf':
+          res = await nineanime.ev(query, true);
+          break;
+        case 'searchVrf':
+          res = await nineanime.searchVrf(query, true);
+          break;
+        case 'decrypt':
+          res = await nineanime.decrypt(query, true);
+          break;
+        case 'vizcloud':
+          res = await nineanime.vizcloud(query);
+          break;
+        default:
+          res = await nineanime.customRequest(query, action);
+          break;
       }
+
+      reply.status(200).send(res);
+    } catch (err) {
+      console.error(err);
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Contact developer for help.' });
     }
-  );
+  });
 };
 
 export default routes;

@@ -5,7 +5,7 @@ class ZoroKey {
   getKey = async (fastify: FastifyInstance, options: RegisterOptions) => {
     fastify.get('/key/:keyID', async (request: FastifyRequest, reply: FastifyReply) => {
       const keyID = parseInt((request.params as { keyID: string }).keyID);
-      
+
       if (keyID !== 4 && keyID !== 6)
         return reply.status(400).send({ message: 'keyID can either be 4 or 6.' });
 

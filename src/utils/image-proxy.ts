@@ -12,13 +12,14 @@ class ImageProxy {
   };
 
   public async proxyImage(request: FastifyRequest, reply: FastifyReply) {
+    fastify.get('/image-proxy', async (request: FastifyRequest, reply: FastifyReply) => {
       const { url } = request.query as { url: string };
       // get headers from the query
       const { headers } = request.query as { headers: any };
 
       if (!url || !headers) {
-          reply.status(400).send('No URL provided');
-          return;
+        reply.status(400).send('No URL provided');
+        return;
       }
 
       // return the image
@@ -27,11 +28,12 @@ class ImageProxy {
       reply.header('Access-Control-Allow-Origin', '*');
       reply.header('Access-Control-Allow-Methods', 'GET');
       reply.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
       );
       reply.header('Access-Control-Allow-Credentials', 'true');
       reply.send(await this.getImage(url, { headers: JSON.parse(headers) }));
+    });
   }
 }
 
