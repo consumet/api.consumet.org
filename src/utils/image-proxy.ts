@@ -11,7 +11,7 @@ class ImageProxy {
     return data.data;
   };
 
-  public async proxyImage(request: FastifyRequest, reply: FastifyReply) {
+  public async getImageProxy(fastify: FastifyInstance, options: RegisterOptions) {
     fastify.get('/image-proxy', async (request: FastifyRequest, reply: FastifyReply) => {
       const { url } = request.query as { url: string };
       // get headers from the query
