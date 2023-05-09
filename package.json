@@ -24,7 +24,6 @@
     "dependencies": {
         "@consumet/extensions": "https://github.com/consumet/consumet.ts.git",
         "@fastify/cors": "^8.2.0",
-        "@redis/client": "^1.5.7",
         "@types/fastify-cors": "^2.1.0",
         "@types/node": "^18.11.17",
         "@types/ws": "^8.5.3",
@@ -36,7 +35,6 @@
         "fastify-cors": "^6.1.0",
         "ioredis": "^5.2.4",
         "reconnecting-websocket": "^4.4.0",
-        "redis": "^4.6.6",
         "ts-node": "^10.9.1",
         "typescript": "5.0.2",
         "ws": "^8.8.1"
