@@ -5,3 +5,4 @@ src/scripts
 .vscode
 yarn.lock
 test.ts
+dist
