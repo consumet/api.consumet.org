@@ -1,17 +1,19 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 
 class ImageProxy {
-  #image = undefined;
-  private getImage = async (url: string, options: {}): Promise<string> => {
-    const data = await axios.get(url, {
-      responseType: 'arraybuffer',
-      ...options,
-    });
-    return data.data;
-  };
-
   public async getImageProxy(fastify: FastifyInstance, options: RegisterOptions) {
+    const getImage = async (url: string, options: AxiosRequestConfig): Promise<string> => {
+        const data = await axios
+            .get(url, {
+                responseType: "arraybuffer",
+                ...options,
+            })
+            .catch((err) => {
+                return { data: err.response.data };
+            });
+        return data.data;
+    };
     fastify.get('/image-proxy', async (request: FastifyRequest, reply: FastifyReply) => {
       const { url } = request.query as { url: string };
       // get headers from the query
@@ -32,7 +34,7 @@ class ImageProxy {
         'Origin, X-Requested-With, Content-Type, Accept'
       );
       reply.header('Access-Control-Allow-Credentials', 'true');
-      reply.send(await this.getImage(url, { headers: JSON.parse(headers) }));
+      reply.send(await getImage(url, { headers: JSON.parse(headers) }));
     });
   }
 }
