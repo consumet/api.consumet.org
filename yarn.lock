@@ -4,8 +4,8 @@
 
 "@consumet/extensions@https://github.com/consumet/consumet.ts.git":
   version "1.4.18"
-  uid "4290d408de2a344d96e28370f412c4eacee559af"
-  resolved "https://github.com/consumet/consumet.ts.git#4290d408de2a344d96e28370f412c4eacee559af"
+  uid fde6bca4fb51016a5d8592ec40d0b97c4d89c962
+  resolved "https://github.com/consumet/consumet.ts.git#fde6bca4fb51016a5d8592ec40d0b97c4d89c962"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -30,9 +30,9 @@
     fast-uri "^2.0.0"
 
 "@fastify/cors@^8.2.0":
-  version "8.2.1"
-  resolved "https://registry.yarnpkg.com/@fastify/cors/-/cors-8.2.1.tgz#dd348162bcbfb87dff4b492e2bef32d41244006a"
-  integrity sha512-2H2MrDD3ea7g707g1CNNLWb9/tYbmw7HS+MK2SDcgjxwzbOFR93JortelTIO8DBFsZqFtEpKNxiZfSyrGgYcbw==
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/@fastify/cors/-/cors-8.3.0.tgz#f03d745731b770793a1a15344da7220ca0d19619"
+  integrity sha512-oj9xkka2Tg0MrwuKhsSUumcAkfp2YCnKxmFEusi01pjk1YrdDsuSYTHXEelWNW+ilSy/ApZq0c2SvhKrLX0H1g==
   dependencies:
     fastify-plugin "^4.0.0"
     mnemonist "0.39.5"
@@ -43,9 +43,9 @@
   integrity sha512-J8TOSBq3SoZbDhM9+R/u77hP93gz/rajSA+K2kGyijPpORPWUXHUpTaleoj+92As0S9uPRP7Oi8IqMf0u+ro6A==
 
 "@fastify/error@^3.0.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@fastify/error/-/error-3.2.0.tgz#9010e0acfe07965f5fc7d2b367f58f042d0f4106"
-  integrity sha512-KAfcLa+CnknwVi5fWogrLXgidLic+GXnLjijXdpl8pvkvbXU5BGa37iZO9FGvsh9ZL4y+oFi5cbHBm5UOG+dmQ==
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@fastify/error/-/error-3.2.1.tgz#5d1cb182a8bb9b103c556b0da35fd77f319fc15e"
+  integrity sha512-scZVbcpPNWw/yyFmzzO7cf1daTeJp53spN2n7dBTHZd+cV7791fcWJCPP1Tfhdbre+8vDiCyQyqqXfQnYMntYQ==
 
 "@fastify/fast-json-stringify-compiler@^4.3.0":
   version "4.3.0"
@@ -105,14 +105,14 @@
     fastify-cors "*"
 
 "@types/node@*":
-  version "20.2.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.3.tgz#b31eb300610c3835ac008d690de6f87e28f9b878"
-  integrity sha512-pg9d0yC4rVNWQzX8U7xb4olIOFuuVL9za3bzMT2pu2SU0SNEi66i2qrvhE2qt0HvkhuCaWJu7pLNOt/Pj8BIrw==
+  version "20.2.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.5.tgz#26d295f3570323b2837d322180dfbf1ba156fefb"
+  integrity sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==
 
 "@types/node@^18.11.17":
-  version "18.16.14"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.16.14.tgz#ab67bb907f1146afc6fedb9ce60ae8a99c989631"
-  integrity sha512-+ImzUB3mw2c5ISJUq0punjDilUQ5GnUim0ZRvchHIWJmOC0G+p0kzhXBqj6cDjK0QdPFwzrHWgrJp3RPvCG5qg==
+  version "18.16.16"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.16.16.tgz#3b64862856c7874ccf7439e6bab872d245c86d8e"
+  integrity sha512-NpaM49IGQQAUlBhHMF82QH80J08os4ZmyF9MkpCzWAGuOHqE4gTEbhzd7L3l5LmWuZ6E0OiC1FweQ4tsiW35+g==
 
 "@types/ws@^8.5.3":
   version "8.5.4"
@@ -433,9 +433,9 @@ domutils@^3.0.1:
     domhandler "^5.0.3"
 
 dotenv@^16.0.3:
-  version "16.0.3"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
-  integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
+  version "16.1.4"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.1.4.tgz#67ac1a10cd9c25f5ba604e4e08bc77c0ebe0ca8c"
+  integrity sha512-m55RtE8AsPeJBpOIFKihEmqUcoVncQIwo7x9U8ZwLEZw9ZpXboz2c+rvog+jUaJvVrZ5kBOeYQBX5+8Aa/OZQw==
 
 entities@^4.2.0, entities@^4.4.0:
   version "4.5.0"
