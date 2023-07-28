@@ -47,7 +47,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const id = (request.query as { id: string }).id;
       const provider = (request.query as { provider?: string }).provider;
 
-      const tmdb = new META.TMDB(tmdbApi);
+      let tmdb = new META.TMDB(tmdbApi);
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.MOVIES.find(
             (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
