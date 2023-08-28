@@ -45,8 +45,15 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
       const id = (request.query as { id: string }).id;
-      const tmdb = new META.TMDB(tmdbApi);
+      const provider = (request.query as { provider?: string }).provider;
 
+      let tmdb = new META.TMDB(tmdbApi);
+      if (typeof provider !== 'undefined') {
+        const possibleProvider = PROVIDERS_LIST.MOVIES.find(
+            (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+        );
+        tmdb = new META.TMDB(tmdbApi, possibleProvider);
+      }
       try {
         const res = await tmdb
           .fetchEpisodeSources(episodeId, id)
