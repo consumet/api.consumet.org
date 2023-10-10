@@ -1,10 +1,10 @@
 {
     "name": "api.consumet.org",
     "version": "1.0.0",
-    "main": "src/main.ts",
     {
       "type": "module"
     },
+    "main": "src/main.ts",
     "scripts": {
         "start": "ts-node src/main.ts",
         "dev": "nodemon src/main.ts",
