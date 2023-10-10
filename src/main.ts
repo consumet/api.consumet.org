@@ -18,17 +18,17 @@ export const redis =
   new Redis({
     host: process.env.REDIS_HOST,
     port: Number(process.env.REDIS_PORT),
-    username: process.env.REDIS_USERNAME,
+    password: process.env.REDIS_PASSWORD
   });
 
-export const tmdbApi = process.env.apiKey && process.env.apiKey;
+export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
 (async () => {
   const PORT = Number(process.env.PORT) || 3000;
 
   console.log(chalk.green(`Starting server on port ${PORT}... 🚀`));
   if (!process.env.REDIS_HOST)
     console.warn(chalk.yellowBright('Redis not found. Cache disabled.'));
-  if (!process.env.tmdbApi)
+  if (!process.env.TMDB_KEY)
     console.warn(
       chalk.yellowBright('TMDB api key not found. the TMDB meta route may not work.')
     );
