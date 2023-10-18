@@ -2,21 +2,21 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 import { ANIME } from '@consumet/extensions';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const enime = new ANIME.Enime();
+  const anify = new ANIME.Anify();
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
-        "Welcome to the enime provider: check out the provider's website @ https://enime.com/",
+        "Welcome to the Anify provider: check out the provider's website @ https://anify.tv/",
       routes: ['/:query', '/info/:id', '/watch/:episodeId'],
-      documentation: 'https://docs.consumet.org/#tag/enime',
+      documentation: 'https://docs.consumet.org/#tag/anify',
     });
   });
 
   fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
-    const res = await enime.search(query);
+    const res = await anify.search(query);
 
     reply.status(200).send(res);
   });
@@ -28,7 +28,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'id is required' });
 
     try {
-      const res = await enime
+      const res = await anify
         .fetchAnimeInfo(id)
         .catch((err) => reply.status(404).send({ message: err }));
 
@@ -42,13 +42,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
+    const episodeNumber = (request.query as { episodeNumber: string }).episodeNumber;
+    const animeId = (request.query as { animeId: string }).animeId;
 
     if (typeof episodeId === 'undefined')
       return reply.status(400).send({ message: 'episodeId is required' });
+    if (typeof episodeNumber === 'undefined')
+      return reply.status(400).send({ message: 'episodeNumber is required' });
+    if (typeof animeId === 'undefined')
+      return reply.status(400).send({ message: 'animeId is required' });
 
     try {
-      const res = await enime
-        .fetchEpisodeSources(episodeId)
+      const res = await anify
+        .fetchEpisodeSources(episodeId, Number(episodeNumber), animeId)
         .catch((err) => reply.status(404).send({ message: err }));
 
       reply.status(200).send(res);
