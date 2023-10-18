@@ -41,6 +41,7 @@ Consumet scrapes data from various websites and provides APIs for accessing the 
 - [Showcases](#showcases)
 - [Provider Request](#provider-request)
 - [Support](#support)
+- [Contributors ✨](#contributors-)
 - [Related repositories](#related-repositories)
 
 ## Installation
@@ -110,8 +111,14 @@ Make a new [issue](https://github.com/consumet/consumet.ts/issues/new?assignees=
 You can contact the maintainers of consumet.ts via [email](mailto:consumet.org@gmail.com), or [join the discord server](https://discord.gg/qTPfvMxzNH) (Recommended).
 
 <a href="https://discord.gg/qTPfvMxzNH">
-   <img src="https://discordapp.com/api/guilds/987492554486452315/widget.png?style=banner2">
-</p>
+   <img src="https://discordapp.com/api/guilds/987492554486452315/widget.png?style=banner2"/>
+</a>
+
+
+## Contributors ✨
+Thanks to the following people for keeping this project alive and thriving.
+
+[![](https://contrib.rocks/image?repo=consumet/consumet.ts)](https://github.com/consumet/consumet.ts/graphs/contributors)
 
 ## Related repositories
  - [Consumet.ts](https://github.com/consumet/consumet.ts)

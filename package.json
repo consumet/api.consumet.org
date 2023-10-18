@@ -5,6 +5,7 @@
     "scripts": {
         "start": "ts-node src/main.ts",
         "dev": "nodemon src/main.ts",
+        "build": "tsc",
         "lint": "prettier --write ."
     },
     "engines": {
