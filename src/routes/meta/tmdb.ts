@@ -50,7 +50,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       let tmdb = new META.TMDB(tmdbApi);
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.MOVIES.find(
-            (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+          (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
         );
         tmdb = new META.TMDB(tmdbApi, possibleProvider);
       }

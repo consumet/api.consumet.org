@@ -172,11 +172,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const provider = (request.query as { provider: 'gogoanime' | 'zoro' }).provider;
       const page = (request.query as { page: number }).page;
-      const perPage = (request.query as { perPage: number }).perPage;
 
       const anilist = generateAnilistMeta(provider);
 
-      const res = await anilist.fetchRecentEpisodes(provider, page, perPage);
+      const res = await anilist.fetchRecentEpisodes(provider, page);
 
       reply.status(200).send(res);
     }
