@@ -28,7 +28,7 @@ phases:
   post_build:
     commands:
       - echo "🚚 Performing post-build packing and operations..."
-      - aws deploy push --application-name deploy.api.consumet.org --s3-location s3://deploy--deployment-revisions/development/source.zip --ignore-hidden-files
+      - aws deploy push --application-name deploy.api.consumet.org --s3-location s3://deploy-deployment-revisions/development/source.zip --ignore-hidden-files
       - aws deploy create-deployment --application-name deploy.api.consumet.org --s3-location bucket=deploy-deployment-revisions,key=development/source.zip,bundleType=zip,eTag=80e501480a8545019660e87ca42a6f00,version=67ZE9Q8CZeo9XszaZ4F.eKmrlW7mnDrm --deployment-group-name DGN --deployment-config-name CodeDeployDefault.AllAtOnce --description "This deployment aims to deploy our code to the eligible EC2 instance(s)."
       - echo "✅ Post build successful"
 
