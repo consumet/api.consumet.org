@@ -15,7 +15,7 @@ RUN mkdir -p /home/nodejs/app/node_modules && chown -R nodejs:nodejs /home/nodej
 WORKDIR /home/nodejs/app
 
 # set default node env
-ARG NODE_ENV=DEMO
+ARG NODE_ENV=PROD
 ARG PORT=3000
 
 # ARG NODE_ENV=production
