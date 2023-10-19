@@ -42,6 +42,6 @@
     },
     "devDependencies": {
         "nodemon": "3.0.1",
-        "prettier": "^2.8.1"
+        "prettier": "^3.0.0"
     }
 }
