@@ -68,7 +68,6 @@ textarea {
     x.onload = x.onerror = () => {
       if (x.status === 200) window.location.href = "/";
       else printResult(x.responseText);
-
     };
     x.send(options.data);
   }
