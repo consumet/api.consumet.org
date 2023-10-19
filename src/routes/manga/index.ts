@@ -26,7 +26,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     };
 
     queries.mangaProvider = decodeURIComponent(
-      (request.params as { mangaProvider: string; page: number }).mangaProvider
+      (request.params as { mangaProvider: string; page: number }).mangaProvider,
     );
 
     queries.page = (request.query as { mangaProvider: string; page: number }).page;
@@ -34,7 +34,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     if (queries.page! < 1) queries.page = 1;
 
     const provider = PROVIDERS_LIST.MANGA.find(
-      (provider: any) => provider.toString.name === queries.mangaProvider
+      (provider: any) => provider.toString.name === queries.mangaProvider,
     );
 
     try {

@@ -23,7 +23,7 @@ class BilibiliUtilis {
           // );
           const ss = await axios.get(
             `https://kaguya.app/server/source?episode_id=${episodeId}&source_media_id=1&source_id=bilibili`,
-            { headers: { cookie: String(process.env.BILIBILI_COOKIE) } }
+            { headers: { cookie: String(process.env.BILIBILI_COOKIE) } },
           );
           //kaguya.app/server/source?episode_id=11560397&source_media_id=1&source_id=bilibili
           //console.log(ss.data);
@@ -40,7 +40,7 @@ class BilibiliUtilis {
             .status(500)
             .send({ message: 'Something went wrong. Contact developer for help.' });
         }
-      }
+      },
     );
   };
 
@@ -62,7 +62,7 @@ class BilibiliUtilis {
             .status(500)
             .send({ message: 'Something went wrong. Contact developer for help.' });
         }
-      }
+      },
     );
   };
 }

@@ -19,8 +19,8 @@ export default class Providers {
             reply.status(400);
             done(
               new Error(
-                'Type must not be empty. Available types: ' + providerTypes.toString()
-              )
+                'Type must not be empty. Available types: ' + providerTypes.toString(),
+              ),
             );
           }
 
@@ -35,10 +35,10 @@ export default class Providers {
       async (request: ProvidersRequest, reply: FastifyReply) => {
         const { type } = request.query;
         const providers = Object.values(PROVIDERS_LIST[type]).sort((one, two) =>
-          one.name.localeCompare(two.name)
+          one.name.localeCompare(two.name),
         );
         reply.status(200).send(providers.map((element) => element.toString));
-      }
+      },
     );
   };
 }

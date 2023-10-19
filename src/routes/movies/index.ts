@@ -21,7 +21,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     };
 
     queries.movieProvider = decodeURIComponent(
-      (request.params as { movieProvider: string; page: number }).movieProvider
+      (request.params as { movieProvider: string; page: number }).movieProvider,
     );
 
     queries.page = (request.query as { movieProvider: string; page: number }).page;
@@ -29,7 +29,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     if (queries.page! < 1) queries.page = 1;
 
     const provider = PROVIDERS_LIST.MOVIES.find(
-      (provider: any) => provider.toString.name === queries.movieProvider
+      (provider: any) => provider.toString.name === queries.movieProvider,
     );
 
     try {
