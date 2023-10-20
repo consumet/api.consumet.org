@@ -20,7 +20,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
       queries.lightNovelProvider = decodeURIComponent(
         (request.params as { lightNovelProvider: string; page: number })
-          .lightNovelProvider
+          .lightNovelProvider,
       );
 
       queries.page = (request.query as { lightNovelProvider: string; page: number }).page;
@@ -28,7 +28,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if (queries.page! < 1) queries.page = 1;
 
       const provider = PROVIDERS_LIST.LIGHT_NOVELS.find(
-        (provider: any) => provider.toString.name === queries.lightNovelProvider
+        (provider: any) => provider.toString.name === queries.lightNovelProvider,
       );
 
       try {
@@ -42,7 +42,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       } catch (err) {
         reply.status(500).send('Something went wrong. Please try again later.');
       }
-    }
+    },
   );
 };
 

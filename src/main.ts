@@ -9,7 +9,6 @@ import anime from './routes/anime';
 import manga from './routes/manga';
 import comics from './routes/comics';
 import lightnovels from './routes/light-novels';
-import fs from 'fs';
 import movies from './routes/movies';
 import meta from './routes/meta';
 import news from './routes/news';
@@ -105,20 +104,23 @@ export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
     });
 
     // set interval to delete expired sessions every 1 hour
-    setInterval(() => {
-      const currentTime = new Date();
-      for (const [ip, session] of map.entries()) {
-        const { expiresIn } = session;
-        const sessionTime = new Date(expiresIn);
+    setInterval(
+      () => {
+        const currentTime = new Date();
+        for (const [ip, session] of map.entries()) {
+          const { expiresIn } = session;
+          const sessionTime = new Date(expiresIn);
 
-        // check if the session is expired
-        if (currentTime.getTime() > sessionTime.getTime()) {
-          console.log('session expired for', ip);
-          // if expired, delete the session and continue
-          map.delete(ip);
+          // check if the session is expired
+          if (currentTime.getTime() > sessionTime.getTime()) {
+            console.log('session expired for', ip);
+            // if expired, delete the session and continue
+            map.delete(ip);
+          }
         }
-      }
-    }, 1000 * 60 * 60);
+      },
+      1000 * 60 * 60,
+    );
   }
 
   console.log(chalk.green(`Starting server on port ${PORT}... 🚀`));
@@ -126,7 +128,7 @@ export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
     console.warn(chalk.yellowBright('Redis not found. Cache disabled.'));
   if (!process.env.TMDB_KEY)
     console.warn(
-      chalk.yellowBright('TMDB api key not found. the TMDB meta route may not work.')
+      chalk.yellowBright('TMDB api key not found. the TMDB meta route may not work.'),
     );
 
   await fastify.register(books, { prefix: '/books' });
@@ -147,7 +149,7 @@ export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
           process.env.NODE_ENV === 'DEMO'
             ? 'This is a demo of the api. You should only use this for testing purposes.'
             : ''
-        }`
+        }`,
       );
     });
     fastify.get('*', (request, reply) => {

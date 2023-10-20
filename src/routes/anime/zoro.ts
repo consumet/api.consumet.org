@@ -32,7 +32,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const res = await zoro.fetchRecentEpisodes(page);
 
       reply.status(200).send(res);
-    }
+    },
   );
 
   fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {

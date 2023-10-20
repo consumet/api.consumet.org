@@ -73,6 +73,9 @@ $ docker run -p 3000:3000 riimuru/consumet-api
 ```
 This will start the server on port 3000. You can access the server at http://localhost:3000/, And can change the port by changing the -p option to `-p <port>:3000`.
 
+Be sure to set `NODE_ENV` to `PROD` in your environment variables when running your own instance.
+Check out the `.env.example` file for more information.
+
 You can add `-d` flag to run the server in detached mode.
 
 ### Heroku

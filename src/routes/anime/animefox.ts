@@ -21,7 +21,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const res = await animefox.fetchRecentEpisodes(page);
 
       reply.status(200).send(res);
-    }
+    },
   );
 
   fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {

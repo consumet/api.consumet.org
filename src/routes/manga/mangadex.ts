@@ -53,7 +53,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           .status(500)
           .send({ message: 'Something went wrong. Please try again later.' });
       }
-    }
+    },
   );
 };
 

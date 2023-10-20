@@ -35,7 +35,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     if (typeof provider !== 'undefined') {
       const possibleProvider = PROVIDERS_LIST.ANIME.find(
-        (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+        (p) => p.name.toLowerCase() === provider.toLocaleLowerCase(),
       );
 
       mal = new META.Myanimelist(possibleProvider);
@@ -65,7 +65,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
       if (typeof provider !== 'undefined') {
         const possibleProvider = PROVIDERS_LIST.ANIME.find(
-          (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+          (p) => p.name.toLowerCase() === provider.toLocaleLowerCase(),
         );
 
         mal = new META.Myanimelist(possibleProvider);
@@ -82,7 +82,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           .status(500)
           .send({ message: 'Something went wrong. Contact developer for help.' });
       }
-    }
+    },
   );
 };
 

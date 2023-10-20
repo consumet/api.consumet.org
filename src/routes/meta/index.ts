@@ -22,7 +22,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     };
 
     queries.metaProvider = decodeURIComponent(
-      (request.params as { metaProvider: string; page: number }).metaProvider
+      (request.params as { metaProvider: string; page: number }).metaProvider,
     );
 
     queries.page = (request.query as { metaProvider: string; page: number }).page;
@@ -30,7 +30,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     if (queries.page! < 1) queries.page = 1;
 
     const provider = PROVIDERS_LIST.META.find(
-      (provider: any) => provider.toString.name === queries.metaProvider
+      (provider: any) => provider.toString.name === queries.metaProvider,
     );
 
     try {
