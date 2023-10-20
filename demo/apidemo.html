@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Demo of Consumet API</title>
+<meta name="viewport" content="width=device-width">
+<style>
+html, body {
+  margin: 0;
+  height: 100%;
+  padding: 3px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+* {
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+label { display: block; }
+input {
+  display: block;
+  width: 100%;
+  padding: 8px 5px;
+  border: 1px solid #CCC;
+}
+button {
+  display: inline-block;
+  width: 49%;
+  padding: 8px;
+}
+textarea {
+  width: 100%;
+  height: 100%;
+}
+#top {
+  height: 180px;
+  position: relative;
+
+}
+#bottom {
+  height: 100%;
+  margin-top: -180px;
+  padding-top: 180px;
+}
+
+#get {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 2px;
+  border: 1px solid #CCC;
+  background: #fd6868;
+}
+</style>
+</head>
+<body>
+<div id="top">
+    This is a demo of <a href="https://github.com/consumet/api.consumet.org">Consumet API</a>. It should be <b>only</b> used for development purposes.
+    To temporarily unlock access to the API, click the button below and follow the instructions.
+    <button id="get" >Request temporary access</button>
+</div>
+
+<script>
+  const api_url = 'https://api.consumet.org/';
+  function requestAccess(options, printResult) {
+    const x = new XMLHttpRequest();
+    x.open(options.method, options.url);
+    x.onload = x.onerror = () => {
+      if (x.status === 200) window.location.href = "/";
+      else printResult(x.responseText);
+    };
+    x.send(options.data);
+  }
+
+  // Bind event
+  (function() {
+    var button = document.getElementById('get');
+    button.addEventListener('click', () => {
+      requestAccess({
+        method: 'POST',
+        url: api_url + 'apidemo',
+      }, (result) => {
+        alert(result);
+      });
+    }, false);
+
+  })();
+</script>
+</body>
+</html>

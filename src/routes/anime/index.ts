@@ -6,7 +6,7 @@ import animepahe from './animepahe';
 import zoro from './zoro';
 import nineanime from './9anime';
 import animefox from './animefox';
-import enime from './enime';
+import anify from './anify';
 import crunchyroll from './crunchyroll';
 import bilibili from './bilibili';
 import marin from './marin';
@@ -17,7 +17,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(zoro, { prefix: '/zoro' });
   await fastify.register(nineanime, { prefix: '/9anime' });
   await fastify.register(animefox, { prefix: '/animefox' });
-  await fastify.register(enime, { prefix: '/enime' });
+  await fastify.register(anify, { prefix: '/anify' });
   await fastify.register(crunchyroll, { prefix: '/crunchyroll' });
   await fastify.register(bilibili, { prefix: '/bilibili' });
   await fastify.register(marin, { prefix: '/marin' });
