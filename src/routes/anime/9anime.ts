@@ -8,7 +8,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     {
       url: process.env.NINE_ANIME_PROXY as string,
     },
-    process.env?.NINE_ANIME_HELPER_KEY as string
+    process.env?.NINE_ANIME_HELPER_KEY as string,
   );
 
   fastify.get('/', (_, rp) => {
@@ -70,7 +70,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           .status(500)
           .send({ message: 'Something went wrong. Contact developer for help.' });
       }
-    }
+    },
   );
 
   fastify.get(
@@ -87,7 +87,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           .status(500)
           .send({ message: 'Something went wrong. Please try again later.' });
       }
-    }
+    },
   );
 
   fastify.get('/helper', async (request: FastifyRequest, reply: FastifyReply) => {

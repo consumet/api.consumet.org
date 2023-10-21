@@ -12,7 +12,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     {
       url: process.env.NINE_ANIME_PROXY as string,
     },
-    process.env?.NINE_ANIME_HELPER_KEY
+    process.env?.NINE_ANIME_HELPER_KEY,
   );
 
   fastify.get('/', (_, rp) => {
@@ -34,7 +34,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `fmovies:${query}:${page}`,
           async () => await fmovies.search(query, page ? page : 1),
-          60 * 60 * 6
+          60 * 60 * 6,
         )
       : await fmovies.search(query, page ? page : 1);
 
@@ -55,7 +55,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `fmovies:info:${id}`,
             async () => await fmovies.fetchMediaInfo(id),
-            60 * 60 * 3
+            60 * 60 * 3,
           )
         : await fmovies.fetchMediaInfo(id);
 
@@ -87,7 +87,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `fmovies:watch:${episodeId}:${mediaId}:${server}`,
             async () => await fmovies.fetchEpisodeSources(episodeId, mediaId, server),
-            60 * 30
+            60 * 30,
           )
         : await fmovies.fetchEpisodeSources(episodeId, mediaId, server);
 

@@ -33,7 +33,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     };
 
     queries.animeProvider = decodeURIComponent(
-      (request.params as { animeProvider: string; page: number }).animeProvider
+      (request.params as { animeProvider: string; page: number }).animeProvider,
     );
 
     queries.page = (request.query as { animeProvider: string; page: number }).page;
@@ -41,7 +41,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     if (queries.page! < 1) queries.page = 1;
 
     const provider = PROVIDERS_LIST.ANIME.find(
-      (provider: any) => provider.toString.name === queries.animeProvider
+      (provider: any) => provider.toString.name === queries.animeProvider,
     );
 
     try {

@@ -83,7 +83,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           .status(500)
           .send({ message: 'Something went wrong. Please try again later.' });
       }
-    }
+    },
   );
 
   fastify.get(
@@ -102,7 +102,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           .status(500)
           .send({ message: 'Something went wrong. Please try again later.' });
       }
-    }
+    },
   );
 
   fastify.get('/top-airing', async (request: FastifyRequest, reply: FastifyReply) => {
@@ -134,7 +134,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           .status(500)
           .send({ message: 'Something went wrong. Contact developers for help.' });
       }
-    }
+    },
   );
 };
 

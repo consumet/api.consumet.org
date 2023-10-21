@@ -5,7 +5,7 @@ class ImageProxy {
   public async getImageProxy(fastify: FastifyInstance, options: RegisterOptions) {
     const getImage = async (
       url: string,
-      options: AxiosRequestConfig
+      options: AxiosRequestConfig,
     ): Promise<string> => {
       const data = await axios
         .get(url, {
@@ -34,7 +34,7 @@ class ImageProxy {
       reply.header('Access-Control-Allow-Methods', 'GET');
       reply.header(
         'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
+        'Origin, X-Requested-With, Content-Type, Accept',
       );
       reply.header('Access-Control-Allow-Credentials', 'true');
       reply.send(await getImage(url, { headers: JSON.parse(headers) }));

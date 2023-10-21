@@ -43,13 +43,13 @@ class M3U8Proxy {
               'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.35',
             watchsb: 'streamsb',
           },
-        }
+        },
       );
 
       //const decodedData = Buffer.from(data, 'binary').toString('utf8');
       reply.header(
         'Content-Type',
-        decodedUrl.startsWith('https') ? 'application/vnd.apple.mpegurl' : 'video/mp2t'
+        decodedUrl.startsWith('https') ? 'application/vnd.apple.mpegurl' : 'video/mp2t',
       );
       reply.header('Access-Control-Allow-Origin', '*');
       reply.header('Access-Control-Allow-Headers', '*');
