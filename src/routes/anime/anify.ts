@@ -54,7 +54,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     try {
       const res = await anify
-        .fetchEpisodeSources(episodeId, Number(episodeNumber), animeId)
+        .fetchEpisodeSources(episodeId, Number(episodeNumber), Number(animeId))
         .catch((err) => reply.status(404).send({ message: err }));
 
       reply.status(200).send(res);

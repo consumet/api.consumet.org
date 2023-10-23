@@ -4,8 +4,7 @@
 
 "@consumet/extensions@github:consumet/consumet.ts":
   version "1.5.2"
-  uid d71bdcad5ab1f9f82e9e92b1ca8447e899059b34
-  resolved "https://codeload.github.com/consumet/consumet.ts/tar.gz/d71bdcad5ab1f9f82e9e92b1ca8447e899059b34"
+  resolved "https://codeload.github.com/consumet/consumet.ts/tar.gz/f89bc923f649fc89aa167bf95c18195eb734db2c"
   dependencies:
     ascii-url-encoder "^1.2.0"
     axios "^0.27.2"
@@ -834,9 +833,9 @@ pino-std-serializers@^6.0.0:
   integrity sha512-cHjPPsE+vhj/tnhCy/wiMh3M3z3h/j15zHQX+S9GkTBgqJuTuJzYJ4gUyACLhDaJ7kk9ba9iRDmbH2tJU03OiA==
 
 pino@^8.16.0:
-  version "8.16.0"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-8.16.0.tgz#2465012a1d11fa2e7a0545032f636e203990ae26"
-  integrity sha512-UUmvQ/7KTZt/vHjhRrnyS7h+J7qPBQnpG80V56xmIC+o9IqYmQOw/UIny9S9zYDfRBR0ClouCr464EkBMIT7Fw==
+  version "8.16.1"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-8.16.1.tgz#dcaf82764b1a27f24101317cdd6453e96290f1d9"
+  integrity sha512-3bKsVhBmgPjGV9pyn4fO/8RtoVDR8ssW1ev819FsRXlRNgW8gR/9Kx+gCK4UPWd4JjrRDLWpzd/pb1AyWm3MGA==
   dependencies:
     atomic-sleep "^1.0.0"
     fast-redact "^3.1.1"
