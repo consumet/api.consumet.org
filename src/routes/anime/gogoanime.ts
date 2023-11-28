@@ -14,6 +14,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         '/info/:id',
         '/watch/:episodeId',
         '/servers/:episodeId',
+        '/genre/:genre',
+        '/genre/list',
         '/top-airing',
         '/recent-episodes',
       ],
@@ -53,6 +55,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     try {
       const res = await gogoanime
         .fetchGenreInfo(genre, page)
+        .catch((err) => reply.status(404).send({ message: err }));
+      reply.status(200).send(res);
+    } catch {
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Please try again later.' });
+    }
+  });
+
+  fastify.get('/genre/list', async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const res = await gogoanime
+        .fetchGenreList()
         .catch((err) => reply.status(404).send({ message: err }));
       reply.status(200).send(res);
     } catch {
