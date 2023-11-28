@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "12.22.12"
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+script:
+  - npm run lint

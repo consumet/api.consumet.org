@@ -28,7 +28,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `flixhq:${query}:${page}`,
           async () => await flixhq.search(query, page ? page : 1),
-          60 * 60 * 6
+          60 * 60 * 6,
         )
       : await flixhq.search(query, page ? page : 1);
 
@@ -41,7 +41,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `flixhq:recent-shows`,
           async () => await flixhq.fetchRecentTvShows(),
-          60 * 60 * 3
+          60 * 60 * 3,
         )
       : await flixhq.fetchRecentTvShows();
 
@@ -54,7 +54,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `flixhq:recent-movies`,
           async () => await flixhq.fetchRecentMovies(),
-          60 * 60 * 3
+          60 * 60 * 3,
         )
       : await flixhq.fetchRecentMovies();
 
@@ -82,7 +82,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               type === 'tv'
                 ? await flixhq.fetchTrendingTvShows()
                 : await flixhq.fetchTrendingMovies(),
-            60 * 60 * 3
+            60 * 60 * 3,
           )
         : type === 'tv'
         ? await flixhq.fetchTrendingTvShows()
@@ -111,7 +111,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `flixhq:info:${id}`,
             async () => await flixhq.fetchMediaInfo(id),
-            60 * 60 * 3
+            60 * 60 * 3,
           )
         : await flixhq.fetchMediaInfo(id);
 
@@ -143,7 +143,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `flixhq:watch:${episodeId}:${mediaId}:${server}`,
             async () => await flixhq.fetchEpisodeSources(episodeId, mediaId, server),
-            60 * 30
+            60 * 30,
           )
         : await flixhq.fetchEpisodeSources(episodeId, mediaId, server);
 
@@ -164,7 +164,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `flixhq:servers:${episodeId}:${mediaId}`,
             async () => await flixhq.fetchEpisodeServers(episodeId, mediaId),
-            60 * 30
+            60 * 30,
           )
         : await flixhq.fetchEpisodeServers(episodeId, mediaId);
 

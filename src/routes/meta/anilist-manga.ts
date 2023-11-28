@@ -29,7 +29,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     if (typeof provider !== 'undefined') {
       const possibleProvider = PROVIDERS_LIST.MANGA.find(
-        (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+        (p) => p.name.toLowerCase() === provider.toLocaleLowerCase(),
       );
       anilist = new META.Anilist.Manga(possibleProvider);
     }
@@ -57,7 +57,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     if (typeof provider !== 'undefined') {
       const possibleProvider = PROVIDERS_LIST.MANGA.find(
-        (p) => p.name.toLowerCase() === provider.toLocaleLowerCase()
+        (p) => p.name.toLowerCase() === provider.toLocaleLowerCase(),
       );
       anilist = new META.Anilist.Manga(possibleProvider);
     }

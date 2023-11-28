@@ -1,4 +1,4 @@
-FROM node:19 as builder
+FROM node:20 as builder
 
 LABEL version="1.0.0"
 LABEL description="Consumet API (fastify) Docker Image"
@@ -15,12 +15,16 @@ RUN mkdir -p /home/nodejs/app/node_modules && chown -R nodejs:nodejs /home/nodej
 WORKDIR /home/nodejs/app
 
 # set default node env
-ARG NODE_ENV=development
+ARG NODE_ENV=PROD
 ARG PORT=3000
+
 # ARG NODE_ENV=production
 # to be able to run tests (for example in CI), do not set production as environment
 ENV NODE_ENV=${NODE_ENV}
 ENV PORT=${PORT}
+ENV REDIS_HOST=${REDIS_HOST}
+ENV REDIS_PORT=${REDIS_PORT}
+ENV REDIS_PASSWORD=${REDIS_PASSWORD}
 
 ENV NPM_CONFIG_LOGLEVEL=warn
 
