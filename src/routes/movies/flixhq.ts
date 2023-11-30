@@ -85,8 +85,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             60 * 60 * 3,
           )
         : type === 'tv'
-        ? await flixhq.fetchTrendingTvShows()
-        : await flixhq.fetchTrendingMovies();
+          ? await flixhq.fetchTrendingTvShows()
+          : await flixhq.fetchTrendingMovies();
 
       reply.status(200).send(res);
     } catch (error) {
