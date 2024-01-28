@@ -43,7 +43,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('most-popular', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/most-popular', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
 
     const res = await zoro.fetchMostPopular(page);
@@ -78,7 +78,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('top-upcoming', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/top-upcoming', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
 
     const res = await zoro.fetchTopUpcoming(page);
