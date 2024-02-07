@@ -12,7 +12,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(tmdb, { prefix: '/tmdb' });
 
   fastify.get('/', async (request: any, reply: any) => {
-    reply.status(200).send('Welcome to Consumet Meta');
+    reply.status(200).send('Welcome to Miruro Meta');
   });
 
   fastify.get('/:metaProvider', async (request: FastifyRequest, reply: FastifyReply) => {

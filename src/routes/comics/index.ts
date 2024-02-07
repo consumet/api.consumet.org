@@ -4,7 +4,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   //await fastify.register(getcomics, { prefix: '/getcomics' });
 
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
-    reply.status(200).send('Welcome to Consumet Comics 🦸‍♂️');
+    reply.status(200).send('Welcome to Miruro Comics 🦸‍♂️');
   });
 
   fastify.get('/s', async (request: FastifyRequest, reply: FastifyReply) => {

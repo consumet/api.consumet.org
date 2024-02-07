@@ -11,7 +11,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(dramacool, { prefix: '/dramacool' });
   await fastify.register(fmovies, { prefix: '/fmovies' });
   fastify.get('/', async (request: any, reply: any) => {
-    reply.status(200).send('Welcome to Consumet Movies and TV Shows');
+    reply.status(200).send('Welcome to Miruro Movies and TV Shows');
   });
 
   fastify.get('/:movieProvider', async (request: FastifyRequest, reply: FastifyReply) => {

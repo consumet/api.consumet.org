@@ -6,7 +6,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const lbgen = new BOOKS.Libgen();
 
   fastify.get('/', async (request: any, reply: any) => {
-    reply.status(200).send('Welcome to Consumet Books 📚');
+    reply.status(200).send('Welcome to Miruro Books 📚');
   });
 
   fastify.get('/s', async (request: FastifyRequest, reply: FastifyReply) => {

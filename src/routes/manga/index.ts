@@ -16,7 +16,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(managreader, { prefix: '/managreader' });
   await fastify.register(mangapark, { prefix: '/mangapark' });
   fastify.get('/', async (request: any, reply: any) => {
-    reply.status(200).send('Welcome to Consumet Manga');
+    reply.status(200).send('Welcome to Miruro Manga');
   });
 
   fastify.get('/:mangaProvider', async (request: FastifyRequest, reply: FastifyReply) => {

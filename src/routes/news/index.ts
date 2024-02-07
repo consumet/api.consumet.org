@@ -8,7 +8,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   //default route message
   fastify.get('/', async (_request: FastifyRequest, reply: FastifyReply) => {
-    reply.status(200).send('Welcome to Consumet News');
+    reply.status(200).send('Welcome to Miruro News');
   });
 };
 

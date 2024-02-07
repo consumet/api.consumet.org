@@ -7,7 +7,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(readlightnovels, { prefix: '/readlightnovels' });
 
   fastify.get('/', async (request: any, reply: any) => {
-    reply.status(200).send('Welcome to Consumet Light Novels');
+    reply.status(200).send('Welcome to Miruro Light Novels');
   });
 
   fastify.get(

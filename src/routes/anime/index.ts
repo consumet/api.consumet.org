@@ -23,7 +23,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(marin, { prefix: '/marin' });
 
   fastify.get('/', async (request: any, reply: any) => {
-    reply.status(200).send('Welcome to Consumet Anime 🗾');
+    reply.status(200).send('Welcome to Miruro Anime 🗾');
   });
 
   fastify.get('/:animeProvider', async (request: FastifyRequest, reply: FastifyReply) => {

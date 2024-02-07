@@ -18,7 +18,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(new ZoroKey().getKey);
 
   fastify.get('/', async (request: any, reply: any) => {
-    reply.status(200).send('Welcome to Consumet Utils!');
+    reply.status(200).send('Welcome to Miruro Utils!');
   });
 };
 
