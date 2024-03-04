@@ -29,11 +29,62 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const page = (request.query as { page: number }).page;
 
-      const res = await zoro.fetchRecentEpisodes(page);
+      const res = await zoro.fetchRecentlyUpdated(page);
 
       reply.status(200).send(res);
     },
   );
+
+  fastify.get('/top-airing', async (request: FastifyRequest, reply: FastifyReply) => {
+    const page = (request.query as { page: number }).page;
+
+    const res = await zoro.fetchTopAiring(page);
+
+    reply.status(200).send(res);
+  });
+
+  fastify.get('/most-popular', async (request: FastifyRequest, reply: FastifyReply) => {
+    const page = (request.query as { page: number }).page;
+
+    const res = await zoro.fetchMostPopular(page);
+
+    reply.status(200).send(res);
+  });
+
+  fastify.get('/most-favorite', async (request: FastifyRequest, reply: FastifyReply) => {
+    const page = (request.query as { page: number }).page;
+
+    const res = await zoro.fetchMostFavorite(page);
+
+    reply.status(200).send(res);
+  });
+
+  fastify.get(
+    '/latest-completed',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const page = (request.query as { page: number }).page;
+
+      const res = await zoro.fetchLatestCompleted(page);
+
+      reply.status(200).send(res);
+    },
+  );
+
+  fastify.get('/recent-added', async (request: FastifyRequest, reply: FastifyReply) => {
+    const page = (request.query as { page: number }).page;
+
+    const res = await zoro.fetchRecentlyAdded(page);
+
+    reply.status(200).send(res);
+  });
+
+  fastify.get('/top-upcoming', async (request: FastifyRequest, reply: FastifyReply) => {
+    const page = (request.query as { page: number }).page;
+
+    const res = await zoro.fetchTopUpcoming(page);
+
+    reply.status(200).send(res);
+  });
 
   fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
