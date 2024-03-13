@@ -5,6 +5,7 @@ import cache from '../../utils/cache';
 import { redis } from '../../main';
 import { Redis } from 'ioredis';
 
+
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const gogoanime = new ANIME.Gogoanime();
   const redisCacheTime = 60 * 60;
@@ -45,29 +46,39 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('/info/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info/:id', async (request, reply) => {
     const id = decodeURIComponent((request.params as { id: string }).id);
 
     try {
-      const res = redis ? await cache.fetch(
-        redis as Redis,
-        `${redisPrefix}info;${id}`,
-        async () => await gogoanime
-        .fetchAnimeInfo(id)
-        .catch((err) => reply.status(404).send({ message: err })),
-        redisCacheTime,
-      ) : gogoanime
-      .fetchAnimeInfo(id)
-      .catch((err) => reply.status(404).send({ message: err }));
+        // Define a wrapper function to fetch anime info, handle errors within.
+        const fetchAnimeInfo = async () => {
+            try {
+                return await gogoanime.fetchAnimeInfo(id);
+            } catch (err) {
+                // Return a special error marker that can be checked later
+                return { error: true, message: err };
+            }
+        };
 
-      reply.status(200).send(res);
+        // Attempt to retrieve the information, using cache if available.
+        let res = redis ? await cache.fetch(
+            (redis as Redis),
+            `${redisPrefix}info;${id}`,
+            fetchAnimeInfo, // Here you just pass the reference to the function
+            redisCacheTime,
+        ) : await fetchAnimeInfo();
+
+        // If the result is the special error marker, handle it accordingly.
+        if (res.error) {
+            return reply.status(404).send({ message: (res.message || 'Not found') });
+        }
+
+        // Send the successful result.
+        reply.status(200).send(res);
     } catch (err) {
-      reply
-        .status(500)
-        .send({ message: 'Something went wrong. Please try again later.' });
+        reply.status(500).send({ message: 'Something went wrong. Please try again later.' });
     }
-  });
-
+});
   fastify.get('/genre/:genre', async (request: FastifyRequest, reply: FastifyReply) => {
     const genre = (request.params as { genre: string }).genre;
     const page = (request.query as { page: number }).page ?? 1;
