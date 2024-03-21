@@ -1,6 +1,9 @@
 {
     "name": "api.consumet.org",
     "version": "1.0.0",
+    {
+      "type": "module"
+    },
     "main": "src/main.ts",
     "scripts": {
         "start": "ts-node src/main.ts",
