@@ -46,7 +46,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     
     const type = (request.query as { type?: string }).type || 'all';
     let timePeriod = (request.query as { timePeriod?: validTimeType }).timePeriod || 'day';
-    // get a type of valid time periods day | week using the set
 
     // make day as default time period
     if (!validTimePeriods.has(timePeriod)) timePeriod = 'day';
