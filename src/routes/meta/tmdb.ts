@@ -41,21 +41,22 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get('/trending', async (request: FastifyRequest, reply: FastifyReply) => {
-    const type = (request.query as { type?: string }).type || 'all';
-    let timePeriod = (request.query as { timePeriod?: string }).timePeriod || 'day';
-    const validTimePeriods: Set<string> = new Set(['day', 'week']);
+    const validTimePeriods = new Set(['day', 'week'] as const);
+    type validTimeType = typeof validTimePeriods extends Set<infer T> ? T : undefined
     
-    // Check if provided timePeriod is valid, otherwise default to 'day'
-    if (!validTimePeriods.has(timePeriod)) {
-      timePeriod = 'day';
-    }
+    const type = (request.query as { type?: string }).type || 'all';
+    let timePeriod = (request.query as { timePeriod?: validTimeType }).timePeriod || 'day';
+    // get a type of valid time periods day | week using the set
+
+    // make day as default time period
+    if (!validTimePeriods.has(timePeriod)) timePeriod = 'day';
 
     const page = (request.query as { page?: number }).page || 1;
 
     const tmdb = new META.TMDB(tmdbApi);
 
     try {
-      const res = await tmdb.fetchTrending(type, timePeriod as 'day' | 'week', page);
+      const res = await tmdb.fetchTrending(type, timePeriod, page);
       reply.status(200).send(res);
     } catch (err) {
       reply.status(500).send({ message: 'Failed to fetch trending media.' });
