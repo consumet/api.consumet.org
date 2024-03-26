@@ -56,7 +56,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .fetchAnimeInfo(id)
         .catch((err) => reply.status(404).send({ message: err })),
         redisCacheTime,
-      ) : gogoanime
+      ) : await gogoanime
       .fetchAnimeInfo(id)
       .catch((err) => reply.status(404).send({ message: err }));
 
