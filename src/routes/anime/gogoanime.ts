@@ -26,6 +26,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         '/popular',
         '/recent-episodes',
         '/anime-list',
+        '/download',
       ],
       documentation: 'https://docs.consumet.org/#tag/gogoanime',
     });
@@ -269,6 +270,30 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       }
     },
   );
+
+  fastify.get('/download', async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const downloadLink = (request.query as { link: string }).link;
+      if(!downloadLink){
+        reply.status(400).send('Invalid link');
+      }
+      const res = redis ? await cache.fetch(
+        redis as Redis,
+        `${redisPrefix}download-${downloadLink}`,
+        async () => await gogoanime
+        .fetchDirectDownloadLink(downloadLink)
+        .catch((err) => reply.status(404).send({ message: err })),
+        redisCacheTime * 24,
+      ) : await gogoanime
+      .fetchDirectDownloadLink(downloadLink, process.env.RECAPTCHATOKEN ?? '')
+      .catch((err) => reply.status(404).send({ message: err }));
+      reply.status(200).send(res);
+    } catch {
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Please try again later.' });
+    }
+  });
 };
 
 export default routes;
