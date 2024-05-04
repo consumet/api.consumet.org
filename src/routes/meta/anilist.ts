@@ -310,7 +310,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/watch/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
-      const provider = (request.query as { provider?: string }).provider;
+      const provider = (request.query as { provider?: string }).provider || 'gogoanime';
       const server = (request.query as { server?: StreamingServers }).server;
 
       if (server && !Object.values(StreamingServers).includes(server))
