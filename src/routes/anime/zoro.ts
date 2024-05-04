@@ -3,7 +3,7 @@ import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const zoro = new ANIME.Zoro();
+  const zoro = new ANIME.Zoro(process.env.ZORO_CUSTOM_DOMAIN);
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({

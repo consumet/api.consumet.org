@@ -78,6 +78,8 @@ Check out the `.env.example` file for more information.
 
 You can add `-d` flag to run the server in detached mode.
 
+You can add `GOGO_CUSTOM_DOMAIN` and `ZORO_CUSTOM_DOMAIN` as custom domain configarations for gogoanime and zoro in your environment variables respectively, (optional). 
+
 ### Heroku
 Host your own instance of Consumet API on Heroku using the button below.
 
