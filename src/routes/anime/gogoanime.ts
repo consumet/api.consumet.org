@@ -6,7 +6,10 @@ import { redis } from '../../main';
 import { Redis } from 'ioredis';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const gogoanime = new ANIME.Gogoanime();
+  let gogoanime = new ANIME.Gogoanime();
+  if(process.env.GOGOANIME_URL){
+    gogoanime = new ANIME.Gogoanime(process.env.GOGOANIME_URL);
+  }
   const redisCacheTime = 60 * 60;
   const redisPrefix = 'gogoanime:';
 
