@@ -1,0 +1,22 @@
+# Comment to post when closing a stale issue. Set to `false` to disable
+closeComment: >
+  We are closing this issue. If the issue still persists in the latest version of
+  consumet.ts, please reopen the issue and update the description. We will try our
+  best to accomodate it!
+# Number of days of inactivity before an issue becomes stale
+daysUntilStale: 60
+# Number of days of inactivity before a stale issue is closed
+daysUntilClose: 30
+# Issues with these labels will never be considered stale
+exemptLabels:
+  - provider request
+  - enhancement
+  - help wanted
+# Comment to post when marking an issue as stale.
+markComment: >
+  We're marking this issue as wontfix because it has not had recent activity. It will be closed if no further activity occurs
+  within the next 30 days. Thank you for your contributions.
+# Only mark issues.
+only: issues
+# Label to use when marking an issue as stale
+staleLabel: wontfix

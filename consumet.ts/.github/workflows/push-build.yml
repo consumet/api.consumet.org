@@ -1,0 +1,46 @@
+name: Compile TS
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr checkout ${{ github.event.pull_request.number }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Compile TS
+        run: yarn build
+
+      - name: Setup Git
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "Rapid Stream Bot"
+          git config --global credential.helper store
+          echo "https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com" > ~/.git-credentials
+        shell: bash
+
+      - name: Check Diff
+        id: check_diff
+        run: |
+          git diff --exit-code
+          if [ $? -eq 0 ]
+          then
+            echo "push_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "push_changes=true" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
+      - name: Push Changes
+        if: steps.check_diff.outputs.push_changes == 'true'
+        run: |
+          git add .
+          git commit -am "Compile TS"
+          git push

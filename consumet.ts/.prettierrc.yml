@@ -1,0 +1,10 @@
+parser: 'typescript'
+useTabs: false
+tabWidth: 2
+singleQuote: true
+printWidth: 110
+bracketSpacing: true
+semi: true
+endOfLine: 'lf'
+proseWrap: never
+arrowParens: avoid

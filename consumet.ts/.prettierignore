@@ -1,0 +1,15 @@
+node_modules
+*.js
+*.d.ts
+*.md
+*.json
+*.lock
+*.yml
+*.yaml
+Dockerfile
+Dockerfile.*
+.eslintrc
+*.html
+/examples
+/docs
+jest.config.ts
