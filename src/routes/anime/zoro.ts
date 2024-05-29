@@ -86,6 +86,38 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
+  fastify.get('/schedule/:date', async (request: FastifyRequest, reply: FastifyReply) => {
+    const date = (request.params as { date: string }).date;
+
+    const res = await zoro.fetchSchedule(date);
+
+    reply.status(200).send(res);
+  });
+
+  fastify.get('/studio/:studioId', async (request: FastifyRequest, reply: FastifyReply) => {
+    const studioId = (request.params as { studioId: string }).studioId;
+    const page = (request.query as { page: number }).page ?? 1;
+
+    const res = await zoro.fetchStudio(studioId, page);
+
+    reply.status(200).send(res);
+  });
+
+  fastify.get('/spotlight', async (request: FastifyRequest, reply: FastifyReply) => {
+    const res = await zoro.fetchSpotlight();
+
+    reply.status(200).send(res);
+  });
+
+  fastify.get('/search-suggestions/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+    const query = (request.params as { query: string }).query;
+
+    const res = await zoro.fetchSearchSuggestions(query);
+
+    reply.status(200).send(res);
+  });
+
+
   fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
