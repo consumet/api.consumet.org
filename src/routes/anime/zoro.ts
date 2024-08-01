@@ -4,12 +4,16 @@ import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const zoro = new ANIME.Zoro(process.env.ZORO_URL);
+  let baseUrl = "https://hianime.to";
+  if(process.env.ZORO_URL){
+    baseUrl = `https://${process.env.ZORO_URL}`;
+  }
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
-        "Welcome to the zoro provider: check out the provider's website @ https://zoro.to/",
-      routes: ['/:query', '/info/:id', '/watch/:episodeId'],
+        `Welcome to the zoro provider: check out the provider's website @ ${baseUrl}`,
+      routes: ['/:query', '/recent-episodes', '/top-airing', '/most-popular', '/most-favorite', '/latest-completed', '/recent-added', '/info?id', '/watch/:episodeId'],
       documentation: 'https://docs.consumet.org/#tag/zoro',
     });
   });
@@ -136,9 +140,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .send({ message: 'Something went wrong. Contact developer for help.' });
     }
   });
-
-  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
-    const episodeId = (request.query as { episodeId: string }).episodeId;
+  const watch = async (request: FastifyRequest, reply: FastifyReply) => {
+    let episodeId = (request.params as { episodeId: string }).episodeId;
+    if(!episodeId){
+      episodeId = (request.query as { episodeId: string }).episodeId;
+    }
 
     const server = (request.query as { server: string }).server as StreamingServers;
 
@@ -159,7 +165,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .status(500)
         .send({ message: 'Something went wrong. Contact developer for help.' });
     }
-  });
+  };
+  fastify.get('/watch', watch);
+  fastify.get('/watch/:episodeId', watch);
 };
 
 export default routes;
