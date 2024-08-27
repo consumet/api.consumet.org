@@ -9,7 +9,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     rp.status(200).send({
       intro:
         "Welcome to the flixhq provider: check out the provider's website @ https://flixhq.to/",
-      routes: ['/:query', '/info', '/watch'],
+      routes: ['/:query', '/info', '/watch', '/popular'],
       documentation: 'https://docs.consumet.org/#tag/flixhq',
     });
   });
