@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /api-consumet-org
+hooks:
+  BeforeInstall:
+    - location: .github/scripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+
+  ApplicationStart:
+    - location: .github/scripts/start_server.sh
+      timeout: 300
+      runas: root
+
+  ValidateService:
+    - location: .github/scripts/validate_service.sh
+      timeout: 300

@@ -1,0 +1,21 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:base"
+    ],
+    "lockFileMaintenance": {
+        "enabled": true,
+        "automerge": true,
+        "automergeType": "pr",
+        "platformAutomerge": true
+    },
+    "packageRules": [{
+        "matchDatasources": [
+            "npm", "yarn"
+        ],
+        "matchDepTypes": ["dependencies"],
+        "matchPackagePatterns": ["*"],
+        "automerge": false,
+        "schedule": "before 10pm"
+    }]
+}

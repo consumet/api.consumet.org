@@ -1,0 +1,57 @@
+name: 🐞 Bug report
+description: Create a report to help us improve
+labels: [bug]
+body:
+  - type: input
+    id: describe-the-bug
+    attributes:
+      label: Describe the bug
+      description: |
+        A clear and concise description of what the bug is.
+      placeholder: |
+        Example: "This provider is not working..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide an example of the issue.
+      placeholder: |
+        Example:
+          1. First step
+          2. Second step
+          3. Issue here
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      placeholder: |
+        Example: 
+          "This should happen..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      placeholder: |
+        Example:
+          "This happened instead..."
+    validations:
+      required: true
+    
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: |
+        Add any other context about the problem here.
+      placeholder: |
+        Example:
+          "Also ..."

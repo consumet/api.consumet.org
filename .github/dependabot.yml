@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 3
+    allow:
+      - dependency-type: 'production'
+    ignore:
+      - dependency-name: "axios"
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 2

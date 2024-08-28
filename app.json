@@ -1,0 +1,26 @@
+{
+    "name": "Consumet API",
+    "description": "A Modern Search Engine API for Anime, Movies, Books, etc.",
+    "website": "https://consumet.org",
+    "repository": "https://github.com/consumet/consumet-api",
+    "logo": "https://consumet.org/images/consumetlogo.png",
+    "keywords": ["node", "fastify", "mongodb", "anime", "movies", "books", "manga", "api"],
+    "env": {
+        "PORT": {
+            "description": "Set PORT for the fastify application to run on.",
+            "value": "3000"
+        },
+        "REDIS_HOST": {
+            "description": "Set redis host, you can create a redis instance on your own or use upstash (https://upstash.com) its for free.",
+            "value": ""
+        },
+        "REDIS_PASS": {
+            "description": "Set redis password, you can create a redis instance on your own or use upstash (https://upstash.com) its for free.",
+            "value": ""
+        },
+        "REDIS_PORT": {
+            "description": "Set redis port, you can create a redis instance on your own or use upstash (https://upstash.com) its for free.",
+            "value": ""
+        }
+    }
+}

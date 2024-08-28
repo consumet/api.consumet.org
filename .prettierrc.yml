@@ -1,0 +1,7 @@
+parser: typescript
+tabWidth: 2
+singleQuote: true
+printWidth: 90
+bracketSpacing: true
+semi: true
+endOfLine: 'lf'
