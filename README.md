@@ -27,6 +27,12 @@
 
 Consumet scrapes data from various websites and provides APIs for accessing the data to satisfy your needs.
 
+> [!IMPORTANT]
+> Self-hosting the Consumet is required to use the API. Consumet API is no longer publicly available. Please refer to the [Installation section](#installation) for more information on hosting your own instance.
+
+> [!CAUTION]
+> Consumet is not affiliated with any of the providers it scrapes data from. Consumet is not responsible for any misuse of the data provided by the API. Commercial utilization may lead to serious consequences, including potential site takedown measures. Ensure that you understand the legal implications before using this API.
+
 <h2> Table of Contents </h2>
 
 - [Installation](#installation)
