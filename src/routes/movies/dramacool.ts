@@ -8,20 +8,27 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
-        "Welcome to the flixhq provider: check out the provider's website @ https://flixhq.to/",
-      routes: ['/:query', '/info', '/watch', '/popular'],
-      documentation: 'https://docs.consumet.org/#tag/flixhq',
+        "Welcome to the dramacool provider: check out the provider's website @ https://dramacool.com.pa/",
+      routes: ['/:query', '/info', '/watch', '/popular','/recent-movies', '/recent-shows'],
+      documentation: 'https://docs.consumet.org/#tag/dramacool',
     });
   });
 
   fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
-    const query = decodeURIComponent((request.params as { query: string }).query);
-
-    const page = (request.query as { page: number }).page;
-
-    const res = await dramacool.search(query, page);
-
-    reply.status(200).send(res);
+    try {
+      const query = decodeURIComponent((request.params as { query: string }).query);
+  
+      const page = (request.query as { page: number }).page;
+  
+      const res = await dramacool.search(query, page);
+  
+      reply.status(200).send(res);
+    } catch (err) {
+      reply.status(500).send({
+        message:
+          'Something went wrong. Please try again later. or contact the developers.',
+      });
+    }
   });
 
   fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
@@ -70,6 +77,30 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     const page = (request.query as { page: number }).page;
     try {
       const res = await dramacool.fetchPopular(page ? page : 1);
+      reply.status(200).send(res);
+    } catch (err) {
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Please try again later.' });
+    }
+  })
+
+  fastify.get("/recent-movies", async (request: FastifyRequest, reply: FastifyReply) => {
+    const page = (request.query as { page: number }).page;
+    try {
+      const res = await dramacool.fetchRecentMovies(page ? page : 1);
+      reply.status(200).send(res);
+    } catch (err) {
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Please try again later.' });
+    }
+  })
+
+  fastify.get("/recent-shows", async (request: FastifyRequest, reply: FastifyReply) => {
+    const page = (request.query as { page: number }).page;
+    try {
+      const res = await dramacool.fetchRecentTvShows(page ? page : 1);
       reply.status(200).send(res);
     } catch (err) {
       reply
