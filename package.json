@@ -25,7 +25,6 @@
     "dependencies": {
         "@consumet/extensions": "github:consumet/consumet.ts",
         "@fastify/cors": "^8.2.0",
-        "@types/fastify-cors": "^2.1.0",
         "@types/node": "^18.11.17",
         "@types/ws": "^8.5.3",
         "axios": "^1.0.0",
@@ -41,6 +40,7 @@
         "ws": "^8.8.1"
     },
     "devDependencies": {
+        "@types/fastify-cors": "^2.1.2",
         "nodemon": "3.0.1",
         "prettier": "^3.0.0"
     }
