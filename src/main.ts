@@ -25,7 +25,7 @@ export const redis =
 
 const fastify = Fastify({
   maxParamLength: 1000,
-  logger: true,
+  logger: false,
 });
 export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
 (async () => {
@@ -145,7 +145,7 @@ export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
   try {
     fastify.get('/', (_, rp) => {
       rp.status(200).send(
-        `CSC LAB - SCRAPE API - CSC LAB\n${process.env.NODE_ENV === 'DEMO'
+        `CSC LAB - SCRAPE API\n${process.env.NODE_ENV === 'DEMO'
           ? 'This is a demo of the api. You should only use this for testing purposes.'
           : ''
         }`,
@@ -160,7 +160,7 @@ export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
 
     fastify.listen({ port: PORT, host: '0.0.0.0' }, (e, address) => {
       if (e) throw e;
-      console.log(`server listening on ${address}`);
+      console.log(`Listening on ${address}`);
     });
   } catch (err: any) {
     fastify.log.error(err);
