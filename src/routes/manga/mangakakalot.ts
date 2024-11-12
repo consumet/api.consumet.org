@@ -39,15 +39,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
+  // Updated /read route to accept mangaId
   fastify.get('/read', async (request: FastifyRequest, reply: FastifyReply) => {
     const chapterId = (request.query as { chapterId: string }).chapterId;
+    const mangaId = (request.query as { mangaId: string }).mangaId; // Get mangaId
 
-    if (typeof chapterId === 'undefined')
-      return reply.status(400).send({ message: 'chapterId is required' });
+    if (!chapterId || !mangaId) // Check both chapterId and mangaId
+      return reply.status(400).send({ message: 'chapterId and mangaId are required' });
 
     try {
+      // Pass both chapterId and mangaId to fetchChapterPages
       const res = await mangakakalot
-        .fetchChapterPages(chapterId)
+        .fetchChapterPages(chapterId, mangaId)
         .catch((err: Error) => reply.status(404).send({ message: err.message }));
 
       reply.status(200).send(res);
