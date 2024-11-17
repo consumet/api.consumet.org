@@ -25,7 +25,7 @@ export const redis =
 
 const fastify = Fastify({
   maxParamLength: 1000,
-  logger: false,
+  logger: true,
 });
 export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
 (async () => {
