@@ -1,0 +1,97 @@
+{
+    "name": "@consumet/extensions",
+    "version": "1.6.0",
+    "description": "Nodejs library that provides high-level APIs for obtaining information on various entertainment media such as books, movies, comic books, anime, manga, and so on.",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "rimraf dist && tsc -p tsconfig.json",
+        "version": "auto-changelog -p && git add CHANGELOG.md",
+        "lint": "prettier --write .",
+        "prepare": "husky install",
+        "test": "jest",
+        "test:anime": "jest ./test/anime",
+        "test:books": "jest ./test/books/libgen.test.ts",
+        "test:comics": "jest ./test/comics",
+        "test:movies": "jest ./test/movies",
+        "test:manga": "jest ./test/manga",
+        "test:lightnovels": "jest ./test/light-novels",
+        "test:news": "jest ./test/news",
+        "test:meta": "jest ./test/meta"
+    },
+    "pre-commit": [
+        "lint",
+        "build"
+    ],
+    "files": [
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/consumet/consumet.ts.git"
+    },
+    "keywords": [
+        "consumet",
+        "scraper",
+        "streaming",
+        "anime",
+        "books",
+        "comics",
+        "movies",
+        "manga",
+        "light-novels",
+        "news",
+        "meta"
+    ],
+    "authors": [
+        "https://github.com/riimuru",
+        "https://github.com/prince-ao"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/consumet/consumet.ts/issues"
+    },
+    "homepage": "https://github.com/consumet/consumet.ts#readme",
+    "dependencies": {
+        "ascii-url-encoder": "^1.2.0",
+        "axios": "^0.27.2",
+        "cheerio": "^1.0.0-rc.12",
+        "crypto-js": "^4.1.1",
+        "form-data": "^4.0.0"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.6.3",
+        "@commitlint/config-angular": "^17.6.3",
+        "@types/crypto-js": "^4.1.1",
+        "@types/jest": "^29.5.1",
+        "@types/node": "^20.2.1",
+        "@types/ws": "^8.5.4",
+        "auto-changelog": "^2.4.0",
+        "cloudscraper": "^4.6.0",
+        "husky": "^8.0.3",
+        "is-ci": "^3.0.1",
+        "jest": "^29.5.0",
+        "pre-commit": "^1.2.2",
+        "prettier": "^2.8.8",
+        "request": "^2.88.2",
+        "rimraf": "^5.0.5",
+        "ts-jest": "^29.1.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.0.4"
+    },
+    "auto-changelog": {
+        "template": "keepachangelog",
+        "preset": "typescript-preset-eslint",
+        "output": "CHANGELOG.md",
+        "commitUrl": "https://github.com/consumet/consumet.ts/commit/{id}",
+        "compareUrl": "https://github.com/consumet/consumet.ts/compare/{from}...{to}",
+        "issueUrl": "https://github.com/consumet/consumet.ts/issues/{id}",
+        "mergeUrl": "https://github.com/consumet/consumet.ts/pull/{id}"
+    },
+    "directories": {
+        "doc": "docs",
+        "example": "examples",
+        "test": "test",
+        "lib": "src"
+    }
+}

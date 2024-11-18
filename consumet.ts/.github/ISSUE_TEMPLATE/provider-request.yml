@@ -1,0 +1,54 @@
+name: 🍕 Provider request
+description: Request a new source to be added
+labels: [provider request]
+body:
+  - type: input
+    id: source-name
+    attributes:
+      label: Source name
+      placeholder: |
+        Example: "9anime"
+    validations:
+      required: true
+
+  - type: input
+    id: source-link
+    attributes:
+      label: Source link
+      placeholder: |
+        Example: "https://9anime.to/"
+    validations:
+      required: true
+
+  - type: input
+    id: source-language
+    attributes:
+      label: Language
+      placeholder: |
+        Example: "English"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: source-type
+    attributes:
+      label: Source type
+      options:
+        - Anime
+        - Books
+        - Comics
+        - Manga
+        - Movie/TV
+        - Light Novels
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional info
+      description: |
+        Please provide any additional information that may be helpful to the provider.
+      placeholder: |
+        Example: "Anime is also supported by this Movie/TV source."

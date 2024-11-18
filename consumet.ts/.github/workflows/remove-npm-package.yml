@@ -1,0 +1,22 @@
+name: Remove Npm Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Remove Version"
+        required: true
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: npm unpublish @consumet/extensions@$VERSION
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+          VERSION: ${{ inputs.version }}
