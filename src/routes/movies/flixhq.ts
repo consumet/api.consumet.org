@@ -13,7 +13,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     rp.status(200).send({
       intro:
         "Welcome to the flixhq provider: check out the provider's website @ https://flixhq.to/",
+<<<<<<< HEAD
       routes: ['/:query', '/info', '/watch','/recent-shows','/recent-movies','/trending','/servers'],
+=======
+      routes: ['/:query', '/info', '/watch','/recent-shows','/recent-movies','/trending','/servers','/country','/genre'],
+>>>>>>> upstream/main
       documentation: 'https://docs.consumet.org/#tag/flixhq',
     });
   });
@@ -200,6 +204,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
 
+<<<<<<< HEAD
 fastify.get('/genre/:genre', async (request: FastifyRequest, reply: FastifyReply) => {
   const genre = (request.params as { genre: string }).genre;
   const page = (request.query as { page: number }).page ?? 1;
@@ -221,5 +226,28 @@ fastify.get('/genre/:genre', async (request: FastifyRequest, reply: FastifyReply
     });
   }
 });
+=======
+  fastify.get('/genre/:genre', async (request: FastifyRequest, reply: FastifyReply) => {
+    const genre = (request.params as { genre: string }).genre;
+    const page = (request.query as { page: number }).page ?? 1;
+    try {
+      let res = redis
+        ? await cache.fetch(
+          redis as Redis,
+          `flixhq:genre:${genre}:${page}`,
+          async () => await flixhq.fetchByGenre(genre, page),
+          60 * 60 * 3,
+        )
+        : await flixhq.fetchByGenre(genre, page);
+
+      reply.status(200).send(res);
+    } catch (error) {
+      reply.status(500).send({
+        message:
+          'Something went wrong. Please try again later. or contact the developers.',
+      });
+    }
+  });
+>>>>>>> upstream/main
 };
 export default routes;
