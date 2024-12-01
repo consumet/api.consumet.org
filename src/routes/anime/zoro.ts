@@ -150,7 +150,15 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     {
       let episodeIdAux = episodeId.replace("/watch/", "");
       let episodeIdAuxParts = episodeIdAux.split("?ep=");
-      episodeId = episodeIdAuxParts[ 0 ] + "$episode$" + episodeIdAuxParts[ 1 ];
+      episodeId = episodeIdAuxParts[ 0 ] + "$episode$" + episodeIdAuxParts[ 1 ];      
+    }    
+
+    if ( episodeId.includes("$sub") ) 
+    {
+      episodeId = episodeId.replace(
+        "$sub",
+        "$both"
+      );  
     }
 
     const server = (request.query as { server: string }).server as StreamingServers;
