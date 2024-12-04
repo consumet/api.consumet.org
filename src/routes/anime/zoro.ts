@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
+import axios from 'axios';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const zoro = new ANIME.Zoro(process.env.ZORO_URL);
@@ -140,6 +141,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .send({ message: 'Something went wrong. Contact developer for help.' });
     }
   });
+
   const watch = async (request: FastifyRequest, reply: FastifyReply) => {
     let episodeId = (request.params as { episodeId: string }).episodeId;
     if(!episodeId){
@@ -161,6 +163,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       );  
     }
 
+    /*
+    console.log("- - -");
+    console.log("episodeId: " , episodeId);
+    console.log("- - -");
+    */
+
     const server = (request.query as { server: string }).server as StreamingServers;
 
     if (server && !Object.values(StreamingServers).includes(server))
@@ -171,8 +179,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     try {
       const res = await zoro
-        .fetchEpisodeSources(episodeId, server)
-        .catch((err) => reply.status(404).send({ message: err }));
+        .fetchEpisodeSources(episodeId, server);          
 
       for (let index = 0; index < res.sources.length; index++) {
         let obj = res.sources[index];
@@ -192,17 +199,68 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             res.subtitles.splice(index, 1);
           }
         } 
-      } 
+      }     
 
       reply.status(200).send(res);
     } catch (err) {
-      reply
-        .status(500)
-        .send({ message: 'Something went wrong. Contact developer for help.' });
+      const parts = episodeId.split('$');
+      try {
+        const data = await fetchEpisodeSources(parts[0], parts[2]);
+        reply.status(200).send(data);  // Solo se envía la respuesta cuando tenemos los datos
+      } catch (error) {
+        reply.status(500).send({ message: 'Something went wrong. Contact developer for help.' });
+      }
     }
   };
   fastify.get('/watch', watch);
   fastify.get('/watch/:episodeId', watch);
+
+const fetchEpisodeSources = async (animeEpisodeId: string, episodeId: string): Promise<any> => {
+  const url = `https://aniwatch-api-csc-lab.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}`;
+
+  try {
+    // Hacer la solicitud GET
+    const response = await axios.get(url);
+
+    // Accedemos a response.data.data correctamente
+    const data = response.data.data;
+
+    // Verificar si las claves existen y asignar valores predeterminados
+    const sources = Array.isArray(data.sources) ? data.sources : [];
+    const subtitles = Array.isArray(data.tracks) ? data.tracks : [];
+    const introData = data.intro || {};  // Si intro existe, lo usamos
+    const outroData = data.outro || {};  // Lo mismo con outro    
+
+    // Extraer los parámetros de cada objeto en `sources`
+    const sourcesDetails = sources.map((source: any) => ({
+      url: source.url,  // Extraemos la URL
+      type: source.type,  // Tipo de fuente (puede ser 'hls', etc.)
+      quality: "AUTO",  // Calidad de la fuente
+      isM3U8: true  // Si es un archivo M3U8
+    }));
+
+    // Extraer los parámetros de cada objeto en `subtitles`
+    const subtitleDetails = subtitles.map((subtitle: any) => ({
+      url: subtitle.file,  // Archivo de subtítulo
+      lang: subtitle.label   // Idioma del subtítulo (puede ser 'English', 'Spanish', etc.)
+    }));
+
+    // Crear el objeto final con todos los detalles extraídos
+    const obj = {
+      sources: sourcesDetails,  // Todos los detalles de las fuentes
+      subtitles: subtitleDetails,  // Todos los detalles de los subtítulos
+      intro: introData,  // URL de la intro
+      outro: outroData,  // URL del outro
+    };
+
+    return obj;  // Retornar el objeto con todos los detalles
+  } catch (error) {
+    console.error("Error fetching episode sources:", error);
+    return null;
+  }
+};
+
+
 };
 
 export default routes;
