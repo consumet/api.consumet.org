@@ -180,6 +180,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         async (request: FastifyRequest, reply: FastifyReply) => {
             const episodeId = (request.query as { episodeId: string }).episodeId;
             const mediaId = (request.query as { mediaId: string }).mediaId;
+
+            if (typeof episodeId === "undefined")
+                return reply.status(400).send({ message: "episodeId is required" });
+            if (typeof mediaId === "undefined")
+                return reply.status(400).send({ message: "mediaId is required" });
+            
             try {
                 let res = redis
                     ? await cache.fetch(

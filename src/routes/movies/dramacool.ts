@@ -56,13 +56,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
     // const mediaId = (request.query as { mediaId: string }).mediaId;
-    // const server = (request.query as { server: StreamingServers }).server;
+    const server = (request.query as { server: StreamingServers }).server;
 
     if (typeof episodeId === 'undefined')
       return reply.status(400).send({ message: 'episodeId is required' });
     try {
       const res = await dramacool
-        .fetchEpisodeSources(episodeId)
+        .fetchEpisodeSources(episodeId,server)
         .catch((err) => reply.status(404).send({ message: 'Media Not found.' }));
 
       reply.status(200).send(res);
