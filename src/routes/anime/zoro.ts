@@ -205,8 +205,23 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     } catch (err) {
       const parts = episodeId.split('$');
       try {
-        const data = await fetchEpisodeSources(parts[0], parts[2]);
-        reply.status(200).send(data);  // Solo se envía la respuesta cuando tenemos los datos
+        const data = await fetchEpisodeSources(parts[0], parts[2], false);
+        if (data != null) 
+        {
+          reply.status(200).send(data);  // Solo se envía la respuesta cuando tenemos los datos 
+        }else{
+          try {
+            const data = await fetchEpisodeSources(parts[0], parts[2], true);
+            if (data != null) 
+            {
+              reply.status(200).send(data);  // Solo se envía la respuesta cuando tenemos los datos 
+            }else{
+              reply.status(500).send({});
+            }
+          } catch (error) {
+            reply.status(500).send({ message: 'Something went wrong. Contact developer for help.' });
+          }
+        }
       } catch (error) {
         reply.status(500).send({ message: 'Something went wrong. Contact developer for help.' });
       }
@@ -215,50 +230,49 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/watch', watch);
   fastify.get('/watch/:episodeId', watch);
 
-const fetchEpisodeSources = async (animeEpisodeId: string, episodeId: string): Promise<any> => {
-  const url = `https://aniwatch-api-csc-lab.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}`;
+  const fetchEpisodeSources = async (animeEpisodeId: string, episodeId: string, raw : Boolean): Promise<any> => {
+    const url = raw ? `https://aniwatch-api-csc-lab.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}&category=raw` : `https://aniwatch-api-csc-lab.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}`;
+    try {
+      // Hacer la solicitud GET
+      const response = await axios.get(url);
 
-  try {
-    // Hacer la solicitud GET
-    const response = await axios.get(url);
+      // Accedemos a response.data.data correctamente
+      const data = response.data.data;
 
-    // Accedemos a response.data.data correctamente
-    const data = response.data.data;
+      // Verificar si las claves existen y asignar valores predeterminados
+      const sources = Array.isArray(data.sources) ? data.sources : [];
+      const subtitles = Array.isArray(data.tracks) ? data.tracks : [];
+      const introData = data.intro || {};  // Si intro existe, lo usamos
+      const outroData = data.outro || {};  // Lo mismo con outro    
 
-    // Verificar si las claves existen y asignar valores predeterminados
-    const sources = Array.isArray(data.sources) ? data.sources : [];
-    const subtitles = Array.isArray(data.tracks) ? data.tracks : [];
-    const introData = data.intro || {};  // Si intro existe, lo usamos
-    const outroData = data.outro || {};  // Lo mismo con outro    
+      // Extraer los parámetros de cada objeto en `sources`
+      const sourcesDetails = sources.map((source: any) => ({
+        url: source.url,  // Extraemos la URL
+        type: source.type,  // Tipo de fuente (puede ser 'hls', etc.)
+        quality: "AUTO",  // Calidad de la fuente
+        isM3U8: true  // Si es un archivo M3U8
+      }));
 
-    // Extraer los parámetros de cada objeto en `sources`
-    const sourcesDetails = sources.map((source: any) => ({
-      url: source.url,  // Extraemos la URL
-      type: source.type,  // Tipo de fuente (puede ser 'hls', etc.)
-      quality: "AUTO",  // Calidad de la fuente
-      isM3U8: true  // Si es un archivo M3U8
-    }));
+      // Extraer los parámetros de cada objeto en `subtitles`
+      const subtitleDetails = subtitles.map((subtitle: any) => ({
+        url: subtitle.file,  // Archivo de subtítulo
+        lang: subtitle.label.replace("CR_", "")   // Idioma del subtítulo (puede ser 'English', 'Spanish', etc.)
+      }));
 
-    // Extraer los parámetros de cada objeto en `subtitles`
-    const subtitleDetails = subtitles.map((subtitle: any) => ({
-      url: subtitle.file,  // Archivo de subtítulo
-      lang: subtitle.label   // Idioma del subtítulo (puede ser 'English', 'Spanish', etc.)
-    }));
+      // Crear el objeto final con todos los detalles extraídos
+      const obj = {
+        sources: sourcesDetails,  // Todos los detalles de las fuentes
+        subtitles: subtitleDetails,  // Todos los detalles de los subtítulos
+        intro: introData,  // URL de la intro
+        outro: outroData,  // URL del outro
+      };
 
-    // Crear el objeto final con todos los detalles extraídos
-    const obj = {
-      sources: sourcesDetails,  // Todos los detalles de las fuentes
-      subtitles: subtitleDetails,  // Todos los detalles de los subtítulos
-      intro: introData,  // URL de la intro
-      outro: outroData,  // URL del outro
-    };
-
-    return obj;  // Retornar el objeto con todos los detalles
-  } catch (error) {
-    console.error("Error fetching episode sources:", error);
-    return null;
-  }
-};
+      return obj;  // Retornar el objeto con todos los detalles
+    } catch (error) {
+      console.error("Error (fetchEpisodeSources):", error);
+      return null;
+    }
+  };
 
 
 };
