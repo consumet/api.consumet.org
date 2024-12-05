@@ -268,6 +268,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     let anilist = generateAnilistMeta(provider);
 
+    console.log("- - -");
+    console.log("id: ", id);
+    console.log("provider: ", provider);
+    console.log("- - -");
+
     if (isDub === 'true' || isDub === '1') isDub = true;
     else isDub = false;
 
