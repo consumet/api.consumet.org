@@ -10,6 +10,9 @@ import { redis } from '../../main';
 import NineAnime from '@consumet/extensions/dist/providers/anime/9anime';
 import Gogoanime from '@consumet/extensions/dist/providers/anime/gogoanime';
 
+const anilist = new META.Anilist();
+const zoro = new ANIME.Zoro();
+
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
@@ -272,6 +275,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     console.log("- - -");
     console.log("id: ", id);
     console.log("provider: ", provider);
+    if ( provider == "zoro" ) {
+      anilist = new META.Anilist(zoro);
+      console.log("Forzado de asignacion");      
+    }
     console.log("- - -");
     console.log("- - -");
 
