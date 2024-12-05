@@ -275,7 +275,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     console.log("- - -");
     console.log("id: ", id);
     console.log("provider: ", provider);
-    if ( provider == "zoro" ) {
+    if ( provider != undefined && provider == "zoro" ) {
       anilist = new META.Anilist(zoro);
       console.log("Forzado de asignacion");      
     }
