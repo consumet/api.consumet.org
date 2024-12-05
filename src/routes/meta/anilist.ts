@@ -280,7 +280,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     else fetchFiller = false;
 
     try {
-      /*
       redis
         ? reply
             .status(200)
@@ -298,12 +297,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             .send(
               await anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean),
             );
-            */
-      reply
-        .status(200)
-        .send(
-          await anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean),
-        );
     } catch (err: any) {
       reply.status(500).send({ message: err.message });
     }
