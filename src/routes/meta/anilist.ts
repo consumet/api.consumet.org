@@ -321,44 +321,37 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   // Función asíncrona para procesar la información
   async function processAnimeData(data: any, zoro: any): Promise<any[]> {
-    console.log("\n");
-    console.log(data.title);
-
-    // Definición local de ITitle y isITitle dentro de la función
+    //console.log("\n");
+    //console.log(data.title);
     interface ITitle {
       romaji?: string;
       english?: string;
       native?: string;
       userPreferred?: string;
     }
-
     function isITitle(title: any): title is ITitle {
       return typeof title === 'object' && title !== null && 'romaji' in title;
     }
-
     if (data && isITitle(data.title) && data.title.romaji) {
       const titleRomaji = data.title.romaji;
       const zoroSearch = await zoro.search(titleRomaji);
-
       if (zoroSearch != null && zoroSearch.results.length > 0) {
         const zoroInfo = await zoro.fetchAnimeInfo(zoroSearch.results[0].id);
-        console.log("data.episodes: ", data.episodes);
-        console.log("zoroInfo.episodes: ", zoroInfo.episodes);        
-        //data.episodes = []; // Limpia el array original de episodios
-        return zoroInfo.episodes?.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          description: undefined,
-          number: item.number,
-          image: data.image,
-          imageHash: "hash",
-          url: item.url
-        }));
+        //console.log("data.episodes: ", data.episodes);
+        //console.log("zoroInfo.episodes: ", zoroInfo.episodes);        
+        if (zoroInfo.episodes && zoroInfo.episodes.length > 0) {
+          return zoroInfo.episodes.map((item: any) => ({
+              id: item.id,
+              title: item.title,
+              description: undefined,
+              number: item.number,
+              image: data.image,
+              imageHash: "hash",
+              url: item.url
+          }));
+        } 
       }
-    } else {
-      console.log("Romaji title is not available or data.title is a string.");
-    }
-
+    } 
     return []; // Retorna un array vacío si no hay episodios o si el título no está disponible
   }
 
