@@ -340,7 +340,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const zoroSearch = await zoro.search(titleRomaji);
       console.log("zoroSearch: ", zoroSearch);
       if (zoroSearch != null && zoroSearch.results.length > 0) {
-        const zoroInfo = await zoro.fetchAnimeInfo(zoroSearch.results[0].id);
+        var zoroId = zoroSearch.results[0].id;
+        zoroSearch.results.forEach((result : any) => {
+          if (result.sub == data.currentEpisode || result.episodes == data.currentEpisode) {
+            zoroId = result.id;          
+          }
+        });
+        const zoroInfo = await zoro.fetchAnimeInfo(zoroId);
         console.log("data.episodes: ", data.episodes);
         console.log("zoroInfo.episodes: ", zoroInfo.episodes);      
         console.log("\n");  
