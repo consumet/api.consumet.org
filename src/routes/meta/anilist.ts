@@ -324,8 +324,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   // Función asíncrona para procesar la información
   async function processAnimeData(data: any, zoro: any): Promise<any[]> {
-    //console.log("\n");
-    //console.log(data.title);
+    console.log("\n");
+    console.log(data.title);
     interface ITitle {
       romaji?: string;
       english?: string;
@@ -338,10 +338,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     if (data && isITitle(data.title) && data.title.romaji) {
       const titleRomaji = data.title.romaji;
       const zoroSearch = await zoro.search(titleRomaji);
+      console.log("zoroSearch: ", zoroSearch);
       if (zoroSearch != null && zoroSearch.results.length > 0) {
         const zoroInfo = await zoro.fetchAnimeInfo(zoroSearch.results[0].id);
-        //console.log("data.episodes: ", data.episodes);
-        //console.log("zoroInfo.episodes: ", zoroInfo.episodes);        
+        console.log("data.episodes: ", data.episodes);
+        console.log("zoroInfo.episodes: ", zoroInfo.episodes);      
+        console.log("\n");  
         if (zoroInfo.episodes && zoroInfo.episodes.length > 0) {
           return zoroInfo.episodes.map((item: any) => ({
               id: item.id,
