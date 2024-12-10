@@ -271,19 +271,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     let anilist = generateAnilistMeta(provider);
 
-    /*
-    console.log("- - -");
-    console.log("\n");
-    console.log("id: ", id);
-    console.log("provider: ", provider);
-    console.log("fetchFiller: ", fetchFiller);
-    if ( provider != undefined && provider == "zoro" ) {
-      anilist = new META.Anilist(zoro);
-    }
-    console.log("\n");
-    console.log("- - -");
-    */
-
     if (isDub === 'true' || isDub === '1') isDub = true;
     else isDub = false;
 
@@ -300,9 +287,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           fetchInfo, // Aquí solo pasamos la referencia a la función
           dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
         );
-
         if ( provider != undefined && provider == "zoro" ) {
-          if (data.episodes == null || data.episodes.length === 0) 
+          if (data.episodes == null || (data.episodes.length === 0 || data.currentEpisode != data.episodes.length)) 
           {
             var infoZoro = await processAnimeData(data, zoro);
             if ( infoZoro.length > 0) 
@@ -312,13 +298,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             }
           }        
         } 
-
         reply.status(200).send(data);
       } else {
-        const data = await fetchInfo(); // Aquí ejecutamos la función
-
+        const data = await fetchInfo();        
         if ( provider != undefined && provider == "zoro" ) {
-          if (data.episodes == null || data.episodes.length === 0) 
+          if (data.episodes == null || (data.episodes.length === 0 || data.currentEpisode != data.episodes.length)) 
           {
             var infoZoro = await processAnimeData(data, zoro);
             if ( infoZoro.length > 0) 
@@ -327,8 +311,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               data.episodes = infoZoro;
             }
           }        
-        }        
-        
+        }                
         reply.status(200).send(data);
       }
     } catch (err: any) {
