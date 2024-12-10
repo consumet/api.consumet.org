@@ -302,9 +302,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       } else {
         const data = await fetchInfo();        
         if ( provider != undefined && provider == "zoro" ) {
-          console.log("data.currentEpisode: ", data.currentEpisode);
-          console.log("data.episodes?.length: ", data.episodes?.length);
-          console.log("Check: ", data.currentEpisode != data.episodes?.length);
+          //console.log("data.currentEpisode: ", data.currentEpisode);
+          //console.log("data.episodes?.length: ", data.episodes?.length);
+          //console.log("Check: ", data.currentEpisode != data.episodes?.length);
           if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
           {
             var infoZoro = await processAnimeData(data, zoro);
@@ -325,7 +325,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   // Función asíncrona para procesar la información
   async function processAnimeData(data: any, zoro: any): Promise<any[]> {
     console.log("\n");
-    console.log(data.title);
+    //console.log(data.title);
     interface ITitle {
       romaji?: string;
       english?: string;
