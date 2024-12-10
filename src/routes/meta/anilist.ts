@@ -288,7 +288,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
         );
         if ( provider != undefined && provider == "zoro" ) {
-          if (data.episodes == null || (data.episodes.length === 0 || data.currentEpisode != data.episodes.length)) 
+          if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
           {
             var infoZoro = await processAnimeData(data, zoro);
             if ( infoZoro.length > 0) 
@@ -302,7 +302,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       } else {
         const data = await fetchInfo();        
         if ( provider != undefined && provider == "zoro" ) {
-          if (data.episodes == null || (data.episodes.length === 0 || data.currentEpisode != data.episodes.length)) 
+          console.log("data.currentEpisode: ", data.currentEpisode);
+          console.log("data.episodes?.length: ", data.episodes?.length);
+          console.log("Check: ", data.currentEpisode != data.episodes?.length);
+          if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
           {
             var infoZoro = await processAnimeData(data, zoro);
             if ( infoZoro.length > 0) 
