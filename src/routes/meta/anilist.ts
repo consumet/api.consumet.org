@@ -271,16 +271,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     let anilist = generateAnilistMeta(provider);
 
+    /*
     console.log("- - -");
-    console.log("- - -");
+    console.log("\n");
     console.log("id: ", id);
     console.log("provider: ", provider);
+    console.log("fetchFiller: ", fetchFiller);
     if ( provider != undefined && provider == "zoro" ) {
       anilist = new META.Anilist(zoro);
-      console.log("Forzado de asignacion");      
     }
+    console.log("\n");
     console.log("- - -");
-    console.log("- - -");
+    */
 
     if (isDub === 'true' || isDub === '1') isDub = true;
     else isDub = false;
@@ -289,27 +291,94 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     else fetchFiller = false;
 
     try {
-      redis
-        ? reply
-            .status(200)
-            .send(
-              await cache.fetch(
-                redis,
-                `anilist:info;${id};${isDub};${fetchFiller};${anilist.provider.name.toLowerCase()}`,
-                async () =>
-                  anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean),
-                dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2,
-              ),
-            )
-        : reply
-            .status(200)
-            .send(
-              await anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean),
-            );
+      const fetchInfo = () => anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean);
+
+      if (redis) {
+        const data = await cache.fetch(
+          redis,
+          `anilist:info;${id};${isDub};${fetchFiller};${anilist.provider.name.toLowerCase()}`,
+          fetchInfo, // Aquí solo pasamos la referencia a la función
+          dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
+        );
+
+        if ( provider != undefined && provider == "zoro" ) {
+          if (data.episodes == null || data.episodes.length === 0) 
+          {
+            var infoZoro = await processAnimeData(data, zoro);
+            if ( infoZoro.length > 0) 
+            {
+              data.episodes = [];
+              data.episodes = infoZoro;
+            }
+          }        
+        } 
+
+        reply.status(200).send(data);
+      } else {
+        const data = await fetchInfo(); // Aquí ejecutamos la función
+
+        if ( provider != undefined && provider == "zoro" ) {
+          if (data.episodes == null || data.episodes.length === 0) 
+          {
+            var infoZoro = await processAnimeData(data, zoro);
+            if ( infoZoro.length > 0) 
+            {
+              data.episodes = [];
+              data.episodes = infoZoro;
+            }
+          }        
+        }        
+        
+        reply.status(200).send(data);
+      }
     } catch (err: any) {
       reply.status(500).send({ message: err.message });
     }
   });
+
+  // Función asíncrona para procesar la información
+  async function processAnimeData(data: any, zoro: any): Promise<any[]> {
+    console.log("\n");
+    console.log(data.title);
+
+    // Definición local de ITitle y isITitle dentro de la función
+    interface ITitle {
+      romaji?: string;
+      english?: string;
+      native?: string;
+      userPreferred?: string;
+    }
+
+    function isITitle(title: any): title is ITitle {
+      return typeof title === 'object' && title !== null && 'romaji' in title;
+    }
+
+    if (data && isITitle(data.title) && data.title.romaji) {
+      const titleRomaji = data.title.romaji;
+      const zoroSearch = await zoro.search(titleRomaji);
+
+      if (zoroSearch != null && zoroSearch.results.length > 0) {
+        const zoroInfo = await zoro.fetchAnimeInfo(zoroSearch.results[0].id);
+        console.log("data.episodes: ", data.episodes);
+        console.log("zoroInfo.episodes: ", zoroInfo.episodes);        
+        //data.episodes = []; // Limpia el array original de episodios
+        return zoroInfo.episodes?.map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          description: undefined,
+          number: item.number,
+          image: data.image,
+          imageHash: "hash",
+          url: item.url
+        }));
+      }
+    } else {
+      console.log("Romaji title is not available or data.title is a string.");
+    }
+
+    return []; // Retorna un array vacío si no hay episodios o si el título no está disponible
+  }
+
 
   // anilist character info
   fastify.get('/character/:id', async (request: FastifyRequest, reply: FastifyReply) => {
