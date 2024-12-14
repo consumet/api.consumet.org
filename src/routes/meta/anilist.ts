@@ -288,7 +288,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
         );
         if ( provider != undefined && provider == "zoro" ) {
-          if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
+          //if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
+          if( true )
           {
             var infoZoro = await processAnimeData(data, zoro);
             if ( infoZoro.length > 0) 
@@ -305,7 +306,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           //console.log("data.currentEpisode: ", data.currentEpisode);
           //console.log("data.episodes?.length: ", data.episodes?.length);
           //console.log("Check: ", data.currentEpisode != data.episodes?.length);
-          if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
+          //if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
+          if (true) 
           {
             var infoZoro = await processAnimeData(data, zoro);
             if ( infoZoro.length > 0) 
@@ -325,7 +327,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   // Función asíncrona para procesar la información
   async function processAnimeData(data: any, zoro: any): Promise<any[]> {
     console.log("\n");
-    //console.log(data.title);
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("data.title: ", data.title);
     interface ITitle {
       romaji?: string;
       english?: string;
@@ -334,25 +339,27 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
     function isITitle(title: any): title is ITitle {
       return typeof title === 'object' && title !== null && 'romaji' in title;
-    }
+    } 
     if (data && isITitle(data.title) && data.title.romaji) {
       const titleRomaji = data.title.romaji;
       const zoroSearch = await zoro.search(titleRomaji);
       console.log("zoroSearch: ", zoroSearch);
       if (zoroSearch != null && zoroSearch.results.length > 0) {
-        var zoroId = zoroSearch.results[0].id;
-        zoroSearch.results.forEach((result : any) => {
-          if (result.sub == data.currentEpisode || result.episodes == data.currentEpisode) {
-            zoroId = result.id;          
-          }
-        });
+        var zoroId = zoroSearch.results[0].id;        
+        for (const result of zoroSearch.results) {
+            if (result.sub == data.currentEpisode || result.episodes == data.currentEpisode) {
+                zoroId = result.id;
+                break; // Salimos del bucle tan pronto como se cumpla la condición
+            }
+        }
         const zoroInfo = await zoro.fetchAnimeInfo(zoroId);
         console.log("data.episodes: ", data.episodes);
         console.log("zoroInfo.episodes: ", zoroInfo.episodes);      
         console.log("\n");  
         if (zoroInfo.episodes && zoroInfo.episodes.length > 0) {
           return zoroInfo.episodes.map((item: any) => ({
-              id: item.id,
+              id: replaceEpisodeNumber(item.id, item.number),
+              id_raw: item.id,
               title: item.title,
               description: undefined,
               number: item.number,
@@ -364,6 +371,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       }
     } 
     return []; // Retorna un array vacío si no hay episodios o si el título no está disponible
+  }
+
+  function replaceEpisodeNumber(input: string, newEpisodeNumber: number): string {
+      // Partimos la cadena original en sus componentes
+      const parts = input.split('$');
+      // Partimos la segunda parte para acceder al número del episodio
+      const episodeParts = parts[2].split('$');
+      // Reemplazamos el número del episodio
+      episodeParts[0] = `${newEpisodeNumber}`;
+      // Reconstruimos la segunda parte
+      parts[2] = episodeParts.join('$');
+      // Reconstruimos la cadena completa
+      return parts.join('$');
   }
 
 
