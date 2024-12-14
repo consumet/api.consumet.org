@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const zoro = new ANIME.Zoro(process.env.ZORO_URL);
+  const anix = new ANIME.Anix(process.env.ANIX_URL);
   let baseUrl = "https://hianime.to";
   if(process.env.ZORO_URL){
     baseUrl = `https://${process.env.ZORO_URL}`;
@@ -178,7 +179,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'id is required' });
 
     try {
-      const res = await zoro
+      var res = await zoro
         .fetchEpisodeSources(episodeId, server);          
 
       for (let index = 0; index < res.sources.length; index++) {
@@ -199,7 +200,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             res.subtitles.splice(index, 1);
           }
         } 
-      }     
+      }    
+      
+      const parts = episodeId.split('$');
+      const resAux = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
+      
+      if (resAux != null) {
+        res = resAux;
+      }
 
       reply.status(200).send(res);
     } catch (err) {
@@ -229,6 +237,27 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   };
   fastify.get('/watch', watch);
   fastify.get('/watch/:episodeId', watch);
+
+
+  function getNameFromZoroId(input: string): string {
+      // Utiliza una expresión regular para eliminar números y reemplazar guiones con espacios
+      const formattedString = input.replace(/-|\d+/g, ' ');
+      // Elimina espacios extra al principio y al final
+      return formattedString.trim();
+  }
+
+  function containsSubstring(mainString: string, subString: string): boolean {
+      // Reemplazar los caracteres ":" y "?" por una cadena vacía "" en mainString
+      const cleanedMainString = mainString.replace(/[:?]/g, '');
+
+      /*
+      console.log("\n\n- ", cleanedMainString.toLowerCase());
+      console.log("- ", subString.toLowerCase());
+      console.log("\n\n");
+      */
+
+      return cleanedMainString.toLowerCase().includes(subString.toLowerCase());
+  }
 
   const fetchEpisodeSources = async (animeEpisodeId: string, episodeId: string, raw : Boolean): Promise<any> => {
     const url = raw ? `https://aniwatch-api-csc-lab.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}&category=raw` : `https://aniwatch-api-csc-lab.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}`;
@@ -268,6 +297,93 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       };
 
       return obj;  // Retornar el objeto con todos los detalles
+    } catch (error) {
+      console.error("Error (fetchEpisodeSources):", error);
+      return null;
+    }
+  };
+
+  const fetchEpisodeSourcesTemp = async (animeName: string, episodeId: string): Promise<any> => {
+    try {
+
+      const searchName = getNameFromZoroId(
+        animeName
+      );
+      
+      const search = await anix.search(
+        searchName
+      );
+
+      console.log("\n - - -");
+
+      console.log("animeName: " + searchName);
+      
+      console.log("episodeId: " + episodeId);
+
+      console.log("search: ", search);
+
+      if (search != null && search.results && search.results.length > 0) {
+        var animeId = search.results[0].id;
+
+        search.results.forEach(element => {
+          console.log(
+            "search.title: ", element.title
+          );     
+          if ( containsSubstring(element.title.toString(), searchName) || containsSubstring(element.englishTitle.toString(), searchName) ) {
+            animeId = element.id
+          }     
+        });
+
+        console.log("animeId: " + animeId);
+
+        if (animeId != undefined && animeId != "") {
+          const info = await anix.fetchAnimeInfo(
+            animeId
+          );
+
+          console.log("info.episodes: ", info.episodes);
+
+          var episodeKey = "";
+
+          if (info.episodes && info.episodes.length > 0) {
+            info.episodes.forEach((item: any) => {
+              if (episodeId == item.number) {
+                episodeKey = item.id;
+                console.log("episodeKey: ", episodeKey);
+              }
+            });
+          }
+
+          if ( episodeKey != "") 
+          {
+            const episode = await anix.fetchEpisodeSources(
+              animeId,
+              episodeKey
+            );
+
+            console.log("episode: ", episode);
+
+            if (episode.sources && episode.sources.length > 0) {        
+              const sourcesDetails = episode.sources.map((source: any) => ({
+                url: source.url,  // Extraemos la URL
+                type: "hls",  // Tipo de fuente (puede ser 'hls', etc.)
+                quality: "AUTO",  // Calidad de la fuente
+                isM3U8: true  // Si es un archivo M3U8
+              }));
+              const obj = {
+                sources: sourcesDetails,  // Todos los detalles de las fuentes
+                subtitles: [],  // Todos los detalles de los subtítulos
+                intro: {},  // URL de la intro
+                outro: {},  // URL del outro
+              };
+              return obj;  
+            }        
+          }
+        }
+      }
+      
+      console.log("\n - - -");
+     return null;
     } catch (error) {
       console.error("Error (fetchEpisodeSources):", error);
       return null;
