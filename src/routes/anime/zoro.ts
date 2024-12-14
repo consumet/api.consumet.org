@@ -240,8 +240,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
 
   function getNameFromZoroId(input: string): string {
-      const formattedString = input.replace(/-|\d+/g, ' ');
-      return formattedString.trim();
+    const formattedString = input.replace(/-|\d+/g, ' ');
+    return formattedString.trim();
   }
 
   function containsSubstring(mainString: string, subString: string): boolean {
@@ -306,30 +306,32 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
       console.log("\n - - -");
 
-      console.log("animeName: " + searchName);
+      console.log("\nanimeSlug: " + animeName);
+
+      console.log("\nanimeName: " + searchName);
       
-      console.log("episodeId: " + episodeId);
+      console.log("\nepisodeId: " + episodeId);
 
       if (search != null && search.results && search.results.length > 0) {
         var animeId = search.results[0].id;
 
         search.results.forEach(element => {
           console.log(
-            "search.title:", element.title.toString()
+            "\nsearch.title:", element.title.toString()
           );     
           if ( containsSubstring(element.title.toString(), searchName) || containsSubstring(element.englishTitle.toString(), searchName) ) {
             animeId = element.id.trim()
           }     
         });
 
-        console.log("animeId: " + animeId);
+        console.log("\nanimeId: " + animeId);
 
         if (animeId != undefined && animeId != "") {
           const info = await anix.fetchAnimeInfo(
             animeId
           );
 
-          console.log("info.episodes: ", info.episodes);
+          console.log("\ninfo.episodes: ", info.episodes);
 
           var episodeKey = "";
 
@@ -337,7 +339,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             info.episodes.forEach((item: any) => {
               if (episodeId == item.number) {
                 episodeKey = item.id.trim();
-                console.log("episodeKey:", episodeKey);
+                console.log("\nepisodeKey:", episodeKey);
               }
             });
           }
@@ -349,7 +351,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               episodeKey
             );
 
-            console.log("episode: ", episode);
+            console.log("\nepisode: ", episode);
 
             if (episode.sources && episode.sources.length > 0) {        
               const sourcesDetails = episode.sources.map((source: any) => ({
