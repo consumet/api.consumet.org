@@ -240,22 +240,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
 
   function getNameFromZoroId(input: string): string {
-      // Utiliza una expresión regular para eliminar números y reemplazar guiones con espacios
       const formattedString = input.replace(/-|\d+/g, ' ');
-      // Elimina espacios extra al principio y al final
       return formattedString.trim();
   }
 
   function containsSubstring(mainString: string, subString: string): boolean {
-      // Reemplazar los caracteres ":" y "?" por una cadena vacía "" en mainString
       const cleanedMainString = mainString.replace(/[:?]/g, '');
-
-      /*
-      console.log("\n\n- ", cleanedMainString.toLowerCase());
-      console.log("- ", subString.toLowerCase());
-      console.log("\n\n");
-      */
-
       return cleanedMainString.toLowerCase().includes(subString.toLowerCase());
   }
 
@@ -327,10 +317,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
         search.results.forEach(element => {
           console.log(
-            "search.title: ", element.title
+            "search.title:", element.title.toString()
           );     
           if ( containsSubstring(element.title.toString(), searchName) || containsSubstring(element.englishTitle.toString(), searchName) ) {
-            animeId = element.id
+            animeId = element.id.trim()
           }     
         });
 
@@ -348,8 +338,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           if (info.episodes && info.episodes.length > 0) {
             info.episodes.forEach((item: any) => {
               if (episodeId == item.number) {
-                episodeKey = item.id;
-                console.log("episodeKey: ", episodeKey);
+                episodeKey = item.id.trim();
+                console.log("episodeKey:", episodeKey);
               }
             });
           }
