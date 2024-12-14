@@ -43,6 +43,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/info/:id', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = decodeURIComponent((request.params as { id: string }).id);
 
+    if (typeof id === 'undefined')
+        return reply.status(400).send({ message: 'id is required' });
+      
     try {
       const res = await anix
         .fetchAnimeInfo(id)
@@ -61,6 +64,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const { id, episodeId } = request.params as { id: string; episodeId: string };
       const { server } = request.query as { server?: string };
+
+      if (typeof id === 'undefined')
+        return reply.status(400).send({ message: 'id is required' });
+
+      if (typeof episodeId === 'undefined')
+        return reply.status(400).send({ message: 'episodeId is required' });
   
       try {
         const res = await anix.fetchEpisodeSources(id, episodeId, server);
