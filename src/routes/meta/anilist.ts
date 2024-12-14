@@ -331,6 +331,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     console.log("\n");
     console.log("\n");
     console.log("data.title: ", data.title);
+    console.log("data.currentEpisode: ", data.currentEpisode);
     interface ITitle {
       romaji?: string;
       english?: string;
@@ -347,12 +348,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if (zoroSearch != null && zoroSearch.results.length > 0) {
         var zoroId = zoroSearch.results[0].id;        
         for (const result of zoroSearch.results) {
-            if (result.sub == data.currentEpisode || result.episodes == data.currentEpisode) {
+            if (result.sub == data.currentEpisode || result.episodes >= data.currentEpisode) {
                 zoroId = result.id;
                 break; // Salimos del bucle tan pronto como se cumpla la condición
             }
         }
-        const zoroInfo = await zoro.fetchAnimeInfo(zoroId);
+        console.log("zoroId: ", zoroId);
+        var zoroInfo = await zoro.fetchAnimeInfo(zoroId);
         console.log("data.episodes: ", data.episodes);
         console.log("zoroInfo.episodes: ", zoroInfo.episodes);      
         console.log("\n");  
