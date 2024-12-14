@@ -310,7 +310,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       
       console.log("episodeId: " + episodeId);
 
-      console.log("search: ", search);
+      //console.log("search: ", search);
 
       if (search != null && search.results && search.results.length > 0) {
         var animeId = search.results[0].id;
