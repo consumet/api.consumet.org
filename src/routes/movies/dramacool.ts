@@ -8,13 +8,28 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
+<<<<<<< HEAD
+        "Welcome to the flixhq provider: check out the provider's website @ https://flixhq.to/",
+      routes: ['/:query', '/info', '/watch'],
+      documentation: 'https://docs.consumet.org/#tag/flixhq',
+=======
         "Welcome to the dramacool provider: check out the provider's website @ https://dramacool.com.pa/",
       routes: ['/:query', '/info', '/watch', '/popular','/recent-movies', '/recent-shows'],
       documentation: 'https://docs.consumet.org/#tag/dramacool',
+>>>>>>> upstream/main
     });
   });
 
   fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+<<<<<<< HEAD
+    const query = decodeURIComponent((request.params as { query: string }).query);
+
+    const page = (request.query as { page: number }).page;
+
+    const res = await dramacool.search(query, page);
+
+    reply.status(200).send(res);
+=======
     try {
       const query = decodeURIComponent((request.params as { query: string }).query);
   
@@ -29,6 +44,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           'Something went wrong. Please try again later. or contact the developers.',
       });
     }
+>>>>>>> upstream/main
   });
 
   fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
@@ -84,6 +100,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .send({ message: 'Something went wrong. Please try again later.' });
     }
   })
+<<<<<<< HEAD
+=======
 
   fastify.get("/recent-movies", async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
@@ -108,6 +126,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .send({ message: 'Something went wrong. Please try again later.' });
     }
   })
+>>>>>>> upstream/main
 };
 
 export default routes;
