@@ -330,8 +330,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     console.log("\n");
     console.log("\n");
     console.log("\n");
-    console.log("data.title: ", data.title);
-    console.log("data.currentEpisode: ", data.currentEpisode);
+    console.log("\ndata.title: ", data.title);
+    //console.log("\ndata.currentEpisode: ", data.currentEpisode);
     interface ITitle {
       romaji?: string;
       english?: string;
@@ -343,20 +343,34 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     } 
     if (data && isITitle(data.title) && data.title.romaji) {
       const titleRomaji = data.title.romaji;
-      const zoroSearch = await zoro.search(titleRomaji);
-      console.log("zoroSearch: ", zoroSearch);
+      const titleEnglish = data.title.english ? data.title.english : data.title.romaji;
+      const zoroSearch = await zoro.search(titleRomaji); 
+      console.log("\nzoroSearch: ", zoroSearch);
       if (zoroSearch != null && zoroSearch.results.length > 0) {
         var zoroId = zoroSearch.results[0].id;        
-        for (const result of zoroSearch.results) {
-            if (result.sub == data.currentEpisode || result.episodes >= data.currentEpisode) {
-                zoroId = result.id;
-                break; // Salimos del bucle tan pronto como se cumpla la condición
-            }
+        for (const result of zoroSearch.results) 
+        {
+          var searchName = result.title;
+          var searchNameJapanese = result.japaneseTitle;
+
+          console.log("\nsearchName: ", searchName);
+          console.log("\nsearchNameJapanese: ", searchNameJapanese);
+          
+          if ((result.sub == data.currentEpisode || result.episodes >= data.currentEpisode) 
+            && (searchName.includes(titleRomaji) 
+              || searchName.includes(titleEnglish) 
+              || searchNameJapanese.includes(titleRomaji) 
+              || searchNameJapanese.includes(titleEnglish)
+            )
+          ) {
+              zoroId = result.id;
+              break; 
+          }
         }
-        console.log("zoroId: ", zoroId);
+        console.log("\nzoroId: ", zoroId);
         var zoroInfo = await zoro.fetchAnimeInfo(zoroId);
-        console.log("data.episodes: ", data.episodes);
-        console.log("zoroInfo.episodes: ", zoroInfo.episodes);      
+        console.log("\ndata.episodes: ", data.episodes);
+        console.log("\n\nzoroInfo.episodes: ", zoroInfo.episodes);      
         console.log("\n");  
         if (zoroInfo.episodes && zoroInfo.episodes.length > 0) {
           return zoroInfo.episodes.map((item: any) => ({
