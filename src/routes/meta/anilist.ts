@@ -330,6 +330,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     console.log("\n");
     console.log("\n");
     console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
+    console.log("\n");
     console.log("\ndata.title: ", data.title);
     //console.log("\ndata.currentEpisode: ", data.currentEpisode);
     interface ITitle {
@@ -345,26 +356,28 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const titleRomaji = data.title.romaji;
       const titleEnglish = data.title.english ? data.title.english : data.title.romaji;
       const zoroSearch = await zoro.search(titleRomaji); 
-      console.log("\nzoroSearch: ", zoroSearch);
       if (zoroSearch != null && zoroSearch.results.length > 0) {
         var zoroId = zoroSearch.results[0].id;        
         for (const result of zoroSearch.results) 
         {
-          var searchName = result.title;
-          var searchNameJapanese = result.japaneseTitle;
+          var searchName = result.title.replace("½", "1/2");
+          var searchNameJapanese = result.japaneseTitle.replace("½", "1/2");
 
           console.log("\nsearchName: ", searchName);
           console.log("\nsearchNameJapanese: ", searchNameJapanese);
-          
-          if ((result.sub == data.currentEpisode || result.episodes >= data.currentEpisode) 
+          console.log("\ndata.currentEpisode: ", data.currentEpisode);
+          console.log("\nResult: ", result);
+
+          if (((result.sub >= data.currentEpisode && data.currentEpisode <= result.sub + 1) /*|| result.episodes >= data.currentEpisode*/) 
             && (searchName.includes(titleRomaji) 
               || searchName.includes(titleEnglish) 
               || searchNameJapanese.includes(titleRomaji) 
               || searchNameJapanese.includes(titleEnglish)
             )
           ) {
+              console.log("\nEntro en: ", result);
               zoroId = result.id;
-              break; 
+              //break; 
           }
         }
         console.log("\nzoroId: ", zoroId);
