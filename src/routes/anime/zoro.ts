@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 import { ANIME } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 import axios from 'axios';
+import { empty } from 'cheerio/lib/api/manipulation';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const zoro = new ANIME.Zoro(process.env.ZORO_URL);
@@ -240,6 +241,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
 
   function getNameFromZoroId(input: string): string {
+    if (input == "ranma-1-2-19335") {
+      return "Ranma ½ (2024)";
+    }
     const formattedString = input.replace(/-|\d+/g, ' ');
     return formattedString.trim();
   }
@@ -313,14 +317,27 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       console.log("\nepisodeId: " + episodeId);
 
       if (search != null && search.results && search.results.length > 0) {
-        var animeId = search.results[0].id;
-
+        var animeId = search.results[0].id;        
         search.results.forEach(element => {
+          var searchAnimeRawName = element.title.toString().trim();
+          var searchAnimeEnName = element.englishTitle.toString().trim();
+          if ( searchAnimeRawName != null && searchAnimeRawName != undefined && searchAnimeRawName != "" ) {
+            searchAnimeRawName = searchAnimeRawName.replace("½", "1/2");
+          }
+          if ( searchAnimeEnName != null && searchAnimeEnName != undefined && searchAnimeEnName != "" ) {
+            searchAnimeEnName = searchAnimeEnName.replace("½", "1/2");
+          }
           console.log(
-            "\nsearch.title:", element.title.toString()
+            "\nsearch.title-raw:", searchAnimeRawName
           );     
-          if ( containsSubstring(element.title.toString(), searchName) || containsSubstring(element.englishTitle.toString(), searchName) ) {
-            animeId = element.id.trim()
+          console.log(
+            "\nsearch.title-english:", searchAnimeEnName
+          );              
+          if ( containsSubstring(searchAnimeRawName, searchName) || containsSubstring(searchAnimeEnName, searchName) ) {
+            animeId = element.id.trim();
+            console.log(
+              "\nsearch.encontro:", element
+            ); 
           }     
         });
 

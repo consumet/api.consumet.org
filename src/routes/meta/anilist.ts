@@ -360,8 +360,15 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         var zoroId = zoroSearch.results[0].id;        
         for (const result of zoroSearch.results) 
         {
-          var searchName = result.title.replace("½", "1/2");
-          var searchNameJapanese = result.japaneseTitle.replace("½", "1/2");
+          var searchName = result.title.trim();
+          var searchNameJapanese = result.japaneseTitle.trim();
+
+          if ( searchName != null && searchName != undefined && searchName != "" ) {
+            searchName = searchName.replace("½", "1/2");
+          }
+          if ( searchNameJapanese != null && searchNameJapanese != undefined && searchNameJapanese != "" ) {
+            searchNameJapanese = searchNameJapanese.replace("½", "1/2");
+          }
 
           console.log("\nsearchName: ", searchName);
           console.log("\nsearchNameJapanese: ", searchNameJapanese);
@@ -377,7 +384,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           ) {
               console.log("\nEntro en: ", result);
               zoroId = result.id;
-              //break; 
           }
         }
         console.log("\nzoroId: ", zoroId);
@@ -397,6 +403,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               url: item.url
           }));
         } 
+      }else{
+        console.log("\n\nelse: ", data);   
       }
     } 
     return []; // Retorna un array vacío si no hay episodios o si el título no está disponible
