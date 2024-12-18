@@ -393,8 +393,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         console.log("\n");  
         if (zoroInfo.episodes && zoroInfo.episodes.length > 0) {
           return zoroInfo.episodes.map((item: any) => ({
-              id: replaceEpisodeNumber(item.id, item.number),
-              id_raw: item.id,
+              id: item.id,
+              id_alt: replaceEpisodeNumber(item.id, item.number),
               title: item.title,
               description: undefined,
               number: item.number,
