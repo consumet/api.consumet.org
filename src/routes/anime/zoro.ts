@@ -205,21 +205,29 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       
       const parts = episodeId.split('$');
 
-      const resAniwatch = await fetchEpisodeSources(parts[0], parts[2], false);
-      if (resAniwatch != null) 
+      if ( parts[2] != null && parts[2].length <=3 ) 
       {
-        res = resAniwatch;
-      }else{
-        const resAniwatchRaw = await fetchEpisodeSources(parts[0], parts[2], true);
-        if (resAniwatchRaw != null) 
+        const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
+        if (resAnix != null) {
+          res = resAnix;
+        }
+      }else{  
+        const resAniwatch = await fetchEpisodeSources(parts[0], parts[2], false);
+        if (resAniwatch != null) 
         {
-          res = resAniwatchRaw;
+          res = resAniwatch;
         }else{
-          const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
-          if (resAnix != null) {
-            res = resAnix;
-          }
-        }        
+          const resAniwatchRaw = await fetchEpisodeSources(parts[0], parts[2], true);
+          if (resAniwatchRaw != null) 
+          {
+            res = resAniwatchRaw;
+          }else{
+            const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
+            if (resAnix != null) {
+              res = resAnix;
+            }
+          }        
+        }
       }
 
       reply.status(200).send(res);
