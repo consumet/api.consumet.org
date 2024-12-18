@@ -280,16 +280,15 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if (!raw) {
         const urlServers = `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/servers?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}`;
         const servers = await axios.get(urlServers);
-
-        console.log("response.data: ", servers.data);
+        //console.log("response.data: ", servers.data);
         if (servers.data != null && servers.data.data != null && servers.data.data.sub != null && servers.data.data.sub.length > 0 ) {
-          console.log("servers.data.data.sub: ", servers.data.data.sub);
+          //console.log("servers.data.data.sub: ", servers.data.data.sub);
           serverName = servers.data.data.sub[ 0 ].serverName;
           if (serverName != "") 
           {
             serverName = "&server=" + serverName;
           }
-          console.log("serverName: ", serverName);
+          //console.log("serverName: ", serverName);
         }
       }
 
