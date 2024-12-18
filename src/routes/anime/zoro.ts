@@ -193,7 +193,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         }
       }
 
-      if ( res.subtitles != undefined ) 
+      if ( res.subtitles != null ) 
       {
         for (let index = 0; index < res.subtitles.length; index++) {
           if ( res.subtitles[ index ].lang == "Thumbnails" ) 
@@ -204,10 +204,22 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       }    
       
       const parts = episodeId.split('$');
-      const resAux = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
-      
-      if (resAux != null) {
-        res = resAux;
+
+      const resAniwatch = await fetchEpisodeSources(parts[0], parts[2], false);
+      if (resAniwatch != null) 
+      {
+        res = resAniwatch;
+      }else{
+        const resAniwatchRaw = await fetchEpisodeSources(parts[0], parts[2], true);
+        if (resAniwatchRaw != null) 
+        {
+          res = resAniwatchRaw;
+        }else{
+          const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
+          if (resAnix != null) {
+            res = resAnix;
+          }
+        }        
       }
 
       reply.status(200).send(res);
@@ -253,9 +265,28 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return cleanedMainString.toLowerCase().includes(subString.toLowerCase());
   }
 
-  const fetchEpisodeSources = async (animeEpisodeId: string, episodeId: string, raw : Boolean): Promise<any> => {
-    const url = raw ? `https://aniwatch-api-csc-lab.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}&category=raw` : `https://aniwatch-api-csc-lab.vercel.app/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}`;
+  const fetchEpisodeSources = async (animeEpisodeId: string, episodeId: string, raw : Boolean): Promise<any> => {    
     try {
+      var serverName = "";
+
+      if (!raw) {
+        const urlServers = `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/servers?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}`;
+        const servers = await axios.get(urlServers);
+
+        console.log("response.data: ", servers.data);
+        if (servers.data != null && servers.data.data != null && servers.data.data.sub != null && servers.data.data.sub.length > 0 ) {
+          console.log("servers.data.data.sub: ", servers.data.data.sub);
+          serverName = servers.data.data.sub[ 0 ].serverName;
+          if (serverName != "") 
+          {
+            serverName = "&server=" + serverName;
+          }
+          console.log("serverName: ", serverName);
+        }
+      }
+
+      const url = raw ? `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}&category=raw` : `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}${serverName}`;
+
       // Hacer la solicitud GET
       const response = await axios.get(url);
 
@@ -277,10 +308,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       }));
 
       // Extraer los parámetros de cada objeto en `subtitles`
-      const subtitleDetails = subtitles.map((subtitle: any) => ({
-        url: subtitle.file,  // Archivo de subtítulo
-        lang: subtitle.label.replace("CR_", "")   // Idioma del subtítulo (puede ser 'English', 'Spanish', etc.)
-      }));
+      const subtitleDetails = subtitles
+        .filter((subtitle: any) => subtitle.label)  // Filtra para incluir solo los elementos con `label` definido
+        .map((subtitle: any) => ({
+          url: subtitle.file,  // Archivo de subtítulo
+          lang: subtitle.label.replace("CR_", "")   // Idioma del subtítulo (puede ser 'English', 'Spanish', etc.)
+        }));
 
       // Crear el objeto final con todos los detalles extraídos
       const obj = {
