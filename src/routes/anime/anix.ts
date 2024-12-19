@@ -13,6 +13,16 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
+  fastify.get(
+    '/recent-episodes',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const page = (request.query as { page: number }).page;
+      const type = (request.query as { type: number }).type;
+      console.log(page, type);      
+      reply.status(200).send(await anix.fetchRecentEpisodes(page, type));
+    },
+  );
+
   fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
     const { page = 1 } = request.query as { page?: number };
