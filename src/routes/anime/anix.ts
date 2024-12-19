@@ -45,7 +45,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     if (typeof id === 'undefined')
         return reply.status(400).send({ message: 'id is required' });
-      
+
     try {
       const res = await anix
         .fetchAnimeInfo(id)

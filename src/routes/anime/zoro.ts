@@ -165,12 +165,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       );  
     }
 
-    /*
-    console.log("- - -");
-    console.log("episodeId: " , episodeId);
-    console.log("- - -");
-    */
-
     const server = (request.query as { server: string }).server as StreamingServers;
 
     if (server && !Object.values(StreamingServers).includes(server))
