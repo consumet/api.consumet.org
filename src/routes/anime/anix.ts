@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
+import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const anix = new ANIME.Anix();
@@ -69,11 +70,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get(
-    '/watch/:id/:episodeId',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const { id, episodeId } = request.params as { id: string; episodeId: string };
-      const { server } = request.query as { server?: string };
+  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+    const id = (request.query as { id: string }).id;
+    const episodeId = (request.query as { episodeId: string }).episodeId;
+    const type = (request.query as { type: string }).type ?? 'sub';
+    const server = (request.query as { server: string }).server as StreamingServers;
 
       if (typeof id === 'undefined')
         return reply.status(400).send({ message: 'id is required' });
@@ -82,7 +83,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         return reply.status(400).send({ message: 'episodeId is required' });
   
       try {
-        const res = await anix.fetchEpisodeSources(id, episodeId, server);
+        const res = await anix.fetchEpisodeSources(id, episodeId, server, type);
   
         reply.status(200).send(res);
       } catch (err) {
