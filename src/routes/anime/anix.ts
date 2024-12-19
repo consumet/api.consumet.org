@@ -62,6 +62,29 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .send({ message: 'Something went wrong. Contact developer for help.' });
     }
   });
+
+  fastify.get('/servers', async (request: FastifyRequest, reply: FastifyReply) => {
+    const id = (request.query as { id: string }).id;
+    const episodeId = (request.query as { episodeId: string }).episodeId;
+
+    if (typeof id === 'undefined')
+      return reply.status(400).send({ message: 'id is required' });
+
+    if (typeof episodeId === 'undefined')
+      return reply.status(400).send({ message: 'episodeId is required' });
+
+    try {
+      const res = await anix
+        .fetchEpisodeServers(id, episodeId)
+        .catch((err) => reply.status(404).send({ message: err }));
+
+      reply.status(200).send(res);
+    } catch (err) {
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Contact developer for help.' });
+    }
+  });
 };
 
 export default routes;
