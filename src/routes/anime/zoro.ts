@@ -157,6 +157,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       episodeId = episodeIdAuxParts[ 0 ] + "$episode$" + episodeIdAuxParts[ 1 ];      
     }    
 
+    /*
     if ( episodeId.includes("$sub") ) 
     {
       episodeId = episodeId.replace(
@@ -164,6 +165,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         "$both"
       );  
     }
+    */
 
     const server = (request.query as { server: string }).server as StreamingServers;
 
@@ -206,12 +208,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           res = resAnix;
         }
       }else{  
-        const resAniwatch = await fetchEpisodeSources(parts[0], parts[2], false);
+        const resAniwatch = await fetchEpisodeSources(parts[0], parts[2], false, parts[3]);
         if (resAniwatch != null) 
         {
           res = resAniwatch;
         }else{
-          const resAniwatchRaw = await fetchEpisodeSources(parts[0], parts[2], true);
+          const resAniwatchRaw = await fetchEpisodeSources(parts[0], parts[2], true, parts[3]);
           if (resAniwatchRaw != null) 
           {
             res = resAniwatchRaw;
@@ -228,13 +230,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     } catch (err) {
       const parts = episodeId.split('$');
       try {
-        const data = await fetchEpisodeSources(parts[0], parts[2], false);
+        const data = await fetchEpisodeSources(parts[0], parts[2], false, parts[3]);
         if (data != null) 
         {
           reply.status(200).send(data);  // Solo se envía la respuesta cuando tenemos los datos 
         }else{
           try {
-            const data = await fetchEpisodeSources(parts[0], parts[2], true);
+            const data = await fetchEpisodeSources(parts[0], parts[2], true, parts[3]);
             if (data != null) 
             {
               reply.status(200).send(data);  // Solo se envía la respuesta cuando tenemos los datos 
@@ -267,29 +269,47 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return cleanedMainString.toLowerCase().includes(subString.toLowerCase());
   }
 
-  const fetchEpisodeSources = async (animeEpisodeId: string, episodeId: string, raw : Boolean): Promise<any> => {    
+  const fetchEpisodeSources = async (animeEpisodeId: string, episodeId: string, raw : Boolean, category : string): Promise<any> => {    
     try {
-      var serverName = "";
-
+      var response = null;
       if (!raw) {
-        const urlServers = `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/servers?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}`;
-        const servers = await axios.get(urlServers);
-        //console.log("response.data: ", servers.data);
-        if (servers.data != null && servers.data.data != null && servers.data.data.sub != null && servers.data.data.sub.length > 0 ) {
-          //console.log("servers.data.data.sub: ", servers.data.data.sub);
-          serverName = servers.data.data.sub[ 0 ].serverName;
-          if (serverName != "") 
-          {
-            serverName = "&server=" + serverName;
-          }
-          //console.log("serverName: ", serverName);
+        if ( category.includes("both") ) 
+        {
+          console.log("category.raw: ", category);            
+          category = category.replace(
+            "both",
+            "sub"            
+          );  
+          console.log("category.fix: ", category);
         }
+        const urlServers = `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/servers?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}`;
+        const servers = await axios.get(urlServers);        
+        console.log("response.data: ", servers.data);             
+        if (servers.data != null && servers.data.data != null && servers.data.data[category] && servers.data.data[category].length > 0 ) {                
+          for (let i = 0; i < servers.data.data[category].length; i++) 
+          {
+            const element = servers.data.data[category][i];
+            if(element.serverName != null && element.serverName != "")
+            {
+              var url = `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}&server=${element.serverName}&category=${category}`;
+              console.log("axios.url: ", url);
+              response = await axios.get(url);
+              console.log("axios.response: ", response.data);
+              if (response.data.success && response.data.data != null && response.data.data.sources != null && response.data.data.sources.length > 0)     
+                break;                              
+            }                    
+          }          
+        }
+      }else{
+        // Crear la URL con los parámetros necesarios
+        const url = `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}&category=raw`;
+        // Hacer una solicitud GET a la URL
+        response = await axios.get(url);
       }
-
-      const url = raw ? `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}&category=raw` : `https://scrape-aniwatch.csc-lab-api.xyz/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}?ep=${episodeId}${serverName}`;
-
-      // Hacer la solicitud GET
-      const response = await axios.get(url);
+  
+      // Verificar si la respuesta es nula
+      if (response == null) 
+        return null;            
 
       // Accedemos a response.data.data correctamente
       const data = response.data.data;
