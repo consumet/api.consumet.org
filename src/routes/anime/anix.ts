@@ -24,10 +24,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     },
   );
 
-  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
-    const query = (request.params as { query: string }).query;
-
-    const res = await anix.search(query);
+  fastify.get('/search', async (request: FastifyRequest, reply: FastifyReply) => {
+    const query = (request.query as { query: string }).query;
+    const page = (request.query as { page: number }).page ?? 1;
+    
+    const res = await anix.search(query, page); 
 
     reply.status(200).send(res);
   });
