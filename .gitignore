@@ -6,5 +6,6 @@ src/scripts
 yarn.lock
 test.ts
 dist
+dist-*
 package-lock.json
 yarn.lock
