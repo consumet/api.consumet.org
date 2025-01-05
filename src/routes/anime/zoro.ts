@@ -198,31 +198,33 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           }
         } 
       }    
-      
-      const parts = episodeId.split('$');
 
-      if ( parts[2] != null && parts[2].length <=3 ) 
-      {
-        const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
-        if (resAnix != null) {
-          res = resAnix;
-        }
-      }else{  
-        const resAniwatch = await fetchEpisodeSources(parts[0], parts[2], false, parts[3]);
-        if (resAniwatch != null) 
+      if ( res.sources == undefined || res.sources.length == 0 ) 
+      {      
+        const parts = episodeId.split('$');
+        if ( parts[2] != null && parts[2].length <=3 ) 
         {
-          res = resAniwatch;
-        }else{
-          const resAniwatchRaw = await fetchEpisodeSources(parts[0], parts[2], true, parts[3]);
-          if (resAniwatchRaw != null) 
+          const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
+          if (resAnix != null) {
+            res = resAnix;
+          }
+        }else{  
+          const resAniwatch = await fetchEpisodeSources(parts[0], parts[2], false, parts[3]);
+          if (resAniwatch != null) 
           {
-            res = resAniwatchRaw;
+            res = resAniwatch;
           }else{
-            const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
-            if (resAnix != null) {
-              res = resAnix;
-            }
-          }        
+            const resAniwatchRaw = await fetchEpisodeSources(parts[0], parts[2], true, parts[3]);
+            if (resAniwatchRaw != null) 
+            {
+              res = resAniwatchRaw;
+            }else{
+              const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
+              if (resAnix != null) {
+                res = resAnix;
+              }
+            }        
+          }
         }
       }
 
