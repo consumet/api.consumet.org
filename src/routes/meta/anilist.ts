@@ -327,90 +327,101 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   // Función asíncrona para procesar la información
   async function processAnimeData(data: any, zoro: any): Promise<any[]> {
     console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
-    console.log("\n");
     console.log("\ndata.title: ", data.title);
-    //console.log("\ndata.currentEpisode: ", data.currentEpisode);
-    interface ITitle {
-      romaji?: string;
-      english?: string;
-      native?: string;
-      userPreferred?: string;
-    }
-    function isITitle(title: any): title is ITitle {
-      return typeof title === 'object' && title !== null && 'romaji' in title;
-    } 
-    if (data && isITitle(data.title) && data.title.romaji) {
-      const titleRomaji = data.title.romaji;
-      const titleEnglish = data.title.english ? data.title.english : data.title.romaji;
-      const zoroSearch = await zoro.search(titleRomaji); 
-      if (zoroSearch != null && zoroSearch.results.length > 0) {
-        var zoroId = zoroSearch.results[0].id;        
-        for (const result of zoroSearch.results) 
-        {
-          var searchName = result.title.trim();
-          var searchNameJapanese = result.japaneseTitle.trim();
-
-          if ( searchName != null && searchName != undefined && searchName != "" ) {
-            searchName = searchName.replace("½", "1/2");
-          }
-          if ( searchNameJapanese != null && searchNameJapanese != undefined && searchNameJapanese != "" ) {
-            searchNameJapanese = searchNameJapanese.replace("½", "1/2");
-          }
-
-          console.log("\nsearchName: ", searchName);
-          console.log("\nsearchNameJapanese: ", searchNameJapanese);
-          console.log("\ndata.currentEpisode: ", data.currentEpisode);
-          console.log("\nResult: ", result);
-
-          if (((result.sub >= data.currentEpisode && data.currentEpisode <= result.sub + 1) /*|| result.episodes >= data.currentEpisode*/) 
-            && (searchName.includes(titleRomaji) 
-              || searchName.includes(titleEnglish) 
-              || searchNameJapanese.includes(titleRomaji) 
-              || searchNameJapanese.includes(titleEnglish)
-            )
-          ) {
-              console.log("\nEntro en: ", result);
-              zoroId = result.id;
-          }
-        }
-        console.log("\nzoroId: ", zoroId);
-        var zoroInfo = await zoro.fetchAnimeInfo(zoroId);
-        console.log("\ndata.episodes: ", data.episodes);
-        console.log("\n\nzoroInfo.episodes: ", zoroInfo.episodes);      
-        console.log("\n");  
-        if (zoroInfo.episodes && zoroInfo.episodes.length > 0) {
-          return zoroInfo.episodes.map((item: any) => ({
-            //id: replaceEpisodeNumber(item.id, item.number),
-            id: item.id,              
-            id_alt: item.id,              
-            title: item.title,
-            description: undefined,
-            number: item.number,
-            image: data.image,
-            imageHash: "hash",
-            url: item.url
-          }));
-        } 
-      }else{
-        console.log("\n\nelse: ", data);   
+    try {
+      interface ITitle {
+        romaji?: string;
+        english?: string;
+        native?: string;
+        userPreferred?: string;
       }
-    } 
+      function isITitle(title: any): title is ITitle {
+        return typeof title === 'object' && title !== null && 'romaji' in title;
+      } 
+      if (data && isITitle(data.title) && data.title.romaji) {
+        const titleRomaji = data.title.romaji;
+        const titleEnglish = data.title.english ? data.title.english : data.title.romaji;
+        const zoroSearch = await zoro.search(
+          trimQueryToMaxWords(titleRomaji)
+        ); 
+        if (zoroSearch != null && zoroSearch.results.length > 0) {
+          var zoroId = zoroSearch.results[0].id;        
+          for (const result of zoroSearch.results) 
+          {
+            var searchName = result.title.trim();
+            var searchNameJapanese = result.japaneseTitle.trim();
+
+            if ( searchName != null && searchName != undefined && searchName != "" ) {
+              searchName = searchName.replace("½", "1/2");
+            }
+            if ( searchNameJapanese != null && searchNameJapanese != undefined && searchNameJapanese != "" ) {
+              searchNameJapanese = searchNameJapanese.replace("½", "1/2");
+            }
+
+            console.log("\nsearchName: ", searchName);
+            console.log("\nsearchNameJapanese: ", searchNameJapanese);
+            console.log("\ndata.currentEpisode: ", data.currentEpisode);
+            console.log("\nResult: ", result);
+
+            if (((result.sub >= data.currentEpisode && data.currentEpisode <= result.sub + 1) /*|| result.episodes >= data.currentEpisode*/) 
+              && (searchName.includes(titleRomaji) 
+                || searchName.includes(titleEnglish) 
+                || searchNameJapanese.includes(titleRomaji) 
+                || searchNameJapanese.includes(titleEnglish)
+              )
+            ) {
+                console.log("\nEntro en: ", result);
+                zoroId = result.id;
+            }
+          }
+          console.log("\nzoroId: ", zoroId);
+          var zoroInfo = await zoro.fetchAnimeInfo(zoroId);
+          console.log("\ndata.episodes: ", data.episodes);
+          console.log("\n\nzoroInfo.episodes: ", zoroInfo.episodes);      
+          console.log("\n");  
+          if (zoroInfo.episodes && zoroInfo.episodes.length > 0) {
+            return zoroInfo.episodes.map((item: any) => ({
+              //id: replaceEpisodeNumber(item.id, item.number),
+              id: item.id,              
+              id_alt: item.id,              
+              title: item.title,
+              description: undefined,
+              number: item.number,
+              image: data.image,
+              imageHash: "hash",
+              url: item.url
+            }));
+          } 
+        }else{
+          console.log("\n- Else: ", data);   
+        }
+      } 
+    }catch (error) {
+      console.log("\n- Error: ", error);
+    }
     return []; // Retorna un array vacío si no hay episodios o si el título no está disponible
   }
 
+  function trimQueryToMaxWords(encodedQuery : string, maxWords = 15) {
+    // Decodificar la cadena para trabajar con ella más fácilmente
+    let decodedQuery = decodeURIComponent(encodedQuery);
+    
+    // Dividir la cadena en palabras basadas en espacios
+    let words = decodedQuery.split(/\s+/);
+    
+    // Verificar si la cantidad de palabras excede el máximo permitido
+    if (words.length > maxWords) {
+      // Unir solo el número máximo permitido de palabras
+      let trimmedWords = words.slice(0, maxWords).join(' ');
+      // Codificar nuevamente la cadena antes de retornarla
+      return encodeURIComponent(trimmedWords);
+    }
+    
+    // Si no excede, retornar la cadena original
+    return encodedQuery;
+  }
+
+  /*
   function replaceEpisodeNumber(input: string, newEpisodeNumber: number): string {
       // Partimos la cadena original en sus componentes
       const parts = input.split('$');
@@ -423,7 +434,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       // Reconstruimos la cadena completa
       return parts.join('$');
   }
-
+  */
 
   // anilist character info
   fastify.get('/character/:id', async (request: FastifyRequest, reply: FastifyReply) => {
