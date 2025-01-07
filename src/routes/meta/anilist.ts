@@ -285,7 +285,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         const data = await cache.fetch(
           redis,
           `anilist:info;${id};${isDub};${fetchFiller};${anilist.provider.name.toLowerCase()}`,
-          fetchInfo, // Aquí solo pasamos la referencia a la función
+          fetchInfo, 
           dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
         );
         if ( provider != undefined && provider == "zoro" ) {
@@ -316,7 +316,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         reply.status(200).send(data);
       }
     } catch (err: any) {
-      console.log("\n- Error TRY 1: ", err);    
+      console.log("\n- Error (TRY #1): ", err);    
       let anilist2 = generateAnilistMeta();
       try {
         const fetchInfo = () => anilist2.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean);
@@ -324,7 +324,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           const data = await cache.fetch(
             redis,
             `anilist:info;${id};${isDub};${fetchFiller};${anilist2.provider.name.toLowerCase()}`,
-            fetchInfo, // Aquí solo pasamos la referencia a la función
+            fetchInfo, 
             dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
           );
           if ( provider != undefined && provider == "zoro" ) {
@@ -355,7 +355,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           reply.status(200).send(data);
         }
       } catch (err: any) {
-        console.log("\n- Error TRY 2: ", err);    
+        console.log("\n- Error (TRY #2): ", err);    
         reply.status(500).send({ message: err.message });
       }
     }
