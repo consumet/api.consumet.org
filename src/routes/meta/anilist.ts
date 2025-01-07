@@ -320,6 +320,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         reply.status(200).send(data);
       }
     } catch (err: any) {
+      console.log("\n- Error TRY: ", err);    
       reply.status(500).send({ message: err.message });
     }
   });
