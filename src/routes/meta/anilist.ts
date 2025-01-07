@@ -271,6 +271,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     let anilist = generateAnilistMeta(provider);
 
+    console.log("\n- provider: ", provider);
+
     if (isDub === 'true' || isDub === '1') isDub = true;
     else isDub = false;
 
@@ -279,7 +281,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     try {
       const fetchInfo = () => anilist.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean);
-
       if (redis) {
         const data = await cache.fetch(
           redis,
@@ -289,7 +290,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         );
         if ( provider != undefined && provider == "zoro" ) {
           if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
-          //if( true )
           {
             var infoZoro = await processAnimeData(data, zoro);
             if ( infoZoro.length > 0) 
@@ -303,11 +303,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       } else {
         const data = await fetchInfo();        
         if ( provider != undefined && provider == "zoro" ) {
-          //console.log("data.currentEpisode: ", data.currentEpisode);
-          //console.log("data.episodes?.length: ", data.episodes?.length);
-          //console.log("Check: ", data.currentEpisode != data.episodes?.length);
           if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
-          //if (true) 
           {
             var infoZoro = await processAnimeData(data, zoro);
             if ( infoZoro.length > 0) 
@@ -320,8 +316,54 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         reply.status(200).send(data);
       }
     } catch (err: any) {
-      console.log("\n- Error TRY: ", err);    
-      reply.status(500).send({ message: err.message });
+
+      console.log("\n- Error TRY 1: ", err);    
+
+      let anilist2 = generateAnilistMeta();
+
+      try {
+        const fetchInfo = () => anilist2.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean);
+        if (redis) {
+          const data = await cache.fetch(
+            redis,
+            `anilist:info;${id};${isDub};${fetchFiller};${anilist2.provider.name.toLowerCase()}`,
+            fetchInfo, // Aquí solo pasamos la referencia a la función
+            dayOfWeek === 0 || dayOfWeek === 6 ? 60 * 120 : (60 * 60) / 2
+          );
+          if ( provider != undefined && provider == "zoro" ) {
+            if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
+            {
+              var infoZoro = await processAnimeData(data, zoro);
+              if ( infoZoro.length > 0) 
+              {
+                data.episodes = [];
+                data.episodes = infoZoro;
+              }
+            }        
+          } 
+          reply.status(200).send(data);
+        } else {
+          const data = await fetchInfo();        
+          if ( provider != undefined && provider == "zoro" ) {
+            if (data.episodes == null || data.episodes.length === 0 || data.episodes.length != data.currentEpisode) 
+            {
+              var infoZoro = await processAnimeData(data, zoro);
+              if ( infoZoro.length > 0) 
+              {
+                data.episodes = [];
+                data.episodes = infoZoro;
+              }
+            }        
+          }                
+          reply.status(200).send(data);
+        }
+      } catch (err: any) {
+        console.log("\n- Error TRY 2: ", err);    
+        reply.status(500).send({ message: err.message });
+      }
+
+
+
     }
   });
 
