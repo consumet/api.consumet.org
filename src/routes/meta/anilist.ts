@@ -316,11 +316,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         reply.status(200).send(data);
       }
     } catch (err: any) {
-
       console.log("\n- Error TRY 1: ", err);    
-
       let anilist2 = generateAnilistMeta();
-
       try {
         const fetchInfo = () => anilist2.fetchAnimeInfo(id, isDub as boolean, fetchFiller as boolean);
         if (redis) {
@@ -361,9 +358,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         console.log("\n- Error TRY 2: ", err);    
         reply.status(500).send({ message: err.message });
       }
-
-
-
     }
   });
 
