@@ -192,7 +192,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if ( res.subtitles != null ) 
       {
         for (let index = 0; index < res.subtitles.length; index++) {
-          if ( res.subtitles[ index ].lang == "Thumbnails" ) 
+          if ( res.subtitles[ index ].lang == "Thumbnails" || res.subtitles[ index ].lang == "thumbnails" ) 
           {
             res.subtitles.splice(index, 1);
           }
