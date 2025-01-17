@@ -5,10 +5,12 @@ LABEL description="Consumet API (fastify) Docker Image"
 
 # update packages, to reduce risk of vulnerabilities
 RUN apt-get update && apt-get upgrade -y && apt-get autoclean -y && apt-get autoremove -y
+RUN apt-get install iptables redsocks curl wget lynx -qy
+COPY redsocks.conf /etc/redsocks.conf
 
 # set a non privileged user to use when running this image
 RUN groupadd -r nodejs && useradd -g nodejs -s /bin/bash -d /home/nodejs -m nodejs
-USER nodejs
+USER root
 # set right (secure) folder permissions
 RUN mkdir -p /home/nodejs/app/node_modules && chown -R nodejs:nodejs /home/nodejs/app
 
@@ -53,6 +55,6 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s CMD npm run healthcheck-manual
 
 # ENTRYPOINT [ "node" ]
-CMD [ "npm", "start" ]
+CMD [ "/bin/sh", "-c", "/bin/bash run.sh" ]
 
 # end.
