@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
-import { ANIME } from '@consumet/extensions';
+import { ANIME, StreamingServers } from '@consumet/extensions';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const anix = new ANIME.Anix();
@@ -60,7 +60,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/watch/:id/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const { id, episodeId } = request.params as { id: string; episodeId: string };
-      const { server } = request.query as { server?: string };
+      const { server } = request.query as { server?: StreamingServers };
   
       try {
         const res = await anix.fetchEpisodeSources(id, episodeId, server);
@@ -72,8 +72,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           .status(500)
           .send({ message: 'Something went wrong. Contact developer for help.' });
       }
-    },
-  );
+    },  );
 
   fastify.get(
     '/servers/:id/:episodeId',
