@@ -8,8 +8,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
-        "Welcome to the anix provider: check out the provider's website @ https://anix.sh/",
-      routes: ['/:query', '/info/:id', '/watch/:episodeId'],
+        "Welcome to the Anix provider: check out the provider's website @ https://anix.sh",
+      routes: ['/:query', '/recent-episodes', '/info/:id', '/watch/:id/:episodeId', '/servers/:id/:episodeId'],
       documentation: 'https://docs.consumet.org/#tag/anix',
     });
   });
