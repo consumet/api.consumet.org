@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
+import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const anix = new ANIME.Anix();
@@ -26,10 +27,16 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/recent-episodes',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const { page = 1 } = request.query as { page?: number };
-  
+      const type = (request.query as { type?: number }).type;
+
       try {
-        const res = await anix.fetchRecentEpisodes(page);
-  
+        let res;
+        if (typeof type === 'undefined') {
+          res = await anix.fetchRecentEpisodes(page);
+        } else {
+          res = await anix.fetchRecentEpisodes(page, type);
+        }
+      
         reply.status(200).send(res);
       } catch (err) {
         console.error(err);
@@ -60,11 +67,20 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/watch/:id/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const { id, episodeId } = request.params as { id: string; episodeId: string };
-      const { server } = request.query as { server?: string };
+      const server = (request.query as { server: string }).server as StreamingServers;
+      const type = (request.query as { type: string }).type ?? 'sub';
   
+      if (typeof id === 'undefined')
+        return reply.status(400).send({ message: 'id is required' });
+  
+      if (typeof episodeId === 'undefined')
+        return reply.status(400).send({ message: 'episodeId is required' });
+
       try {
-        const res = await anix.fetchEpisodeSources(id, episodeId, server);
-  
+        const res = await anix
+          .fetchEpisodeSources(id, episodeId, server, type)
+          .catch((err) => reply.status(404).send({ message: err }));
+
         reply.status(200).send(res);
       } catch (err) {
         console.error(err);
@@ -79,10 +95,26 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/servers/:id/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const { id, episodeId } = request.params as { id: string; episodeId: string };
+      const type = (request.query as { type?: string }).type;
   
+      if (typeof id === 'undefined')
+        return reply.status(400).send({ message: 'id is required' });
+  
+      if (typeof episodeId === 'undefined')
+        return reply.status(400).send({ message: 'episodeId is required' });
+
       try {
-        const res = await anix.fetchEpisodeServers(id, episodeId);
-  
+        let res;
+        if (typeof type === 'undefined') {
+          res = await anix
+            .fetchEpisodeServers(id, episodeId)
+            .catch((err) => reply.status(404).send({ message: err }));;
+        } else {
+          res = await anix
+            .fetchEpisodeServerType(id, episodeId, type)
+            .catch((err) => reply.status(404).send({ message: err }));;
+        }
+
         reply.status(200).send(res);
       } catch (err) {
         console.error(err);
