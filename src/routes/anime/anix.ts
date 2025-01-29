@@ -67,7 +67,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/watch/:id/:episodeId',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const { id, episodeId } = request.params as { id: string; episodeId: string };
-      const server = (request.query as { server: string }).server as StreamingServers;
+      const { server } = request.query as { server?: StreamingServers };
       const type = (request.query as { type: string }).type ?? 'sub';
   
       if (typeof id === 'undefined')
