@@ -26,11 +26,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     const page = (request.query as { page: number }).page;
 
-    let query2 = (request.params as { query: string }).query;
-    query2 = decodeURIComponent(query.replace(/\+/g, ' ')); // Reemplaza "+" por espacio y decodifica
+    //let query2 = (request.params as { query: string }).query;
+    //query2 = decodeURIComponent(query.replace(/\+/g, ' ')); // Reemplaza "+" por espacio y decodifica
 
-    const res = await zoro.fetchSearchSuggestions(
-      query2
+    const res = await zoro.search(
+      query,
+      page
     );
 
     reply.status(200).send(res);
