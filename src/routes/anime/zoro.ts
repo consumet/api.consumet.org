@@ -26,7 +26,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     const page = (request.query as { page: number }).page;
 
-    const res = await zoro.search(query, page);
+    const res = await zoro.fetchSearchSuggestions(query);
 
     reply.status(200).send(res);
   });
