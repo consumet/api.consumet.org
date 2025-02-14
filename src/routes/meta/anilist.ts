@@ -264,10 +264,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     const id = (request.params as { id: string }).id;
     const today = new Date();
     const dayOfWeek = today.getDay();
-    const provider = (request.query as { provider?: string }).provider;
+    var provider = (request.query as { provider?: string }).provider;
     let fetchFiller = (request.query as { fetchFiller?: string | boolean }).fetchFiller;
     let isDub = (request.query as { dub?: string | boolean }).dub;
     const locale = (request.query as { locale?: string }).locale;
+
+    if (provider == undefined) {
+      provider = "zoro"; 
+    }
 
     let anilist = generateAnilistMeta(provider);
 
