@@ -6,11 +6,12 @@
         "start": "ts-node src/main.ts",
         "dev": "nodemon src/main.ts",
         "build": "tsc",
+        "prepare": "npm run build",
         "lint": "prettier --write \"src/**/*.ts\""
     },
     "engines": {
-        "node": ">=12.5.0",
-        "yarn": ">=1.17.3"
+        "node": ">=16.0.0",
+        "npm": ">=8.0.0"
     },
     "repository": {
         "type": "git",
@@ -23,7 +24,7 @@
     },
     "homepage": "https://github.com/consumet/consumet.ts#readme",
     "dependencies": {
-        "@consumet/extensions": "github:consumet/consumet.ts",
+        "@consumet/extensions": "github:consumet/consumet.ts#master",
         "@fastify/cors": "^8.5.0",
         "@types/node": "^18.11.17",
         "@types/ws": "^8.5.3",
