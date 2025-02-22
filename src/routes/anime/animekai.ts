@@ -3,24 +3,24 @@ import { ANIME } from '@consumet/extensions';
 import { StreamingServers, SubOrSub } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const zoro = new ANIME.Zoro(process.env.ZORO_URL);
-  let baseUrl = 'https://hianime.to';
-  if (process.env.ZORO_URL) {
-    baseUrl = `https://${process.env.ZORO_URL}`;
+  const animekai = new ANIME.AnimeKai(process.env.ANIMEKAI_URL);
+  let baseUrl = 'https://animekai.to';
+  if (process.env.ANIMEKAI_URL) {
+    baseUrl = `https://${process.env.ANIMEKAI_URL}`;
   }
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
-      intro: `Welcome to the zoro provider: check out the provider's website @ ${baseUrl}`,
+      intro: `Welcome to the animekai provider: check out the provider's website @ ${baseUrl}`,
       routes: [
         '/:query',
-        '/recent-episodes',
-        '/top-airing',
-        '/most-popular',
-        '/most-favorite',
         '/latest-completed',
+        '/new-releases',
         '/recent-added',
-        '/info?id',
+        '/schedule/:date',
+        '/spotlight',
+        '/search-suggestions/:query',
+        '/info',
         '/watch/:episodeId',
         '/genre/list',
         '/genre/:genre',
@@ -30,7 +30,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         '/specials',
         '/tv',
       ],
-      documentation: 'https://docs.consumet.org/#tag/zoro',
+      documentation: 'https://docs.consumet.org/#tag/animekai',
     });
   });
 
@@ -39,42 +39,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     const page = (request.query as { page: number }).page;
 
-    const res = await zoro.search(query, page);
-
-    reply.status(200).send(res);
-  });
-
-  fastify.get(
-    '/recent-episodes',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const page = (request.query as { page: number }).page;
-
-      const res = await zoro.fetchRecentlyUpdated(page);
-
-      reply.status(200).send(res);
-    },
-  );
-
-  fastify.get('/top-airing', async (request: FastifyRequest, reply: FastifyReply) => {
-    const page = (request.query as { page: number }).page;
-
-    const res = await zoro.fetchTopAiring(page);
-
-    reply.status(200).send(res);
-  });
-
-  fastify.get('/most-popular', async (request: FastifyRequest, reply: FastifyReply) => {
-    const page = (request.query as { page: number }).page;
-
-    const res = await zoro.fetchMostPopular(page);
-
-    reply.status(200).send(res);
-  });
-
-  fastify.get('/most-favorite', async (request: FastifyRequest, reply: FastifyReply) => {
-    const page = (request.query as { page: number }).page;
-
-    const res = await zoro.fetchMostFavorite(page);
+    const res = await animekai.search(query, page);
 
     reply.status(200).send(res);
   });
@@ -83,53 +48,62 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     '/latest-completed',
     async (request: FastifyRequest, reply: FastifyReply) => {
       const page = (request.query as { page: number }).page;
-
-      const res = await zoro.fetchLatestCompleted(page);
-
-      reply.status(200).send(res);
+      try {
+        const res = await animekai.fetchLatestCompleted(page);
+        reply.status(200).send(res);
+      } catch (error) {
+        reply.status(500).send({
+          message: 'Something went wrong. Contact developer for help.',
+        });
+      }
     },
   );
 
-  fastify.get('/recent-added', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/new-releases', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
-
-    const res = await zoro.fetchRecentlyAdded(page);
-
-    reply.status(200).send(res);
+    try {
+      const res = await animekai.fetchNewReleases(page);
+      reply.status(200).send(res);
+    } catch (error) {
+      reply.status(500).send({
+        message: 'Something went wrong. Contact developer for help.',
+      });
+    }
   });
 
-  fastify.get('/top-upcoming', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/recent-added', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
-
-    const res = await zoro.fetchTopUpcoming(page);
-
-    reply.status(200).send(res);
+    try {
+      const res = await animekai.fetchRecentlyAdded(page);
+      reply.status(200).send(res);
+    } catch (error) {
+      reply.status(500).send({
+        message: 'Something went wrong. Contact developer for help.',
+      });
+    }
   });
 
   fastify.get('/schedule/:date', async (request: FastifyRequest, reply: FastifyReply) => {
     const date = (request.params as { date: string }).date;
-
-    const res = await zoro.fetchSchedule(date);
-
-    reply.status(200).send(res);
+    try {
+      const res = await animekai.fetchSchedule(date);
+      reply.status(200).send(res);
+    } catch (error) {
+      reply.status(500).send({
+        message: 'Something went wrong. Contact developer for help.',
+      });
+    }
   });
 
-  fastify.get(
-    '/studio/:studioId',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const studioId = (request.params as { studioId: string }).studioId;
-      const page = (request.query as { page: number }).page ?? 1;
-
-      const res = await zoro.fetchStudio(studioId, page);
-
-      reply.status(200).send(res);
-    },
-  );
-
   fastify.get('/spotlight', async (request: FastifyRequest, reply: FastifyReply) => {
-    const res = await zoro.fetchSpotlight();
-
-    reply.status(200).send(res);
+    try {
+      const res = await animekai.fetchSpotlight();
+      reply.status(200).send(res);
+    } catch (error) {
+      reply.status(500).send({
+        message: 'Something went wrong. Contact developer for help.',
+      });
+    }
   });
 
   fastify.get(
@@ -137,9 +111,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const query = (request.params as { query: string }).query;
 
-      const res = await zoro.fetchSearchSuggestions(query);
+      if (typeof query === 'undefined')
+        return reply.status(400).send({ message: 'query is required' });
 
-      reply.status(200).send(res);
+      try {
+        const res = await animekai.fetchSearchSuggestions(query);
+        reply.status(200).send(res);
+      } catch (error) {
+        reply.status(500).send({
+          message: 'Something went wrong. Contact developer for help.',
+        });
+      }
     },
   );
 
@@ -150,7 +132,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'id is required' });
 
     try {
-      const res = await zoro
+      const res = await animekai
         .fetchAnimeInfo(id)
         .catch((err) => reply.status(404).send({ message: err }));
 
@@ -161,45 +143,68 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .send({ message: 'Something went wrong. Contact developer for help.' });
     }
   });
-  const watch = async (request: FastifyRequest, reply: FastifyReply) => {
-    let episodeId = (request.params as { episodeId: string }).episodeId;
-    if (!episodeId) {
-      episodeId = (request.query as { episodeId: string }).episodeId;
-    }
 
-    const server = (request.query as { server: string }).server as StreamingServers;
-    let dub = (request.query as { dub?: string | boolean }).dub;
-    if (dub === 'true' || dub === '1') dub = true;
-    else dub = false;
+  fastify.get(
+    '/watch/:episodeId',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const episodeId = (request.params as { episodeId: string }).episodeId;
+      const server = (request.query as { server: string }).server as StreamingServers;
 
-    if (server && !Object.values(StreamingServers).includes(server))
-      return reply.status(400).send({ message: 'server is invalid' });
+      let dub = (request.query as { dub?: string | boolean }).dub;
+      if (dub === 'true' || dub === '1') dub = true;
+      else dub = false;
 
-    if (typeof episodeId === 'undefined')
-      return reply.status(400).send({ message: 'id is required' });
+      if (server && !Object.values(StreamingServers).includes(server))
+        return reply.status(400).send({ message: 'server is invalid' });
 
-    try {
-      const res = await zoro
-        .fetchEpisodeSources(
-          episodeId,
-          server,
-          dub === true ? SubOrSub.DUB : SubOrSub.SUB,
-        )
-        .catch((err) => reply.status(404).send({ message: err }));
+      if (typeof episodeId === 'undefined')
+        return reply.status(400).send({ message: 'id is required' });
+      try {
+        const res = await animekai
+          .fetchEpisodeSources(
+            episodeId,
+            server,
+            dub === true ? SubOrSub.DUB : SubOrSub.SUB,
+          )
+          .catch((err) => reply.status(404).send({ message: err }));
 
-      reply.status(200).send(res);
-    } catch (err) {
-      reply
-        .status(500)
-        .send({ message: 'Something went wrong. Contact developer for help.' });
-    }
-  };
-  fastify.get('/watch', watch);
-  fastify.get('/watch/:episodeId', watch);
+        reply.status(200).send(res);
+      } catch (err) {
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Contact developer for help.' });
+      }
+    },
+  );
+
+  fastify.get(
+    '/servers/:episodeId',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const episodeId = (request.params as { episodeId: string }).episodeId;
+      let dub = (request.query as { dub?: string | boolean }).dub;
+      if (dub === 'true' || dub === '1') dub = true;
+      else dub = false;
+
+      if (typeof episodeId === 'undefined')
+        return reply.status(400).send({ message: 'id is required' });
+
+      try {
+        const res = await animekai
+          .fetchEpisodeServers(episodeId, dub === true ? SubOrSub.DUB : SubOrSub.SUB)
+          .catch((err) => reply.status(404).send({ message: err }));
+
+        reply.status(200).send(res);
+      } catch (err) {
+        reply
+          .status(500)
+          .send({ message: 'Something went wrong. Contact developer for help.' });
+      }
+    },
+  );
 
   fastify.get('/genre/list', async (_, reply) => {
     try {
-      const res = await zoro.fetchGenres();
+      const res = await animekai.fetchGenres();
       reply.status(200).send(res);
     } catch (error) {
       reply.status(500).send({
@@ -216,7 +221,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'genre is required' });
 
     try {
-      const res = await zoro.genreSearch(genre, page);
+      const res = await animekai.genreSearch(genre, page);
       reply.status(200).send(res);
     } catch (error) {
       reply.status(500).send({
@@ -228,7 +233,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/movies', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     try {
-      const res = await zoro.fetchMovie(page);
+      const res = await animekai.fetchMovie(page);
       reply.status(200).send(res);
     } catch (err) {
       reply
@@ -240,7 +245,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/ona', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     try {
-      const res = await zoro.fetchONA(page);
+      const res = await animekai.fetchONA(page);
       reply.status(200).send(res);
     } catch (err) {
       reply
@@ -252,7 +257,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/ova', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     try {
-      const res = await zoro.fetchOVA(page);
+      const res = await animekai.fetchOVA(page);
       reply.status(200).send(res);
     } catch (err) {
       reply
@@ -264,7 +269,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/specials', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     try {
-      const res = await zoro.fetchSpecial(page);
+      const res = await animekai.fetchSpecial(page);
       reply.status(200).send(res);
     } catch (err) {
       reply
@@ -276,7 +281,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/tv', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     try {
-      const res = await zoro.fetchTV(page);
+      const res = await animekai.fetchTV(page);
       reply.status(200).send(res);
     } catch (err) {
       reply

@@ -40,10 +40,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get(
-    '/watch/:episodeId',
+    '/watch',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const episodeId = (request.params as { episodeId: string }).episodeId;
-
+      const episodeId = (request.query as { episodeId: string }).episodeId;
       try {
         const res = await animepahe.fetchEpisodeSources(episodeId);
 
