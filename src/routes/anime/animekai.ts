@@ -17,6 +17,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         '/latest-completed',
         '/new-releases',
         '/recent-added',
+        '/recent-episodes',
         '/schedule/:date',
         '/spotlight',
         '/search-suggestions/:query',
@@ -75,6 +76,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     const page = (request.query as { page: number }).page;
     try {
       const res = await animekai.fetchRecentlyAdded(page);
+      reply.status(200).send(res);
+    } catch (error) {
+      reply.status(500).send({
+        message: 'Something went wrong. Contact developer for help.',
+      });
+    }
+  });
+
+  fastify.get('/recent-episodes', async (request: FastifyRequest, reply: FastifyReply) => {
+    const page = (request.query as { page: number }).page;
+    try {
+      const res = await animekai.fetchRecentlyUpdated(page);
       reply.status(200).send(res);
     } catch (error) {
       reply.status(500).send({
