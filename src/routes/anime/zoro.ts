@@ -1,8 +1,7 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
-import { StreamingServers } from '@consumet/extensions/dist/models';
+import { StreamingServers, IVideo } from '@consumet/extensions/dist/models';
 import axios from 'axios';
-import { empty } from 'cheerio/lib/api/manipulation';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const zoro = new ANIME.Zoro(process.env.ZORO_URL);
@@ -163,16 +162,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       episodeId = episodeIdAuxParts[ 0 ] + "$episode$" + episodeIdAuxParts[ 1 ];      
     }    
 
-    /*
-    if ( episodeId.includes("$sub") ) 
-    {
-      episodeId = episodeId.replace(
-        "$sub",
-        "$both"
-      );  
-    }
-    */
-
     const server = (request.query as { server: string }).server as StreamingServers;
 
     if (server && !Object.values(StreamingServers).includes(server))
@@ -234,6 +223,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         }
       }
 
+      if (res && Array.isArray(res.sources) && res.sources.length > 0 && res.sources[0]?.url) {
+        var links = await getM3U8Links(res.sources[0].url);
+        if (Array.isArray(links) && links.length > 0) {
+            res.sources.push(...links);
+        }
+      }
+
       reply.status(200).send(res);
     } catch (err) {
       const parts = episodeId.split('$');
@@ -263,6 +259,34 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/watch', watch);
   fastify.get('/watch/:episodeId', watch);
 
+  async function getM3U8Links(url: string): Promise<IVideo[]> {
+    try {
+        const response = await axios.get(url);
+        const data: string = response.data;
+        const baseUrl = url.substring(0, url.lastIndexOf("/") + 1);
+        const lines = data.split("\n");
+        const streams: IVideo[] = [];
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].startsWith("#EXT-X-STREAM-INF")) {
+                const resolutionMatch = lines[i].match(/RESOLUTION=(\d+)x(\d+)/);
+                const quality = resolutionMatch ? `${resolutionMatch[2]}p` : "UNKNOWN";
+                const nextLine = lines[i + 1]?.trim();
+                if (nextLine && nextLine.endsWith(".m3u8")) {
+                  streams.push({
+                      url: baseUrl + nextLine,
+                      quality: quality,
+                      isM3U8: true,
+                      type: "hls"
+                  });
+                }
+            }
+        }
+        return streams;
+    } catch (error) {
+        console.error("Error al obtener los enlaces:", error);
+        return [];
+    }
+  }
 
   function getNameFromZoroId(input: string): string {
     if (input == "ranma-1-2-19335") {
