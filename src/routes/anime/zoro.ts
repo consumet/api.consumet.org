@@ -140,6 +140,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const res = await zoro
         .fetchAnimeInfo(id)
         .catch((err) => reply.status(404).send({ message: err }));
+        
+      if (res && Array.isArray(res.episodes)) {
+        res.episodes = res.episodes.map((episode) => ({
+            ...episode,
+            id: episode.id.endsWith("$both") ? episode.id : `${episode.id}$both`
+        }));
+      }
 
       return reply.status(200).send(res);
     } catch (err) {
