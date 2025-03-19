@@ -226,7 +226,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       if (res && Array.isArray(res.sources) && res.sources.length > 0 && res.sources[0]?.url) {
         var links = await getM3U8Links(res.sources[0].url);
         if (Array.isArray(links) && links.length > 0) {
-            res.sources.push(...links);
+            res.sources.push(...links.reverse());
         }
       }
 
