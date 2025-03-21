@@ -303,6 +303,16 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             }
           }        
         } 
+
+        if ( provider != undefined && provider == "zoro" ) {
+          if (data && Array.isArray(data.episodes)) {
+            data.episodes = data.episodes.map((episode) => ({
+                ...episode,
+                id: episode.id.endsWith("$both") ? episode.id : `${episode.id}$both`
+            }));
+          }
+        }
+        
         reply.status(200).send(data);
       } else {
         const data = await fetchInfo();        
@@ -316,7 +326,17 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               data.episodes = infoZoro;
             }
           }        
-        }                
+        }  
+        
+        if ( provider != undefined && provider == "zoro" ) {
+          if (data && Array.isArray(data.episodes)) {
+            data.episodes = data.episodes.map((episode) => ({
+                ...episode,
+                id: episode.id.endsWith("$both") ? episode.id : `${episode.id}$both`
+            }));
+          }
+        }
+
         reply.status(200).send(data);
       }
     } catch (err: any) {
