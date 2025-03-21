@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
-import { StreamingServers, IVideo } from '@consumet/extensions/dist/models';
+import { StreamingServers, IVideo, SubOrSub } from '@consumet/extensions/dist/models';
 import axios from 'axios';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
@@ -171,15 +171,25 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
     const server = (request.query as { server: string }).server as StreamingServers;
 
+    let dub = (request.query as { dub?: string | boolean }).dub;
+    if (dub === 'true' || dub === '1') dub = true;
+    else dub = false;
+
+    dub = episodeId.includes('$dub');
+
     if (server && !Object.values(StreamingServers).includes(server))
       return reply.status(400).send({ message: 'server is invalid' });
 
     if (typeof episodeId === 'undefined')
       return reply.status(400).send({ message: 'id is required' });
-
+    
     try {
       var res = await zoro
-        .fetchEpisodeSources(episodeId, server);          
+        .fetchEpisodeSources(
+          episodeId,
+          server,
+          dub === true ? SubOrSub.DUB : SubOrSub.SUB,
+        )    
 
       for (let index = 0; index < res.sources.length; index++) {
         let obj = res.sources[index];
