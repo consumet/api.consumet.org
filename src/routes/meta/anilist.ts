@@ -1,7 +1,7 @@
 import { Redis } from 'ioredis';
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME, META, PROVIDERS_LIST } from '@consumet/extensions';
-import { Genres } from '@consumet/extensions/dist/models';
+import { Genres, SubOrSub } from '@consumet/extensions/dist/models';
 import Anilist from '@consumet/extensions/dist/providers/meta/anilist';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
@@ -133,7 +133,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const weekEnd = (request.query as { weekEnd: number | string }).weekEnd;
       const notYetAired = (request.query as { notYetAired: boolean }).notYetAired;
 
-       const anilist = generateAnilistMeta();
+      const anilist = generateAnilistMeta();
       const _weekStart = Math.ceil(Date.now() / 1000);
 
       const res = await anilist.fetchAiringSchedule(
@@ -313,9 +313,13 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
       const provider = (request.query as { provider?: string }).provider;
       const server = (request.query as { server?: StreamingServers }).server;
+      let isDub = (request.query as { dub?: string | boolean }).dub;
 
       if (server && !Object.values(StreamingServers).includes(server))
         return reply.status(400).send('Invalid server');
+
+      if (isDub === 'true' || isDub === '1') isDub = true;
+      else isDub = false;
 
       let anilist = generateAnilistMeta(provider);
 
@@ -326,12 +330,29 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               .send(
                 await cache.fetch(
                   redis,
-                  `anilist:watch;${episodeId};${anilist.provider.name.toLowerCase()};${server}`,
-                  async () => anilist.fetchEpisodeSources(episodeId, server),
+                  `anilist:watch;${episodeId};${anilist.provider.name.toLowerCase()};${server};${isDub ? 'dub' : 'sub'}`,
+                  async () =>
+                    provider === 'zoro' || provider === 'animekai'
+                      ? await anilist.fetchEpisodeSources(
+                          episodeId,
+                          server,
+                          isDub ? SubOrSub.DUB : SubOrSub.SUB,
+                        )
+                      : await anilist.fetchEpisodeSources(episodeId, server),
                   600,
                 ),
               )
-          : reply.status(200).send(await anilist.fetchEpisodeSources(episodeId, server));
+          : reply
+              .status(200)
+              .send(
+                provider === 'zoro' || provider === 'animekai'
+                  ? await anilist.fetchEpisodeSources(
+                      episodeId,
+                      server,
+                      isDub ? SubOrSub.DUB : SubOrSub.SUB,
+                    )
+                  : await anilist.fetchEpisodeSources(episodeId, server),
+              );
 
         anilist = new META.Anilist(undefined, {
           url: process.env.PROXY as string | string[],
@@ -346,22 +367,23 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   //anilist staff info from character id (for example: voice actors)
   //http://127.0.0.1:3000/meta/anilist/staff/95095  (gives info of sukuna's voice actor (Junichi Suwabe) )
-  fastify.get("/staff/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/staff/:id', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
 
     const anilist = generateAnilistMeta();
     try {
       redis
-        ? reply.status(200).send(
-          await cache.fetch(
-            redis,
-            `anilist:staff;${id}`,
-            async () => await anilist.fetchStaffById(Number(id)),
-            60 * 60,
-          ),
-        )
+        ? reply
+            .status(200)
+            .send(
+              await cache.fetch(
+                redis,
+                `anilist:staff;${id}`,
+                async () => await anilist.fetchStaffById(Number(id)),
+                60 * 60,
+              ),
+            )
         : reply.status(200).send(await anilist.fetchStaffById(Number(id)));
-
     } catch (err: any) {
       reply.status(404).send({ message: err.message });
     }
