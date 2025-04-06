@@ -8,7 +8,7 @@ import { StreamingServers } from '@consumet/extensions/dist/models';
 import cache from '../../utils/cache';
 import { redis } from '../../main';
 import NineAnime from '@consumet/extensions/dist/providers/anime/9anime';
-import Gogoanime from '@consumet/extensions/dist/providers/anime/gogoanime';
+import Zoro from '@consumet/extensions/dist/providers/anime/zoro';
 
 const anilist = new META.Anilist();
 const zoro = new ANIME.Zoro();
@@ -175,7 +175,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get(
     '/recent-episodes',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const provider = (request.query as { provider: 'gogoanime' | 'zoro' }).provider;
+      const provider = (request.query as { provider: 'zoro' }).provider;
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
 
@@ -589,7 +589,7 @@ const generateAnilistMeta = (provider: string | undefined = undefined): Anilist 
     });
   } else {
     // default provider is gogoanime
-    return new Anilist(new Gogoanime(), {
+    return new Anilist(new Zoro(), {
       url: process.env.PROXY as string | string[],
     });
   }
