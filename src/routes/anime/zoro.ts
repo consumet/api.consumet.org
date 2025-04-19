@@ -276,6 +276,119 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/watch', watch);
   fastify.get('/watch/:episodeId', watch);
 
+  const watchAux = async (request: FastifyRequest, reply: FastifyReply) => {
+    let episodeId = (request.params as { episodeId: string }).episodeId;
+    if(!episodeId){
+      episodeId = (request.query as { episodeId: string }).episodeId;
+    }
+
+    if (episodeId.includes("/watch/")) 
+    {
+      let episodeIdAux = episodeId.replace("/watch/", "");
+      let episodeIdAuxParts = episodeIdAux.split("?ep=");
+      episodeId = episodeIdAuxParts[ 0 ] + "$episode$" + episodeIdAuxParts[ 1 ];      
+    }    
+
+    const server = (request.query as { server: string }).server as StreamingServers;
+
+    let dub = (request.query as { dub?: string | boolean }).dub;
+    if (dub === 'true' || dub === '1') dub = true;
+    else dub = false;
+
+    dub = episodeId.includes('$dub');
+
+    if (server && !Object.values(StreamingServers).includes(server))
+      return reply.status(400).send({ message: 'server is invalid' });
+
+    if (typeof episodeId === 'undefined')
+      return reply.status(400).send({ message: 'id is required' });
+    
+    try {
+      var res = await zoro
+        .fetchEpisodeSources(
+          episodeId,
+          server,
+          dub === true ? SubOrSub.DUB : SubOrSub.SUB,
+        )    
+
+      for (let index = 0; index < res.sources.length; index++) {
+        let obj = res.sources[index];
+        if (!obj.hasOwnProperty('quality')) {
+          obj.quality = "AUTO";
+        }else if( obj?.quality !== undefined && obj.quality == "auto" )
+        {
+          obj.quality = "AUTO";
+        }
+      }
+
+      if ( res.subtitles != null ) 
+      {
+        for (let index = 0; index < res.subtitles.length; index++) {
+          if ( res.subtitles[ index ].lang == "Thumbnails" || res.subtitles[ index ].lang == "thumbnails" ) 
+          {
+            res.subtitles.splice(index, 1);
+          }
+        } 
+      }    
+
+      if ( res.sources == undefined || res.sources.length == 0 ) 
+      {      
+        const parts = episodeId.split('$');
+        if ( parts[2] != null && parts[2].length <=3 ) 
+        {
+          const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
+          if (resAnix != null) {
+            res = resAnix;
+          }
+        }else{  
+          const resAniwatch = await fetchEpisodeSources(parts[0], parts[2], false, parts[3]);
+          if (resAniwatch != null) 
+          {
+            res = resAniwatch;
+          }else{
+            const resAniwatchRaw = await fetchEpisodeSources(parts[0], parts[2], true, parts[3]);
+            if (resAniwatchRaw != null) 
+            {
+              res = resAniwatchRaw;
+            }else{
+              const resAnix = await fetchEpisodeSourcesTemp(parts[0], parts[2]);
+              if (resAnix != null) {
+                res = resAnix;
+              }
+            }        
+          }
+        }
+      }
+
+      reply.status(200).send(res);
+    } catch (err) {
+      const parts = episodeId.split('$');
+      try {
+        const data = await fetchEpisodeSources(parts[0], parts[2], false, parts[3]);
+        if (data != null) 
+        {
+          reply.status(200).send(data);  // Solo se envía la respuesta cuando tenemos los datos 
+        }else{
+          try {
+            const data = await fetchEpisodeSources(parts[0], parts[2], true, parts[3]);
+            if (data != null) 
+            {
+              reply.status(200).send(data);  // Solo se envía la respuesta cuando tenemos los datos 
+            }else{
+              reply.status(500).send({});
+            }
+          } catch (error) {
+            reply.status(500).send({ message: 'Something went wrong. Contact developer for help.' });
+          }
+        }
+      } catch (error) {
+        reply.status(500).send({ message: 'Something went wrong. Contact developer for help.' });
+      }
+    }
+  };
+  fastify.get('/watch_aux', watchAux);
+  fastify.get('/watch_aux/:episodeId', watchAux);
+
   async function getM3U8Links(url: string): Promise<IVideo[]> {
     try {
         const response = await axios.get(url);
