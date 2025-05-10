@@ -145,7 +145,7 @@ export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
   try {
     fastify.get('/', (_, rp) => {
       rp.status(200).send(
-        `CSC LAB - SCRAPE API - ANIME CAST\n${process.env.NODE_ENV === 'DEMO'
+        `CSC LAB - SCRAPE - ANIME CAST\n${process.env.NODE_ENV === 'DEMO'
           ? 'This is a demo of the api. You should only use this for testing purposes.'
           : ''
         }`,
