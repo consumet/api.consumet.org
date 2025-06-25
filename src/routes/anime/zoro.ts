@@ -20,6 +20,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         '/most-favorite',
         '/latest-completed',
         '/recent-added',
+        '/suggestions',
         '/info?id',
         '/watch/:episodeId',
         '/genre/list',
@@ -249,11 +250,32 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/ova', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/suggestions', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     try {
-      const res = await zoro.fetchOVA(page);
-      reply.status(200).send(res);
+      const res = await zoro.fetchTopAiring(page);
+      const topFive = res.results.slice(4, 9);
+
+      const details = await Promise.all(
+        topFive.map((anime) => zoro.fetchAnimeInfo(anime.id)),
+      );
+
+      const formattedDetails = details.map((detail) => ({
+        id: detail.id,
+        title: detail.title,
+        image: detail.image,
+        description: detail.description,
+        type: detail.type,
+        status: detail.status,
+        season: detail.season,
+        genres: detail.genres,
+        cover: detail.cover,
+        totalEpisodes: detail.totalEpisodes,
+      }));
+
+      reply.status(200).send({
+        results: formattedDetails,
+      });
     } catch (err) {
       reply
         .status(500)

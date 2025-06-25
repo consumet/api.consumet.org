@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "main": "src/main.ts",
     "scripts": {
-        "start": "ts-node src/main.ts",
-        "dev": "nodemon src/main.ts",
+        "start": "cross-env PORT=5000 ts-node src/main.ts",
+        "dev": "cross-env PORT=5000 nodemon src/main.ts",
         "build": "tsc",
         "lint": "prettier --write \"src/**/*.ts\""
     },
@@ -38,6 +38,7 @@
         "ws": "^8.8.1"
     },
     "devDependencies": {
+        "cross-env": "^7.0.3",
         "nodemon": "3.0.1",
         "prettier": "^3.0.0",
         "typescript": "5.3.3"
