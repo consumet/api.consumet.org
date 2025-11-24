@@ -1,0 +1,69 @@
+name: Deploy to Pi
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Raspberry Pi
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PI_HOST }}
+          username: ${{ secrets.PI_USER }}
+          key: ${{ secrets.PI_SSH_KEY }}
+          passphrase: ${{ secrets.PI_SSH_PASSPHRASE }}
+          port: ${{ secrets.PI_SSH_PORT }}
+          script: |
+            set -e
+
+            cd ~ || exit 1
+
+            if [ ! -d "api.consumet.org" ]; then
+              echo "Cloning repository..."
+              git clone https://github.com/consumet/api.consumet.org.git
+              cd api.consumet.org
+            else
+              echo "Pulling latest changes..."
+              cd api.consumet.org
+              git fetch origin
+              git reset --hard origin/master
+            fi
+
+            if [ ! -d "../consumet.ts" ]; then
+              echo "Cloning consumet.ts library..."
+              cd ~
+              git clone https://github.com/consumet/consumet.ts.git
+              cd consumet.ts
+              yarn install --frozen-lockfile
+              yarn build
+              cd ~/api.consumet.org
+            else
+              echo "Updating consumet.ts library..."
+              cd ~/consumet.ts
+              git pull origin master
+              yarn install --frozen-lockfile
+              yarn build
+              cd ~/api.consumet.org
+            fi
+
+            echo "Installing API dependencies..."
+            yarn install --frozen-lockfile
+
+            echo "Building API..."
+            yarn build
+
+            echo "Restarting PM2 process..."
+            if pm2 describe api.consumet.org > /dev/null 2>&1; then
+              pm2 restart api.consumet.org
+            else
+              pm2 start dist/main.js --name api.consumet.org
+              pm2 save
+            fi
+
+            echo "Deployment completed successfully!"
+            pm2 status
