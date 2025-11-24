@@ -9,7 +9,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     rp.status(200).send({
       intro:
         "Welcome to the dramacool provider: check out the provider's website @ https://dramacool.com.pa/",
-      routes: ['/:query', '/info', '/watch', '/popular','/recent-movies', '/recent-shows'],
+      routes: [
+        '/:query',
+        '/info',
+        '/watch',
+        '/popular',
+        '/recent-movies',
+        '/recent-shows',
+      ],
       documentation: 'https://docs.consumet.org/#tag/dramacool',
     });
   });
@@ -17,11 +24,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const query = decodeURIComponent((request.params as { query: string }).query);
-  
+
       const page = (request.query as { page: number }).page;
-  
+
       const res = await dramacool.search(query, page);
-  
+
       reply.status(200).send(res);
     } catch (err) {
       reply.status(500).send({
@@ -62,7 +69,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'episodeId is required' });
     try {
       const res = await dramacool
-        .fetchEpisodeSources(episodeId,server)
+        .fetchEpisodeSources(episodeId, server)
         .catch((err) => reply.status(404).send({ message: 'Media Not found.' }));
 
       reply.status(200).send(res);
@@ -73,7 +80,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get("/popular", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/popular', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     try {
       const res = await dramacool.fetchPopular(page ? page : 1);
@@ -83,9 +90,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .status(500)
         .send({ message: 'Something went wrong. Please try again later.' });
     }
-  })
+  });
 
-  fastify.get("/recent-movies", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/recent-movies', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     try {
       const res = await dramacool.fetchRecentMovies(page ? page : 1);
@@ -95,9 +102,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .status(500)
         .send({ message: 'Something went wrong. Please try again later.' });
     }
-  })
+  });
 
-  fastify.get("/recent-shows", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/recent-shows', async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     try {
       const res = await dramacool.fetchRecentTvShows(page ? page : 1);
@@ -107,7 +114,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         .status(500)
         .send({ message: 'Something went wrong. Please try again later.' });
     }
-  })
+  });
 };
 
 export default routes;
