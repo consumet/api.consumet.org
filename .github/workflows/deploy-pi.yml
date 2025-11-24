@@ -1,8 +1,8 @@
-name: Deploy to Pi
+name: Deploy to Pi (Production)
 
 on:
   push:
-    branches: [main]
+    branches: [master, main]
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to Raspberry Pi
+      - name: Deploy Production API to Raspberry Pi
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.PI_HOST }}
@@ -31,27 +31,10 @@ jobs:
               echo "Pulling latest changes..."
               cd api.consumet.org
               git fetch origin
-              git reset --hard origin/master
+              git reset --hard origin/main
             fi
 
-            if [ ! -d "../consumet.ts" ]; then
-              echo "Cloning consumet.ts library..."
-              cd ~
-              git clone https://github.com/consumet/consumet.ts.git
-              cd consumet.ts
-              yarn install --frozen-lockfile
-              yarn build
-              cd ~/api.consumet.org
-            else
-              echo "Updating consumet.ts library..."
-              cd ~/consumet.ts
-              git pull origin master
-              yarn install --frozen-lockfile
-              yarn build
-              cd ~/api.consumet.org
-            fi
-
-            echo "Installing API dependencies..."
+            echo "Installing dependencies (using published npm package)..."
             yarn install --frozen-lockfile
 
             echo "Building API..."
@@ -65,5 +48,5 @@ jobs:
               pm2 save
             fi
 
-            echo "Deployment completed successfully!"
+            echo "Production deployment completed!"
             pm2 status
