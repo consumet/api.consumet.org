@@ -39,22 +39,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get(
-    '/watch',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const episodeId = (request.query as { episodeId: string }).episodeId;
-      try {
-        const res = await animepahe.fetchEpisodeSources(episodeId);
+  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+    const episodeId = (request.query as { episodeId: string }).episodeId;
+    try {
+      const res = await animepahe.fetchEpisodeSources(episodeId);
 
-        reply.status(200).send(res);
-      } catch (err) {
-        console.log(err);
-        reply
-          .status(500)
-          .send({ message: 'Something went wrong. Contact developer for help.' });
-      }
-    },
-  );
+      reply.status(200).send(res);
+    } catch (err) {
+      console.log(err);
+      reply
+        .status(500)
+        .send({ message: 'Something went wrong. Contact developer for help.' });
+    }
+  });
 };
 
 export default routes;
