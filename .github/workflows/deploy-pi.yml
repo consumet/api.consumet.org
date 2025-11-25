@@ -35,7 +35,7 @@ jobs:
             fi
 
             echo "Installing dependencies (using published npm package)..."
-            yarn install --frozen-lockfile
+            yarn install
 
             echo "Building API..."
             yarn build
