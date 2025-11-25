@@ -1,0 +1,52 @@
+name: Deploy to Pi (Production)
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy Production API to Raspberry Pi
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PI_HOST }}
+          username: ${{ secrets.PI_USER }}
+          key: ${{ secrets.PI_SSH_KEY }}
+          passphrase: ${{ secrets.PI_SSH_PASSPHRASE }}
+          port: ${{ secrets.PI_SSH_PORT }}
+          script: |
+            set -e
+
+            cd ~ || exit 1
+
+            if [ ! -d "api.consumet.org" ]; then
+              echo "Cloning repository..."
+              git clone https://github.com/consumet/api.consumet.org.git
+              cd api.consumet.org
+            else
+              echo "Pulling latest changes..."
+              cd api.consumet.org
+              git fetch origin
+              git reset --hard origin/main
+            fi
+
+            echo "Installing dependencies (using published npm package)..."
+            yarn install --frozen-lockfile
+
+            echo "Building API..."
+            yarn build
+
+            echo "Restarting PM2 process..."
+            if sudo pm2 describe consumet-api > /dev/null 2>&1; then
+              sudo pm2 restart consumet-api
+            else
+              sudo pm2 start ecosystem.config.js
+              sudo pm2 save
+            fi
+
+            echo "Production deployment completed!"
+            sudo pm2 status
