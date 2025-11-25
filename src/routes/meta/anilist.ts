@@ -47,6 +47,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const status = (request.query as { status: string }).status;
       const year = (request.query as { year: number }).year;
       const season = (request.query as { season: string }).season;
+      const countryOfOrigin = (request.query as {countryOfOrigin: string}).countryOfOrigin
 
       const anilist = generateAnilistMeta();
 
@@ -78,6 +79,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         year,
         status,
         season,
+        countryOfOrigin
       );
 
       reply.status(200).send(res);
