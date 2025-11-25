@@ -23,6 +23,9 @@ export const redis =
     password: process.env.REDIS_PASSWORD,
   });
 
+// Sets default TTL to 1 hour (3600 seconds) if not provided in .env
+export const REDIS_TTL = Number(process.env.REDIS_TTL) || 3600;
+
 const fastify = Fastify({
   maxParamLength: 1000,
   logger: true,
@@ -124,8 +127,12 @@ export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
   }
 
   console.log(chalk.green(`Starting server on port ${PORT}... 🚀`));
-  if (!process.env.REDIS_HOST)
+  if (!process.env.REDIS_HOST) {
     console.warn(chalk.yellowBright('Redis not found. Cache disabled.'));
+  } else {
+    console.log(chalk.green(`Redis connected. Default Cache TTL: ${REDIS_TTL} seconds`));
+  }
+
   if (!process.env.TMDB_KEY)
     console.warn(
       chalk.yellowBright('TMDB api key not found. the TMDB meta route may not work.'),
@@ -134,12 +141,11 @@ export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
   await fastify.register(books, { prefix: '/books' });
   await fastify.register(anime, { prefix: '/anime' });
   await fastify.register(manga, { prefix: '/manga' });
-  //await fastify.register(comics, { prefix: '/comics' });
+  await fastify.register(comics, { prefix: '/comics' });
   await fastify.register(lightnovels, { prefix: '/light-novels' });
   await fastify.register(movies, { prefix: '/movies' });
   await fastify.register(meta, { prefix: '/meta' });
   await fastify.register(news, { prefix: '/news' });
-
   await fastify.register(Utils, { prefix: '/utils' });
 
   try {

@@ -6,13 +6,13 @@ import { redis, REDIS_TTL } from '../../main';
 import { Redis } from 'ioredis';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const animesaturn = new ANIME.AnimeSaturn();
+  const animeunity = new ANIME.AnimeUnity();
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
-      intro: `Welcome to the animesaturn provider: check out the provider's website @ ${animesaturn.toString.baseUrl}`,
-      routes: ['/:query', '/info', '/watch/:episodeId', '/servers/:episodeId'],
-      documentation: 'https://docs.consumet.org/#tag/animesaturn',
+      intro: `Welcome to the animeunity provider: check out the provider's website @ ${animeunity.toString.baseUrl}`,
+      routes: ['/:query', '/info', '/watch/:episodeId'],
+      documentation: 'https://docs.consumet.org/#tag/animeunity',
     });
   });
 
@@ -23,11 +23,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       let res = redis
         ? await cache.fetch(
             redis as Redis,
-            `animesaturn:search:${query}`,
-            async () => await animesaturn.search(query),
+            `animeunity:search:${query}`,
+            async () => await animeunity.search(query),
             REDIS_TTL,
           )
-        : await animesaturn.search(query);
+        : await animeunity.search(query);
 
       reply.status(200).send(res);
     } catch (err) {
@@ -39,6 +39,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
+    const page = (request.query as { page: number }).page;
 
     if (typeof id === 'undefined')
       return reply.status(400).send({ message: 'id is required' });
@@ -47,11 +48,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       let res = redis
         ? await cache.fetch(
             redis as Redis,
-            `animesaturn:info:${id}`,
-            async () => await animesaturn.fetchAnimeInfo(id),
+            `animeunity:info:${id}:${page}`,
+            async () => await animeunity.fetchAnimeInfo(id, page),
             REDIS_TTL,
           )
-        : await animesaturn.fetchAnimeInfo(id);
+        : await animeunity.fetchAnimeInfo(id, page);
 
       reply.status(200).send(res);
     } catch (err) {
@@ -73,38 +74,11 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         let res = redis
           ? await cache.fetch(
               redis as Redis,
-              `animesaturn:watch:${episodeId}`,
-              async () => await animesaturn.fetchEpisodeSources(episodeId),
+              `animeunity:watch:${episodeId}`,
+              async () => await animeunity.fetchEpisodeSources(episodeId),
               REDIS_TTL,
             )
-          : await animesaturn.fetchEpisodeSources(episodeId);
-
-        reply.status(200).send(res);
-      } catch (err) {
-        reply
-          .status(500)
-          .send({ message: 'Something went wrong. Contact developer for help.' });
-      }
-    },
-  );
-
-  fastify.get(
-    '/servers/:episodeId',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const episodeId = (request.params as { episodeId: string }).episodeId;
-
-      if (typeof episodeId === 'undefined')
-        return reply.status(400).send({ message: 'episodeId is required' });
-
-      try {
-        let res = redis
-          ? await cache.fetch(
-              redis as Redis,
-              `animesaturn:servers:${episodeId}`,
-              async () => await animesaturn.fetchEpisodeServers(episodeId),
-              REDIS_TTL,
-            )
-          : await animesaturn.fetchEpisodeServers(episodeId);
+          : await animeunity.fetchEpisodeSources(episodeId);
 
         reply.status(200).send(res);
       } catch (err) {

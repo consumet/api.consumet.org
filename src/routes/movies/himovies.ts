@@ -3,7 +3,7 @@ import { MOVIES } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 import cache from '../../utils/cache';
-import { redis } from '../../main';
+import { redis, REDIS_TTL } from '../../main';
 import { Redis } from 'ioredis';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
@@ -11,8 +11,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
-      intro:
-        "Welcome to the himovies provider: check out the provider's website @ https://himovies.sx/",
+      intro: `Welcome to the himovies provider: check out the provider's website @ ${himovies.toString.baseUrl}`,
       routes: [
         '/:query',
         '/info',
@@ -38,7 +37,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `himovies:${query}:${page}`,
           async () => await himovies.search(query, page ? page : 1),
-          60 * 60 * 6,
+          REDIS_TTL,
         )
       : await himovies.search(query, page ? page : 1);
 
@@ -51,7 +50,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `himovies:recent-shows`,
           async () => await himovies.fetchRecentTvShows(),
-          60 * 60 * 3,
+          REDIS_TTL,
         )
       : await himovies.fetchRecentTvShows();
 
@@ -64,7 +63,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `himovies:recent-movies`,
           async () => await himovies.fetchRecentMovies(),
-          60 * 60 * 3,
+          REDIS_TTL,
         )
       : await himovies.fetchRecentMovies();
 
@@ -92,7 +91,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               type === 'tv'
                 ? await himovies.fetchTrendingTvShows()
                 : await himovies.fetchTrendingMovies(),
-            60 * 60 * 3,
+            REDIS_TTL,
           )
         : type === 'tv'
           ? await himovies.fetchTrendingTvShows()
@@ -121,7 +120,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `himovies:info:${id}`,
             async () => await himovies.fetchMediaInfo(id),
-            60 * 60 * 3,
+            REDIS_TTL,
           )
         : await himovies.fetchMediaInfo(id);
 
@@ -153,7 +152,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `himovies:watch:${episodeId}:${mediaId}:${server}`,
             async () => await himovies.fetchEpisodeSources(episodeId, mediaId, server),
-            60 * 30,
+            REDIS_TTL,
           )
         : await himovies.fetchEpisodeSources(episodeId, mediaId, server);
 
@@ -180,7 +179,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `himovies:servers:${episodeId}:${mediaId}`,
             async () => await himovies.fetchEpisodeServers(episodeId, mediaId),
-            60 * 30,
+            REDIS_TTL,
           )
         : await himovies.fetchEpisodeServers(episodeId, mediaId);
 
@@ -204,7 +203,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               redis as Redis,
               `himovies:country:${country}:${page}`,
               async () => await himovies.fetchByCountry(country, page),
-              60 * 60 * 3,
+              REDIS_TTL,
             )
           : await himovies.fetchByCountry(country, page);
 
@@ -227,7 +226,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `himovies:genre:${genre}:${page}`,
             async () => await himovies.fetchByGenre(genre, page),
-            60 * 60 * 3,
+            REDIS_TTL,
           )
         : await himovies.fetchByGenre(genre, page);
 

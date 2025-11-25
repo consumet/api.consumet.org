@@ -1,53 +1,48 @@
-// import { COMICS } from '@consumet/extensions';
-// import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
+import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
+import { COMICS } from '@consumet/extensions';
 
-// const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-//   // fastify.log.info(
-//   //   `redis://${process.env.REDIS_PASS}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
-//   // );
-//   fastify.get('/s', async (request: FastifyRequest, reply: FastifyReply) => {
-//     let { comicTitle, page } = request.query as {
-//       comicTitle: string;
-//       page: number | undefined;
-//     };
-//     if (page == undefined) page = 1;
-//     if (await redis.exists(`${comicTitle}:${page}`)) {
-//       const result = await client.get(`${comicTitle}:${page}`);
-//       client.disconnect();
+import cache from '../../utils/cache';
+import { redis, REDIS_TTL } from '../../main';
+import { Redis } from 'ioredis';
 
-//       const resultParsed = JSON.parse(result!!);
-//       return reply.status(200).send(resultParsed);
-//     }
-//     if (comicTitle.length < 4)
-//       return reply.status(400).send({
-//         message: 'length of comicTitle must be > 4 charactes',
-//         error: 'short_length',
-//       });
-//     const getComics = new COMICS.GetComics();
-//     const result = await getComics
-//       .search(comicTitle, page == undefined ? 1 : page)
-//       .catch((err) => {
-//         return reply.status(400).send({
-//           // temp
-//           message: 'page query must be defined',
-//           error: 'invalid_input',
-//           // temp
-//         });
-//       });
+const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
+  const getComics = new COMICS.GetComics();
 
-//     client.set(`${comicTitle}:${page}`, JSON.stringify(result));
+  fastify.get('/', (_, rp) => {
+    rp.status(200).send({
+      intro: `Welcome to the getComics provider: check out the provider's website @ ${getComics.toString.baseUrl}`,
+      routes: ['/:query'],
+      documentation: 'https://docs.consumet.org/#tag/getComics',
+    });
+  });
 
-//     return reply.status(200).send(result);
-//   });
+  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+    const { comicTitle } = request.query as { comicTitle: string };
+    const page = (request.query as { page: number }).page || 1;
 
-//   fastify.get('/', (_, rp) => {
-//     rp.status(200).send({
-//       intro:
-//         "Welcome to the getComics provider: check out the provider's website @ https://getcomics.info/",
-//       routes: ['/s'],
-//       documentation: 'https://docs.consumet.org/#tag/getComics (need to be updated)',
-//     });
-//   });
-// };
+    if (!comicTitle || comicTitle.length < 4)
+      return reply.status(400).send({
+        message: 'length of comicTitle must be > 4 characters',
+        error: 'short_length',
+      });
 
-// export default routes;
+    try {
+      let res = redis
+        ? await cache.fetch(
+            redis as Redis,
+            `getcomics:search:${comicTitle}:${page}`,
+            async () => await getComics.search(comicTitle, page),
+            REDIS_TTL,
+          )
+        : await getComics.search(comicTitle, page);
+
+      return reply.status(200).send(res);
+    } catch (err) {
+      return reply.status(500).send({
+        message: 'Something went wrong. Contact developer for help.',
+      });
+    }
+  });
+};
+
+export default routes;

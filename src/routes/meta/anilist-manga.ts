@@ -3,8 +3,6 @@ import { META } from '@consumet/extensions';
 import { PROVIDERS_LIST } from '@consumet/extensions';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  // TODO: Allocate new provider per request rather
-  // than global
   let anilist = new META.Anilist.Manga();
 
   fastify.get('/', (_, rp) => {

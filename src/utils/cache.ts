@@ -1,9 +1,4 @@
 import { Redis } from 'ioredis';
-/* eslint-disable import/no-anonymous-default-export */
-
-/*
-TLDR; " Expires " is seconds based. for example 60*60 would = 3600 (an hour)
-*/
 
 const fetch = async <T>(redis: Redis, key: string, fetcher: () => T, expires: number) => {
   const existing = await get<T>(redis, key);

@@ -3,15 +3,15 @@ import { MOVIES } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 import cache from '../../utils/cache';
-import { redis } from '../../main';
+import { redis, REDIS_TTL } from '../../main';
 import { Redis } from 'ioredis';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const goku = new MOVIES.Goku();
+
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
-      intro:
-        "Welcome to the goku provider: check out the provider's website @ https://goku.sx",
+      intro: `Welcome to the goku provider: check out the provider's website @ ${goku.toString.baseUrl}`,
       routes: [
         '/:query',
         '/info',
@@ -37,7 +37,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `goku:${query}:${page}`,
           async () => await goku.search(query, page ? page : 1),
-          60 * 60 * 6,
+          REDIS_TTL,
         )
       : await goku.search(query, page ? page : 1);
 
@@ -50,7 +50,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `goku:recent-shows`,
           async () => await goku.fetchRecentTvShows(),
-          60 * 60 * 3,
+          REDIS_TTL,
         )
       : await goku.fetchRecentTvShows();
 
@@ -63,7 +63,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `goku:recent-movies`,
           async () => await goku.fetchRecentMovies(),
-          60 * 60 * 3,
+          REDIS_TTL,
         )
       : await goku.fetchRecentMovies();
 
@@ -91,7 +91,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               type === 'tv'
                 ? await goku.fetchTrendingTvShows()
                 : await goku.fetchTrendingMovies(),
-            60 * 60 * 3,
+            REDIS_TTL,
           )
         : type === 'tv'
           ? await goku.fetchTrendingTvShows()
@@ -120,7 +120,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `goku:info:${id}`,
             async () => await goku.fetchMediaInfo(id),
-            60 * 60 * 3,
+            REDIS_TTL,
           )
         : await goku.fetchMediaInfo(id);
 
@@ -151,7 +151,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `goku:watch:${episodeId}:${mediaId}:${server}`,
             async () => await goku.fetchEpisodeSources(episodeId, mediaId, server),
-            60 * 30,
+            REDIS_TTL,
           )
         : await goku.fetchEpisodeSources(episodeId, mediaId, StreamingServers.VidCloud);
       reply.status(200).send(res);
@@ -177,7 +177,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `goku:servers:${episodeId}:${mediaId}`,
             async () => await goku.fetchEpisodeServers(episodeId, mediaId),
-            60 * 30,
+            REDIS_TTL,
           )
         : await goku.fetchEpisodeServers(episodeId, mediaId);
 
@@ -201,7 +201,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               redis as Redis,
               `goku:country:${country}:${page}`,
               async () => await goku.fetchByCountry(country, page),
-              60 * 60 * 3,
+              REDIS_TTL,
             )
           : await goku.fetchByCountry(country, page);
 
@@ -224,7 +224,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `goku:genre:${genre}:${page}`,
             async () => await goku.fetchByGenre(genre, page),
-            60 * 60 * 3,
+            REDIS_TTL,
           )
         : await goku.fetchByGenre(genre, page);
 

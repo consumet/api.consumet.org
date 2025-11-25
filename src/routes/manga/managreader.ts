@@ -1,5 +1,10 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { MANGA } from '@consumet/extensions';
+
+import cache from '../../utils/cache';
+import { redis, REDIS_TTL } from '../../main';
+import { Redis } from 'ioredis';
+
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const managreader = new MANGA.MangaReader();
 
@@ -14,9 +19,22 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
-    const res = await managreader.search(query);
+    try {
+      let res = redis
+        ? await cache.fetch(
+            redis as Redis,
+            `mangareader:search:${query}`,
+            async () => await managreader.search(query),
+            REDIS_TTL,
+          )
+        : await managreader.search(query);
 
-    reply.status(200).send(res);
+      reply.status(200).send(res);
+    } catch (err) {
+      reply.status(500).send({
+        message: 'Something went wrong. Contact developer for help.',
+      });
+    }
   });
 
   fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
@@ -26,13 +44,20 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'id is required' });
 
     try {
-      const res = await managreader.fetchMangaInfo(id);
+      let res = redis
+        ? await cache.fetch(
+            redis as Redis,
+            `mangareader:info:${id}`,
+            async () => await managreader.fetchMangaInfo(id),
+            REDIS_TTL,
+          )
+        : await managreader.fetchMangaInfo(id);
 
       reply.status(200).send(res);
     } catch (err) {
       reply
         .status(500)
-        .send({ message: 'Something went wrong. Please try again later.' });
+        .send({ message: 'Something went wrong. Contact developer for help.' });
     }
   });
 
@@ -43,15 +68,20 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       return reply.status(400).send({ message: 'chapterId is required' });
 
     try {
-      const res = await managreader
-        .fetchChapterPages(chapterId)
-        .catch((err: Error) => reply.status(404).send({ message: err.message }));
+      let res = redis
+        ? await cache.fetch(
+            redis as Redis,
+            `mangareader:read:${chapterId}`,
+            async () => await managreader.fetchChapterPages(chapterId),
+            REDIS_TTL,
+          )
+        : await managreader.fetchChapterPages(chapterId);
 
       reply.status(200).send(res);
     } catch (err) {
       reply
         .status(500)
-        .send({ message: 'Something went wrong. Please try again later.' });
+        .send({ message: 'Something went wrong. Contact developer for help.' });
     }
   });
 };

@@ -3,7 +3,7 @@ import { MOVIES } from '@consumet/extensions';
 import { StreamingServers } from '@consumet/extensions/dist/models';
 
 import cache from '../../utils/cache';
-import { redis } from '../../main';
+import { redis, REDIS_TTL } from '../../main';
 import { Redis } from 'ioredis';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
@@ -11,8 +11,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
-      intro:
-        "Welcome to the sflix provider: check out the provider's website @ https://sflix.to/",
+      intro: `Welcome to the sflix provider: check out the provider's website @ ${sflix.toString.baseUrl}`,
       routes: [
         '/:query',
         '/info',
@@ -38,7 +37,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `sflix:${query}:${page}`,
           async () => await sflix.search(query, page ? page : 1),
-          60 * 60 * 6,
+          REDIS_TTL,
         )
       : await sflix.search(query, page ? page : 1);
 
@@ -51,7 +50,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `sflix:recent-shows`,
           async () => await sflix.fetchRecentTvShows(),
-          60 * 60 * 3,
+          REDIS_TTL,
         )
       : await sflix.fetchRecentTvShows();
 
@@ -64,7 +63,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
           redis as Redis,
           `sflix:recent-movies`,
           async () => await sflix.fetchRecentMovies(),
-          60 * 60 * 3,
+          REDIS_TTL,
         )
       : await sflix.fetchRecentMovies();
 
@@ -92,7 +91,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               type === 'tv'
                 ? await sflix.fetchTrendingTvShows()
                 : await sflix.fetchTrendingMovies(),
-            60 * 60 * 3,
+            REDIS_TTL,
           )
         : type === 'tv'
           ? await sflix.fetchTrendingTvShows()
@@ -121,7 +120,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `sflix:info:${id}`,
             async () => await sflix.fetchMediaInfo(id),
-            60 * 60 * 3,
+            REDIS_TTL,
           )
         : await sflix.fetchMediaInfo(id);
 
@@ -153,7 +152,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `sflix:watch:${episodeId}:${mediaId}:${server}`,
             async () => await sflix.fetchEpisodeSources(episodeId, mediaId, server),
-            60 * 30,
+            REDIS_TTL,
           )
         : await sflix.fetchEpisodeSources(episodeId, mediaId, server);
 
@@ -180,7 +179,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `sflix:servers:${episodeId}:${mediaId}`,
             async () => await sflix.fetchEpisodeServers(episodeId, mediaId),
-            60 * 30,
+            REDIS_TTL,
           )
         : await sflix.fetchEpisodeServers(episodeId, mediaId);
 
@@ -204,7 +203,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
               redis as Redis,
               `sflix:country:${country}:${page}`,
               async () => await sflix.fetchByCountry(country, page),
-              60 * 60 * 3,
+              REDIS_TTL,
             )
           : await sflix.fetchByCountry(country, page);
 
@@ -227,7 +226,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
             redis as Redis,
             `sflix:genre:${genre}:${page}`,
             async () => await sflix.fetchByGenre(genre, page),
-            60 * 60 * 3,
+            REDIS_TTL,
           )
         : await sflix.fetchByGenre(genre, page);
 

@@ -1,7 +1,9 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 
+import getcomics from './getComics';
+
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  //await fastify.register(getcomics, { prefix: '/getcomics' });
+  await fastify.register(getcomics, { prefix: '/getcomics' });
 
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     reply.status(200).send('Welcome to Consumet Comics 🦸‍♂️');
