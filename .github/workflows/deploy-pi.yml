@@ -41,12 +41,12 @@ jobs:
             yarn build
 
             echo "Restarting PM2 process..."
-            if sudo pm2 describe consumet-api > /dev/null 2>&1; then
-              sudo pm2 restart consumet-api
+            if pm2 describe consumet-api > /dev/null 2>&1; then
+              pm2 restart consumet-api
             else
-              sudo pm2 start ecosystem.config.js
-              sudo pm2 save
+              pm2 start ecosystem.config.js
+              pm2 save
             fi
 
             echo "Production deployment completed!"
-            sudo pm2 status
+            pm2 status
