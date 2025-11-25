@@ -2,8 +2,8 @@ module.exports = {
   apps: [{
     name: 'consumet-api',
     script: 'dist/main.js',
-    cwd: '~/api.consumet.org',
-    interpreter: '~/.bun/bin/bun',
+    cwd: process.env.HOME + '/api.consumet.org',
+    interpreter: process.env.HOME + '/.bun/bin/bun',
     cron_restart: '0 0 * * *',
     env: {
       PORT: 8000,
