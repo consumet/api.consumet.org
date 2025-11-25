@@ -8,6 +8,7 @@ import { StreamingServers } from '@consumet/extensions/dist/models';
 import cache from '../../utils/cache';
 import { redis } from '../../main';
 import Hianime from '@consumet/extensions/dist/providers/anime/hianime';
+import Providers from '../../utils/providers';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/', (_, rp) => {
@@ -171,7 +172,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   (fastify.get(
     '/recent-episodes',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const provider = (request.query as { provider: 'Hianime' }).provider;
+      const provider = (request.query as { provider:  'Hianime' }).provider;
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
 
@@ -383,6 +384,24 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         : reply.status(200).send(await anilist.fetchStaffById(Number(id)));
     } catch (err: any) {
       reply.status(404).send({ message: err.message });
+    }
+  });
+  // make a /favourites endpoint that supports a type query which can be managa/anime
+  fastify.get('/favorites', async (request: FastifyRequest, reply: FastifyReply) => {
+    const type = (request.query as {type?: "ANIME" | "MANGA" | "BOTH"}).type
+    const headers = request.headers as Record<string, string>
+
+    if (!headers.authorization) {
+      return reply.status(401).send({ message: 'Authorization header is required' });
+    }
+
+    const anilist = generateAnilistMeta();
+
+    try {
+      const res = await anilist.fetchFavoriteList(headers.authorization, type);
+      reply.status(200).send(res);
+    } catch (err: any) {
+      reply.status(500).send({ message: err.message });
     }
   });
 };
