@@ -1,17 +1,17 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { ANIME } from '@consumet/extensions';
-
-import cache from '../../utils/cache';
+import Redis from 'ioredis/built';
 import { redis, REDIS_TTL } from '../../main';
-import { Redis } from 'ioredis';
+import cache from '../../utils/cache';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const animesaturn = new ANIME.AnimeSaturn();
 
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
-      intro: `Welcome to the animesaturn provider: check out the provider's website @ ${animesaturn.toString.baseUrl}`,
-      routes: ['/:query', '/info', '/watch/:episodeId', '/servers/:episodeId'],
+      intro:
+        "Welcome to the animesaturn provider: check out the provider's website @ https://www.animesaturn.tv/",
+      routes: ['/:query', '/info/:id', '/watch/:episodeId'],
       documentation: 'https://docs.consumet.org/#tag/animesaturn',
     });
   });
