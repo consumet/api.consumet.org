@@ -5,7 +5,6 @@ import animeunity from './animeunity';
 import animepahe from './animepahe';
 import hianime from './hianime';
 import animekai from './animekai';
-import gogoanime from './gogoanime';
 import animesaturn from './animesaturn';
 import kickassanime from './kickassanime';
 
@@ -14,7 +13,6 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(animeunity, { prefix: '/animeunity' });
   await fastify.register(hianime, { prefix: '/hianime' });
   await fastify.register(animekai, { prefix: '/animekai' });
-  await fastify.register(gogoanime, { prefix: '/gogoanime' });
   await fastify.register(animesaturn, { prefix: '/animesaturn' });
   await fastify.register(kickassanime, { prefix: '/kickassanime' });
 
