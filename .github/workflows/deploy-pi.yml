@@ -36,6 +36,7 @@ jobs:
 
             echo "Installing dependencies (using published npm package)..."
             yarn install
+            yarn upgrade
 
             echo "Building API..."
             yarn build
