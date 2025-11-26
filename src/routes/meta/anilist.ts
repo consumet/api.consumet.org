@@ -388,7 +388,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       reply.status(404).send({ message: err.message });
     }
   });
-  // make a /favourites endpoint that supports a type query which can be managa/anime
+
   fastify.get('/favorites', async (request: FastifyRequest, reply: FastifyReply) => {
     const type = (request.query as {type?: "ANIME" | "MANGA" | "BOTH"}).type
     const headers = request.headers as Record<string, string>
