@@ -7,7 +7,6 @@ module.exports = {
     cron_restart: '0 0 * * *',
     env: {
       PORT: 8001,
-      NODE_ENV: 'DEMO'
     },
     autorestart: true,
     max_restarts: 10,
