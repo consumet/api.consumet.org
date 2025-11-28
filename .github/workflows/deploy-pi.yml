@@ -8,14 +8,48 @@ on:
     branches: [master, main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: [self-hosted, production-deploy, api-consumet-only]
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    env:
+      ACTIONS_RUNNER_DEBUG: false
+      ACTIONS_STEP_DEBUG: false
 
     steps:
+      - name: Validate workflow execution
+        run: |
+          if [[ "${{ github.repository }}" != "consumet/api.consumet.org" ]]; then
+            echo "ERROR: Unauthorized repository: ${{ github.repository }}"
+            exit 1
+          fi
+          if [[ "${{ github.ref }}" != "refs/heads/main" ]] && [[ "${{ github.ref }}" != "refs/heads/master" ]] && [[ "${{ github.event_name }}" != "workflow_dispatch" ]]; then
+            echo "ERROR: Unauthorized branch: ${{ github.ref }}"
+            exit 1
+          fi
+          echo "Workflow validation passed"
+
+      - name: Mask sensitive paths
+        run: |
+          echo "::add-mask::$HOME"
+          echo "::add-mask::$USER"
+          echo "::add-mask::$(pwd)"
+          echo "::add-mask::$(dirname $HOME)"
+          echo "::add-mask::${GITHUB_WORKSPACE}"
+          # Mask runner directory if it exists
+          if [ -d "$HOME/actions-runner" ]; then
+            echo "::add-mask::$HOME/actions-runner"
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          clean: false
+          fetch-depth: 1
 
       - name: Use Node.js 20.x
         uses: actions/setup-node@v4.0.2
@@ -24,20 +58,23 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn install
-          yarn upgrade
+          yarn install --silent 2>&1 | grep -v "^warning" || true
+          yarn upgrade --silent 2>&1 | grep -v "^warning" || true
 
       - name: Build API
-        run: yarn build
+        run: yarn build --silent 2>&1 | tail -5 || true
 
       - name: Restart PM2 process
         run: |
           if pm2 describe consumet-api > /dev/null 2>&1; then
-            pm2 restart consumet-api
+            pm2 restart consumet-api --silent
           else
-            pm2 start ecosystem.config.js
-            pm2 save
+            pm2 start ecosystem.config.js --silent
+            pm2 save --silent
           fi
+          echo "PM2 process restarted successfully"
 
       - name: Check PM2 status
-        run: pm2 status
+        run: |
+          pm2 status 2>&1 | grep -E "(id|name|status|cpu|memory)" | head -3
+          echo "Deployment completed"
