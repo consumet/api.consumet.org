@@ -1,53 +1,43 @@
 name: Deploy to Pi (Production)
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Node.js CI"]
+    types:
+      - completed
     branches: [master, main]
   workflow_dispatch:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
     steps:
-      - name: Deploy Production API to Raspberry Pi
-        uses: appleboy/ssh-action@v1.0.0
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4.0.2
         with:
-          host: ${{ secrets.PI_HOST }}
-          username: ${{ secrets.PI_USER }}
-          key: ${{ secrets.PI_SSH_KEY }}
-          passphrase: ${{ secrets.PI_SSH_PASSPHRASE }}
-          port: ${{ secrets.PI_SSH_PORT }}
-          script: |
-            set -e
+          node-version: "20.x"
 
-            cd ~ || exit 1
+      - name: Install dependencies
+        run: |
+          yarn install
+          yarn upgrade
 
-            if [ ! -d "api.consumet.org" ]; then
-              echo "Cloning repository..."
-              git clone https://github.com/consumet/api.consumet.org.git
-              cd api.consumet.org
-            else
-              echo "Pulling latest changes..."
-              cd api.consumet.org
-              git fetch origin
-              git reset --hard origin/main
-            fi
+      - name: Build API
+        run: yarn build
 
-            echo "Installing dependencies (using published npm package)..."
-            yarn install
-            yarn upgrade
+      - name: Restart PM2 process
+        run: |
+          if pm2 describe consumet-api > /dev/null 2>&1; then
+            pm2 restart consumet-api
+          else
+            pm2 start ecosystem.config.js
+            pm2 save
+          fi
 
-            echo "Building API..."
-            yarn build
-
-            echo "Restarting PM2 process..."
-            if pm2 describe consumet-api > /dev/null 2>&1; then
-              pm2 restart consumet-api
-            else
-              pm2 start ecosystem.config.js
-              pm2 save
-            fi
-
-            echo "Production deployment completed!"
-            pm2 status
+      - name: Check PM2 status
+        run: pm2 status
