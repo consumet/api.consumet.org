@@ -39,6 +39,59 @@ export const tmdbApi = process.env.TMDB_KEY && process.env.TMDB_KEY;
     methods: 'GET',
   });
 
+  // Only register Swagger and docs in development
+  if (process.env.NODE_ENV !== 'production') {
+    await fastify.register((await import('@fastify/swagger')).default, {
+      openapi: {
+        info: {
+          title: 'Consumet API',
+          description: 'A REST API for fetching data from various entertainment sources.',
+          version: '1.0.0',
+        },
+        servers: [
+          {
+            url: `http://localhost:${PORT}`,
+            description: 'Local server',
+          },
+        ],
+        'x-tagGroups': [
+          {
+            name: 'Anime',
+            tags: [
+              'hianime',
+              'animekai',
+              'animepahe',
+              'animesaturn',
+              'animeunity',
+              'kickassanime',
+            ],
+          },
+          { name: 'Movies', tags: ['flixhq', 'dramacool', 'goku', 'sflix', 'himovies'] },
+          { name: 'Manga', tags: ['mangadex', 'mangahere', 'mangapill', 'mangareader'] },
+          { name: 'Meta', tags: ['anilist', 'anilist-manga', 'mal', 'tmdb'] },
+          // { name: 'Books', tags: ['books'] },
+          // { name: 'Comics', tags: ['getcomics'] },
+          // { name: 'Light Novels', tags: ['light-novels'] },
+          { name: 'News', tags: ['ann'] },
+        ],
+      } as any,
+    });
+
+    await fastify.register((await import('@scalar/fastify-api-reference')).default, {
+      routePrefix: '/docs',
+      configuration: {
+        title: 'Consumet API Documentation',
+        theme: 'bluePlanet',
+        defaultOpenAllTags: false,
+        hideModels: true,
+        tagsSorter: 'alpha',
+        sidebar: {
+          showOperations: true,
+        },
+      } as any,
+    });
+  }
+
   if (process.env.NODE_ENV === 'DEMO') {
     console.log(chalk.yellowBright('DEMO MODE ENABLED'));
 

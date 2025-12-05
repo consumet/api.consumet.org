@@ -9,6 +9,11 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const kickassanime = new ANIME.KickAssAnime();
 
+  fastify.addHook('onRoute', (routeOptions) => {
+    routeOptions.schema = routeOptions.schema || {};
+    routeOptions.schema.tags = ['kickassanime'];
+  });
+
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the kickassanime provider: check out the provider's website @ ${kickassanime.toString.baseUrl}`,

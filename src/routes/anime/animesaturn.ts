@@ -7,6 +7,11 @@ import cache from '../../utils/cache';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const animesaturn = new ANIME.AnimeSaturn();
 
+  fastify.addHook('onRoute', (routeOptions) => {
+    routeOptions.schema = routeOptions.schema || {};
+    routeOptions.schema.tags = ['animesaturn'];
+  });
+
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:

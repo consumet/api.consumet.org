@@ -8,6 +8,11 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const getComics = new COMICS.GetComics();
 
+  fastify.addHook('onRoute', (routeOptions) => {
+    routeOptions.schema = routeOptions.schema || {};
+    routeOptions.schema.tags = ['getcomics'];
+  });
+
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the getComics provider: check out the provider's website @ ${getComics.toString.baseUrl}`,
