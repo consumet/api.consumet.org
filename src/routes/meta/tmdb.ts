@@ -3,11 +3,6 @@ import { META, PROVIDERS_LIST, StreamingServers } from '@consumet/extensions';
 import { tmdbApi } from '../../main';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  fastify.addHook('onRoute', (routeOptions) => {
-    routeOptions.schema = routeOptions.schema || {};
-    routeOptions.schema.tags = ['tmdb'];
-  });
-
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:

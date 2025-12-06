@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "main": "src/main.ts",
     "scripts": {
-        "start": "tsx src/main.ts",
-        "dev": "tsx --watch src/main.ts",
+        "start": "ts-node src/main.ts",
+        "dev": "nodemon src/main.ts",
         "build": "tsc",
         "lint": "prettier --write \"src/**/*.ts\""
     },
@@ -25,24 +25,21 @@
     "dependencies": {
         "@consumet/extensions": "github:consumet/consumet.ts",
         "@fastify/cors": "^8.5.0",
+        "@types/node": "^18.11.17",
+        "@types/ws": "^8.5.3",
         "axios": "^1.0.0",
-        "chalk": "^5.6.2",
+        "chalk": "4.1.2",
         "cheerio": "1.0.0-rc.12",
         "dotenv": "^16.0.3",
         "fastify": "^4.10.2",
         "ioredis": "^5.2.4",
         "reconnecting-websocket": "^4.4.0",
+        "ts-node": "^10.9.1",
         "ws": "^8.8.1"
     },
     "devDependencies": {
-         "@fastify/swagger": "^8.14.0",
-        "@scalar/fastify-api-reference": "^1.40.1",
-        "@types/chalk": "^0.4.31",
-        "@types/node": "^18.11.17",
-        "@types/ws": "^8.5.3",
+        "nodemon": "3.0.1",
         "prettier": "^3.0.0",
-        "ts-node": "^10.9.1",
-        "tsx": "^4.21.0",
         "typescript": "5.3.3"
     }
 }

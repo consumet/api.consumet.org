@@ -9,11 +9,6 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const goku = new MOVIES.Goku();
 
-  fastify.addHook('onRoute', (routeOptions) => {
-    routeOptions.schema = routeOptions.schema || {};
-    routeOptions.schema.tags = ['goku'];
-  });
-
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the goku provider: check out the provider's website @ ${goku.toString.baseUrl}`,
