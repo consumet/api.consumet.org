@@ -8,11 +8,6 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const mangapill = new MANGA.MangaPill();
 
-  fastify.addHook('onRoute', (routeOptions) => {
-    routeOptions.schema = routeOptions.schema || {};
-    routeOptions.schema.tags = ['mangapill'];
-  });
-
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the Mangapill provider: check out the provider's website @ ${mangapill.toString.baseUrl}`,

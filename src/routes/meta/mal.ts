@@ -4,11 +4,6 @@ import { META, PROVIDERS_LIST } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let mal = new META.Myanimelist();
 
-  fastify.addHook('onRoute', (routeOptions) => {
-    routeOptions.schema = routeOptions.schema || {};
-    routeOptions.schema.tags = ['mal'];
-  });
-
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:

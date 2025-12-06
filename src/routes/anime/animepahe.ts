@@ -8,11 +8,6 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const animepahe = new ANIME.AnimePahe();
 
-  fastify.addHook('onRoute', (routeOptions) => {
-    routeOptions.schema = routeOptions.schema || {};
-    routeOptions.schema.tags = ['animepahe'];
-  });
-
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the animepahe provider: check out the provider's website @ ${animepahe.toString.baseUrl}`,

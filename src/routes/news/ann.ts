@@ -4,11 +4,6 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const ann = new NEWS.ANN();
 
-  fastify.addHook('onRoute', (routeOptions) => {
-    routeOptions.schema = routeOptions.schema || {};
-    routeOptions.schema.tags = ['ann'];
-  });
-
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:

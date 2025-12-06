@@ -9,11 +9,6 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const dramacool = new MOVIES.DramaCool();
 
-  fastify.addHook('onRoute', (routeOptions) => {
-    routeOptions.schema = routeOptions.schema || {};
-    routeOptions.schema.tags = ['dramacool'];
-  });
-
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the dramacool provider: check out the provider's website @ ${dramacool.toString.baseUrl}`,

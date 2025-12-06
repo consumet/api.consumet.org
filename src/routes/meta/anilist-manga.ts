@@ -5,11 +5,6 @@ import { PROVIDERS_LIST } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let anilist = new META.Anilist.Manga();
 
-  fastify.addHook('onRoute', (routeOptions) => {
-    routeOptions.schema = routeOptions.schema || {};
-    routeOptions.schema.tags = ['anilist-manga'];
-  });
-
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the anilist manga provider: check out the provider's website @ ${anilist.provider.toString.baseUrl}`,

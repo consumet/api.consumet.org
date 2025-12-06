@@ -11,11 +11,6 @@ import Hianime from '@consumet/extensions/dist/providers/anime/hianime';
 import Providers from '../../utils/providers';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  fastify.addHook('onRoute', (routeOptions) => {
-    routeOptions.schema = routeOptions.schema || {};
-    routeOptions.schema.tags = ['anilist'];
-  });
-
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro:
@@ -52,8 +47,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const status = (request.query as { status: string }).status;
       const year = (request.query as { year: number }).year;
       const season = (request.query as { season: string }).season;
-      const countryOfOrigin = (request.query as { countryOfOrigin: string })
-        .countryOfOrigin;
+      const countryOfOrigin = (request.query as {countryOfOrigin: string}).countryOfOrigin
 
       const anilist = generateAnilistMeta();
 
@@ -85,7 +79,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         year,
         status,
         season,
-        countryOfOrigin,
+        countryOfOrigin
       );
 
       reply.status(200).send(res);
@@ -177,10 +171,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get(
+  (fastify.get(
     '/recent-episodes',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const provider = (request.query as { provider: 'Hianime' }).provider;
+      const provider = (request.query as { provider:  'Hianime' }).provider;
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
 
@@ -198,7 +192,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         return reply.status(404).send({ message: 'Anime not found' });
       });
       reply.status(200).send(res);
-    });
+    }));
 
   fastify.get('/servers/:id', async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
@@ -396,8 +390,8 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   fastify.get('/favorites', async (request: FastifyRequest, reply: FastifyReply) => {
-    const type = (request.query as { type?: 'ANIME' | 'MANGA' | 'BOTH' }).type;
-    const headers = request.headers as Record<string, string>;
+    const type = (request.query as {type?: "ANIME" | "MANGA" | "BOTH"}).type
+    const headers = request.headers as Record<string, string>
 
     if (!headers.authorization) {
       return reply.status(401).send({ message: 'Authorization header is required' });

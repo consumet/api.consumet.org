@@ -16,44 +16,40 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(animesaturn, { prefix: '/animesaturn' });
   await fastify.register(kickassanime, { prefix: '/kickassanime' });
 
-  fastify.get('/', { schema: { hide: true } }, async (request: any, reply: any) => {
+  fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Anime 🗾');
   });
 
-  fastify.get(
-    '/:animeProvider',
-    { schema: { hide: true } },
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const queries: { animeProvider: string; page: number } = {
-        animeProvider: '',
-        page: 1,
-      };
+  fastify.get('/:animeProvider', async (request: FastifyRequest, reply: FastifyReply) => {
+    const queries: { animeProvider: string; page: number } = {
+      animeProvider: '',
+      page: 1,
+    };
 
-      queries.animeProvider = decodeURIComponent(
-        (request.params as { animeProvider: string; page: number }).animeProvider,
-      );
+    queries.animeProvider = decodeURIComponent(
+      (request.params as { animeProvider: string; page: number }).animeProvider,
+    );
 
-      queries.page = (request.query as { animeProvider: string; page: number }).page;
+    queries.page = (request.query as { animeProvider: string; page: number }).page;
 
-      if (queries.page! < 1) queries.page = 1;
+    if (queries.page! < 1) queries.page = 1;
 
-      const provider = PROVIDERS_LIST.ANIME.find(
-        (provider: any) => provider.toString.name === queries.animeProvider,
-      );
+    const provider = PROVIDERS_LIST.ANIME.find(
+      (provider: any) => provider.toString.name === queries.animeProvider,
+    );
 
-      try {
-        if (provider) {
-          reply.redirect(`/anime/${provider.toString.name}`);
-        } else {
-          reply
-            .status(404)
-            .send({ message: 'Provider not found, please check the providers list.' });
-        }
-      } catch (err) {
-        reply.status(500).send('Something went wrong. Please try again later.');
+    try {
+      if (provider) {
+        reply.redirect(`/anime/${provider.toString.name}`);
+      } else {
+        reply
+          .status(404)
+          .send({ message: 'Provider not found, please check the providers list.' });
       }
-    },
-  );
+    } catch (err) {
+      reply.status(500).send('Something went wrong. Please try again later.');
+    }
+  });
 };
 
 export default routes;

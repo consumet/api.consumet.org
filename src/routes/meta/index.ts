@@ -11,44 +11,40 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(mal, { prefix: '/mal' });
   await fastify.register(tmdb, { prefix: '/tmdb' });
 
-  fastify.get('/', { schema: { hide: true } }, async (request: any, reply: any) => {
+  fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Meta');
   });
 
-  fastify.get(
-    '/:metaProvider',
-    { schema: { hide: true } },
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const queries: { metaProvider: string; page: number } = {
-        metaProvider: '',
-        page: 1,
-      };
+  fastify.get('/:metaProvider', async (request: FastifyRequest, reply: FastifyReply) => {
+    const queries: { metaProvider: string; page: number } = {
+      metaProvider: '',
+      page: 1,
+    };
 
-      queries.metaProvider = decodeURIComponent(
-        (request.params as { metaProvider: string; page: number }).metaProvider,
-      );
+    queries.metaProvider = decodeURIComponent(
+      (request.params as { metaProvider: string; page: number }).metaProvider,
+    );
 
-      queries.page = (request.query as { metaProvider: string; page: number }).page;
+    queries.page = (request.query as { metaProvider: string; page: number }).page;
 
-      if (queries.page! < 1) queries.page = 1;
+    if (queries.page! < 1) queries.page = 1;
 
-      const provider = PROVIDERS_LIST.META.find(
-        (provider: any) => provider.toString.name === queries.metaProvider,
-      );
+    const provider = PROVIDERS_LIST.META.find(
+      (provider: any) => provider.toString.name === queries.metaProvider,
+    );
 
-      try {
-        if (provider) {
-          reply.redirect(`/anime/${provider.toString.name}`);
-        } else {
-          reply
-            .status(404)
-            .send({ message: 'Provider not found, please check the providers list.' });
-        }
-      } catch (err) {
-        reply.status(500).send('Something went wrong. Please try again later.');
+    try {
+      if (provider) {
+        reply.redirect(`/anime/${provider.toString.name}`);
+      } else {
+        reply
+          .status(404)
+          .send({ message: 'Provider not found, please check the providers list.' });
       }
-    },
-  );
+    } catch (err) {
+      reply.status(500).send('Something went wrong. Please try again later.');
+    }
+  });
 };
 
 export default routes;
