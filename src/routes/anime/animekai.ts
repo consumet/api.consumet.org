@@ -9,6 +9,11 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const animekai = new ANIME.AnimeKai();
 
+  fastify.addHook('onRoute', (routeOptions) => {
+    routeOptions.schema = routeOptions.schema || {};
+    routeOptions.schema.tags = ['animekai'];
+  });
+
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the animekai provider: check out the provider's website @ ${animekai.toString.baseUrl}`,

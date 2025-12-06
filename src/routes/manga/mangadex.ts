@@ -8,6 +8,11 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const mangadex = new MANGA.MangaDex();
 
+  fastify.addHook('onRoute', (routeOptions) => {
+    routeOptions.schema = routeOptions.schema || {};
+    routeOptions.schema.tags = ['mangadex'];
+  });
+
   fastify.get('/', (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the mangadex provider: check out the provider's website @ ${mangadex.toString.baseUrl}`,

@@ -10,6 +10,7 @@ export default class Providers {
     fastify.get(
       '/providers',
       {
+        schema: { hide: true },
         preValidation: (request, reply, done) => {
           const { type } = request.query;
 
