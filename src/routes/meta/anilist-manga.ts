@@ -16,7 +16,10 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
-    const res = await anilist.search(query);
+    const page = (request.query as { page: number }).page;
+    const perPage = (request.query as { perPage: number }).perPage;
+
+    const res = await anilist.search(query, page, perPage);
 
     reply.status(200).send(res);
   });
