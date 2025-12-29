@@ -5,6 +5,9 @@ import managreader from './managreader';
 import mangadex from './mangadex';
 import mangakakalot from './mangakakalot';
 import mangahere from './mangahere';
+import comick from './comick';
+import asurascans from './asurascans';
+import weebcentral from './weebcentral';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(mangadex, { prefix: '/mangadex' });
@@ -12,6 +15,9 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   await fastify.register(mangapill, { prefix: '/mangapill' });
   await fastify.register(mangakakalot, { prefix: '/mangakakalot' });
   await fastify.register(managreader, { prefix: '/managreader' });
+  await fastify.register(comick, { prefix: '/comick' });
+  await fastify.register(asurascans, { prefix: '/asurascans' });
+  await fastify.register(weebcentral, { prefix: '/weebcentral' });
 
   fastify.get('/', async (request: any, reply: any) => {
     reply.status(200).send('Welcome to Consumet Manga our available providers are: ' +

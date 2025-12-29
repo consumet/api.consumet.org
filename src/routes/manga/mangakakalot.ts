@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { MANGA } from '@consumet/extensions';
+import axios from 'axios';
 
 import cache from '../../utils/cache';
 import { redis, REDIS_TTL } from '../../main';
@@ -8,7 +9,22 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const mangakakalot = new MANGA.MangaKakalot();
 
-  fastify.get('/', (_, rp) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get MangaKakalot provider info and available routes',
+      tags: ['mangakakalot'],
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            intro: { type: 'string' },
+            routes: { type: 'object' },
+            documentation: { type: 'string' },
+          },
+        },
+      },
+    },
+  }, (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the Mangakakalot provider: check out the provider's website @ ${mangakakalot.toString.baseUrl}`,
       routes: {
@@ -65,7 +81,45 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info', {
+    schema: {
+      description: 'Get detailed information about a specific manga including chapters list',
+      tags: ['mangakakalot'],
+      querystring: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'The manga ID from search results' },
+        },
+        required: ['id'],
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            title: { type: 'string' },
+            altTitles: { type: 'array', items: { type: 'string' } },
+            description: { type: 'string' },
+            genres: { type: 'array', items: { type: 'string' } },
+            status: { type: 'string' },
+            image: { type: 'string' },
+            authors: { type: 'array', items: { type: 'string' } },
+            chapters: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  releasedDate: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (!id)
@@ -96,7 +150,31 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/read', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/read', {
+    schema: {
+      description: 'Get chapter pages/images for reading a manga chapter',
+      tags: ['mangakakalot'],
+      querystring: {
+        type: 'object',
+        properties: {
+          chapterId: { type: 'string', description: 'The chapter ID in format "mangaId/chapterId"' },
+        },
+        required: ['chapterId'],
+      },
+      response: {
+        200: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              page: { type: 'number' },
+              img: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const chapterId = (request.query as { chapterId: string }).chapterId;
 
     if (!chapterId)
@@ -127,7 +205,40 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/latestmanga', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/latestmanga', {
+    schema: {
+      description: 'Get the latest manga updates from MangaKakalot',
+      tags: ['mangakakalot'],
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', description: 'Page number for pagination', default: 1 },
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            currentPage: { type: 'number' },
+            hasNextPage: { type: 'boolean' },
+            results: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  image: { type: 'string' },
+                  chapter: { type: 'string' },
+                  updatedAt: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page || 1;
 
     try {
@@ -150,7 +261,41 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/bygenre', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/bygenre', {
+    schema: {
+      description: 'Get manga filtered by genre',
+      tags: ['mangakakalot'],
+      querystring: {
+        type: 'object',
+        properties: {
+          genre: { type: 'string', description: 'Genre slug (e.g., action, romance, comedy, fantasy, horror)' },
+          page: { type: 'number', description: 'Page number for pagination', default: 1 },
+        },
+        required: ['genre'],
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            currentPage: { type: 'number' },
+            hasNextPage: { type: 'boolean' },
+            results: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  image: { type: 'string' },
+                  description: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const genre = (request.query as { genre: string }).genre;
     const page = (request.query as { page: number }).page || 1;
 
@@ -182,7 +327,32 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/suggestions', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/suggestions', {
+    schema: {
+      description: 'Get autocomplete suggestions for search dropdown while typing',
+      tags: ['mangakakalot'],
+      querystring: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'The search term for autocomplete suggestions' },
+        },
+        required: ['query'],
+      },
+      response: {
+        200: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              title: { type: 'string' },
+              image: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.query as { query: string }).query;
 
     if (!query)
@@ -214,7 +384,48 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   // This parametric route MUST be last to avoid catching static routes like /info, /read, etc.
-  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', {
+    schema: {
+      description: 'Search for manga by title on MangaKakalot',
+      tags: ['mangakakalot'],
+      params: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'The manga title to search for' },
+        },
+        required: ['query'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', description: 'Page number for pagination', default: 1 },
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            currentPage: { type: 'number' },
+            hasNextPage: { type: 'boolean' },
+            results: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  image: { type: 'string' },
+                  description: { type: 'string' },
+                  status: { type: 'string' },
+                  latestChapter: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { query } = request.params as { query: string };
     const page = (request.query as { page: number }).page || 1;
     try {
@@ -233,6 +444,52 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         error: 'Failed to search for manga',
         hint: 'Try again with a different search query',
       });
+    }
+  });
+
+  // Image proxy route to bypass CORS/hotlink protection
+  fastify.get('/proxy', {
+    schema: {
+      description: 'Proxy manga images to bypass CORS and hotlink protection',
+      tags: ['mangakakalot'],
+      querystring: {
+        type: 'object',
+        properties: {
+          url: { type: 'string', description: 'The image URL to proxy' },
+        },
+        required: ['url'],
+      },
+      response: {
+        200: {
+          type: 'string',
+          format: 'binary',
+          description: 'The proxied image',
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const { url } = request.query as { url: string };
+
+    if (!url) {
+      return reply.status(400).send({ message: 'url is required' });
+    }
+
+    try {
+      const response = await axios.get(url, {
+        responseType: 'arraybuffer',
+        headers: {
+          'Referer': 'https://mangakakalot.com/',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        },
+      });
+
+      const contentType = response.headers['content-type'] || 'image/jpeg';
+      reply.header('Content-Type', contentType);
+      reply.header('Cache-Control', 'public, max-age=86400');
+      reply.header('Access-Control-Allow-Origin', '*');
+      return reply.send(Buffer.from(response.data));
+    } catch (err) {
+      reply.status(500).send({ message: 'Failed to proxy image' });
     }
   });
 };

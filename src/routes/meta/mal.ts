@@ -4,7 +4,12 @@ import { META, PROVIDERS_LIST } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let mal = new META.Myanimelist();
 
-  fastify.get('/', (_, rp) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get MyAnimeList provider info and available routes',
+      tags: ['mal'],
+    },
+  }, (_, rp) => {
     rp.status(200).send({
       intro:
         "Welcome to the mal provider: check out the provider's website @ https://mal.co/",
@@ -13,7 +18,26 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', {
+    schema: {
+      description: 'Search for anime',
+      tags: ['mal'],
+      params: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Search query' },
+        },
+        required: ['query'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', description: 'Page number', default: 1 },
+          perPage: { type: 'number', description: 'Results per page', default: 20 },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
     const page = (request.query as { page: number }).page;
@@ -25,7 +49,28 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   // mal info with episodes
-  fastify.get('/info/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info/:id', {
+    schema: {
+      description: 'Get anime info with episodes',
+      tags: ['mal'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Anime ID' },
+        },
+        required: ['id'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          provider: { type: 'string', description: 'Provider name' },
+          fetchFiller: { type: 'boolean', description: 'Fetch filler episodes', default: false },
+          dub: { type: 'boolean', description: 'Get dubbed version', default: false },
+          locale: { type: 'string', description: 'Locale for episode titles' },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
 
     const provider = (request.query as { provider?: string }).provider;
@@ -59,6 +104,25 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get(
     '/watch/:episodeId',
+    {
+      schema: {
+        description: 'Get streaming sources for an episode',
+        tags: ['mal'],
+        params: {
+          type: 'object',
+          properties: {
+            episodeId: { type: 'string', description: 'Episode ID' },
+          },
+          required: ['episodeId'],
+        },
+        querystring: {
+          type: 'object',
+          properties: {
+            provider: { type: 'string', description: 'Provider name' },
+          },
+        },
+      },
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
       const provider = (request.query as { provider?: string }).provider;

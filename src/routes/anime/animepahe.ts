@@ -8,7 +8,12 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const animepahe = new ANIME.AnimePahe();
 
-  fastify.get('/', (_, rp) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get AnimePahe provider info and available routes',
+      tags: ['animepahe'],
+    },
+  }, (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the animepahe provider: check out the provider's website @ ${animepahe.toString.baseUrl}`,
       routes: ['/:query', '/info/:id', '/watch/:episodeId', '/recent-episodes'],
@@ -16,7 +21,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', {
+    schema: {
+      description: 'Search for anime',
+      tags: ['animepahe'],
+      params: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Search query' },
+        },
+        required: ['query'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
     try {
@@ -39,6 +56,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get(
     '/recent-episodes',
+    {
+      schema: {
+        description: 'Get recent anime episodes',
+        tags: ['animepahe'],
+        querystring: {
+          type: 'object',
+          properties: {
+            page: { type: 'number', description: 'Page number', default: 1 },
+          },
+        },
+      },
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const page = (request.query as { page: number }).page;
       try {
@@ -60,7 +89,25 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     },
   );
 
-  fastify.get('/info/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info/:id', {
+    schema: {
+      description: 'Get anime details by ID',
+      tags: ['animepahe'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Anime ID' },
+        },
+        required: ['id'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          episodePage: { type: 'number', description: 'Episode page number' },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = decodeURIComponent((request.params as { id: string }).id);
     const episodePage = (request.query as { episodePage: number }).episodePage;
 
@@ -82,7 +129,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/watch', {
+    schema: {
+      description: 'Get streaming sources for an episode',
+      tags: ['animepahe'],
+      querystring: {
+        type: 'object',
+        properties: {
+          episodeId: { type: 'string', description: 'Episode ID' },
+        },
+        required: ['episodeId'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
 
     if (typeof episodeId === 'undefined')
