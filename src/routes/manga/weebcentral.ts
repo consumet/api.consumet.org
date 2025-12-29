@@ -7,25 +7,35 @@ import { redis, REDIS_TTL } from '../../main';
 import { Redis } from 'ioredis';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  const mangapill = new MANGA.MangaPill();
+  const weebcentral = new MANGA.WeebCentral();
 
   fastify.get('/', {
     schema: {
-      description: 'Get MangaPill provider info and available routes',
-      tags: ['mangapill'],
+      description: 'Get WeebCentral provider info and available routes',
+      tags: ['weebcentral'],
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            intro: { type: 'string' },
+            routes: { type: 'array', items: { type: 'string' } },
+            documentation: { type: 'string' },
+          },
+        },
+      },
     },
   }, (_, rp) => {
     rp.status(200).send({
-      intro: `Welcome to the Mangapill provider: check out the provider's website @ ${mangapill.toString.baseUrl}`,
+      intro: `Welcome to the WeebCentral provider: check out the provider's website @ ${weebcentral.toString.baseUrl}`,
       routes: ['/:query', '/info', '/read'],
-      documentation: 'https://docs.consumet.org/#tag/mangapill',
+      documentation: 'https://docs.consumet.org/#tag/weebcentral',
     });
   });
 
   fastify.get('/:query', {
     schema: {
-      description: 'Search for manga',
-      tags: ['mangapill'],
+      description: 'Search for manga on WeebCentral',
+      tags: ['weebcentral'],
       params: {
         type: 'object',
         properties: {
@@ -33,22 +43,49 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         },
         required: ['query'],
       },
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', description: 'Page number', default: 1 },
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            currentPage: { type: 'number' },
+            hasNextPage: { type: 'boolean' },
+            results: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  image: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
     },
   }, async (request: FastifyRequest, reply: FastifyReply) => {
-    const { query } = request.params as { query: string };
+    const query = (request.params as { query: string }).query;
+    const page = (request.query as { page: number }).page || 1;
 
     try {
       const res = redis
         ? await cache.fetch(
             redis as Redis,
-            `mangapill:search:${query}`,
-            () => mangapill.search(query),
+            `weebcentral:search:${query}:${page}`,
+            async () => await weebcentral.search(query, page),
             REDIS_TTL,
           )
-        : await mangapill.search(query);
+        : await weebcentral.search(query, page);
 
       reply.status(200).send(res);
-    } catch {
+    } catch (err) {
       reply.status(500).send({
         message: 'Something went wrong. Please try again later.',
       });
@@ -58,13 +95,40 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/info', {
     schema: {
       description: 'Get manga details by ID',
-      tags: ['mangapill'],
+      tags: ['weebcentral'],
       querystring: {
         type: 'object',
         properties: {
-          id: { type: 'string', description: 'Manga ID' },
+          id: { type: 'string', description: 'Manga ID/slug' },
         },
         required: ['id'],
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            title: { type: 'string' },
+            altTitles: { type: 'array', items: { type: 'string' } },
+            description: { type: 'string' },
+            genres: { type: 'array', items: { type: 'string' } },
+            status: { type: 'string' },
+            image: { type: 'string' },
+            authors: { type: 'array', items: { type: 'string' } },
+            chapters: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  chapterNumber: { type: 'string' },
+                  releasedDate: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
       },
     },
   }, async (request: FastifyRequest, reply: FastifyReply) => {
@@ -76,14 +140,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const res = redis
         ? await cache.fetch(
             redis as Redis,
-            `mangapill:info:${id}`,
-            () => mangapill.fetchMangaInfo(id),
+            `weebcentral:info:${id}`,
+            async () => await weebcentral.fetchMangaInfo(id),
             REDIS_TTL,
           )
-        : await mangapill.fetchMangaInfo(id);
+        : await weebcentral.fetchMangaInfo(id);
 
       reply.status(200).send(res);
-    } catch {
+    } catch (err) {
       reply.status(500).send({
         message: 'Something went wrong. Please try again later.',
       });
@@ -92,14 +156,26 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get('/read', {
     schema: {
-      description: 'Get chapter pages',
-      tags: ['mangapill'],
+      description: 'Get chapter pages for reading',
+      tags: ['weebcentral'],
       querystring: {
         type: 'object',
         properties: {
           chapterId: { type: 'string', description: 'Chapter ID' },
         },
         required: ['chapterId'],
+      },
+      response: {
+        200: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              page: { type: 'number' },
+              img: { type: 'string' },
+            },
+          },
+        },
       },
     },
   }, async (request: FastifyRequest, reply: FastifyReply) => {
@@ -111,14 +187,14 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const res = redis
         ? await cache.fetch(
             redis as Redis,
-            `mangapill:read:${chapterId}`,
-            () => mangapill.fetchChapterPages(chapterId),
+            `weebcentral:read:${chapterId}`,
+            async () => await weebcentral.fetchChapterPages(chapterId),
             REDIS_TTL,
           )
-        : await mangapill.fetchChapterPages(chapterId);
+        : await weebcentral.fetchChapterPages(chapterId);
 
       reply.status(200).send(res);
-    } catch {
+    } catch (err) {
       reply.status(500).send({
         message: 'Something went wrong. Please try again later.',
       });
@@ -129,7 +205,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/proxy', {
     schema: {
       description: 'Proxy manga images to bypass CORS and hotlink protection',
-      tags: ['mangapill'],
+      tags: ['weebcentral'],
       querystring: {
         type: 'object',
         properties: {
@@ -149,7 +225,7 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       const response = await axios.get(url, {
         responseType: 'arraybuffer',
         headers: {
-          'Referer': 'https://mangapill.com/',
+          'Referer': 'https://weebcentral.com/',
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         },
       });

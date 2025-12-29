@@ -8,7 +8,12 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const getComics = new COMICS.GetComics();
 
-  fastify.get('/', (_, rp) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get GetComics provider info and available routes',
+      tags: ['getcomics'],
+    },
+  }, (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the getComics provider: check out the provider's website @ ${getComics.toString.baseUrl}`,
       routes: ['/:query'],
@@ -16,7 +21,26 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', {
+    schema: {
+      description: 'Search for comics',
+      tags: ['getcomics'],
+      params: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Route parameter (not used)' },
+        },
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          comicTitle: { type: 'string', description: 'Comic title to search (min 4 characters)' },
+          page: { type: 'number', description: 'Page number', default: 1 },
+        },
+        required: ['comicTitle'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { comicTitle } = request.query as { comicTitle: string };
     const page = (request.query as { page: number }).page || 1;
 

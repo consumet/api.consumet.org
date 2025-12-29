@@ -25,6 +25,8 @@
     "dependencies": {
         "@consumet/extensions": "github:consumet/consumet.ts",
         "@fastify/cors": "^8.5.0",
+        "@fastify/swagger": "^8.15.0",
+        "@fastify/swagger-ui": "^2.1.0",
         "@types/node": "^18.11.17",
         "@types/ws": "^8.5.3",
         "axios": "^1.0.0",

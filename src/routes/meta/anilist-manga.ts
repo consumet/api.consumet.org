@@ -5,7 +5,12 @@ import { PROVIDERS_LIST } from '@consumet/extensions';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   let anilist = new META.Anilist.Manga();
 
-  fastify.get('/', (_, rp) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get Anilist Manga provider info and available routes',
+      tags: ['anilist-manga'],
+    },
+  }, (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the anilist manga provider: check out the provider's website @ ${anilist.provider.toString.baseUrl}`,
       routes: ['/:query', '/info', '/read'],
@@ -13,7 +18,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', {
+    schema: {
+      description: 'Search for manga',
+      tags: ['anilist-manga'],
+      params: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Search query' },
+        },
+        required: ['query'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
     const res = await anilist.search(query);
@@ -21,7 +38,25 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('/info/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info/:id', {
+    schema: {
+      description: 'Get manga details by ID',
+      tags: ['anilist-manga'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Manga ID' },
+        },
+        required: ['id'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          provider: { type: 'string', description: 'Manga provider name' },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
     const provider = (request.query as { provider: string }).provider;
 
@@ -49,7 +84,20 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/read', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/read', {
+    schema: {
+      description: 'Get chapter pages',
+      tags: ['anilist-manga'],
+      querystring: {
+        type: 'object',
+        properties: {
+          chapterId: { type: 'string', description: 'Chapter ID' },
+          provider: { type: 'string', description: 'Manga provider name' },
+        },
+        required: ['chapterId'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const chapterId = (request.query as { chapterId: string }).chapterId;
     const provider = (request.query as { provider: string }).provider;
 
@@ -77,7 +125,25 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/chapters/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/chapters/:id', {
+    schema: {
+      description: 'Get chapters list for a manga',
+      tags: ['anilist-manga'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Manga ID' },
+        },
+        required: ['id'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          provider: { type: 'string', description: 'Manga provider name' },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
     const provider = (request.query as { provider: string }).provider;
 

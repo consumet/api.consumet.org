@@ -9,7 +9,12 @@ import { Redis } from 'ioredis';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const goku = new MOVIES.Goku();
 
-  fastify.get('/', (_, rp) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get Goku provider info and available routes',
+      tags: ['goku'],
+    },
+  }, (_, rp) => {
     rp.status(200).send({
       intro: `Welcome to the goku provider: check out the provider's website @ ${goku.toString.baseUrl}`,
       routes: [
@@ -20,14 +25,32 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
         '/recent-movies',
         '/trending',
         '/servers',
-        '/country',
-        '/genre',
+        '/country/:country',
+        '/genre/:genre',
       ],
       documentation: 'https://docs.consumet.org/#tag/goku',
     });
   });
 
-  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', {
+    schema: {
+      description: 'Search for movies or TV shows',
+      tags: ['goku'],
+      params: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Search query' },
+        },
+        required: ['query'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', description: 'Page number', default: 1 },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const query = decodeURIComponent((request.params as { query: string }).query);
 
     const page = (request.query as { page: number }).page;
@@ -44,7 +67,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('/recent-shows', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/recent-shows', {
+    schema: {
+      description: 'Get recently added TV shows',
+      tags: ['goku'],
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     let res = redis
       ? await cache.fetch(
           redis as Redis,
@@ -57,7 +85,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('/recent-movies', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/recent-movies', {
+    schema: {
+      description: 'Get recently added movies',
+      tags: ['goku'],
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     let res = redis
       ? await cache.fetch(
           redis as Redis,
@@ -70,7 +103,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('/trending', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/trending', {
+    schema: {
+      description: 'Get trending movies and/or TV shows',
+      tags: ['goku'],
+      querystring: {
+        type: 'object',
+        properties: {
+          type: { type: 'string', enum: ['movie', 'tv'], description: 'Filter by type' },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const type = (request.query as { type: string }).type;
     try {
       if (!type) {
@@ -106,7 +150,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info', {
+    schema: {
+      description: 'Get detailed information about a movie or TV show',
+      tags: ['goku'],
+      querystring: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Media ID' },
+        },
+        required: ['id'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
@@ -133,7 +189,21 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/watch', {
+    schema: {
+      description: 'Get streaming sources for an episode/movie',
+      tags: ['goku'],
+      querystring: {
+        type: 'object',
+        properties: {
+          episodeId: { type: 'string', description: 'Episode ID' },
+          mediaId: { type: 'string', description: 'Media ID' },
+          server: { type: 'string', description: 'Streaming server' },
+        },
+        required: ['episodeId', 'mediaId'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
     const mediaId = (request.query as { mediaId: string }).mediaId;
     const server = (request.query as { server: StreamingServers }).server;

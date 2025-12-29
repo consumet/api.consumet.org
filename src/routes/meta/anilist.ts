@@ -11,7 +11,12 @@ import Hianime from '@consumet/extensions/dist/providers/anime/hianime';
 import Providers from '../../utils/providers';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  fastify.get('/', (_, rp) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get Anilist provider info and available routes',
+      tags: ['anilist'],
+    },
+  }, (_, rp) => {
     rp.status(200).send({
       intro:
         "Welcome to the anilist provider: check out the provider's website @ https://anilist.co/",
@@ -20,7 +25,26 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', {
+    schema: {
+      description: 'Search for anime',
+      tags: ['anilist'],
+      params: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Search query' },
+        },
+        required: ['query'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', description: 'Page number', default: 1 },
+          perPage: { type: 'number', description: 'Results per page', default: 20 },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const anilist = generateAnilistMeta();
 
     const query = (request.params as { query: string }).query;
@@ -35,6 +59,29 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get(
     '/advanced-search',
+    {
+      schema: {
+        description: 'Advanced search with multiple filters',
+        tags: ['anilist'],
+        querystring: {
+          type: 'object',
+          properties: {
+            query: { type: 'string', description: 'Search query' },
+            page: { type: 'number', description: 'Page number', default: 1 },
+            perPage: { type: 'number', description: 'Results per page', default: 20 },
+            type: { type: 'string', description: 'Type (ANIME/MANGA)' },
+            genres: { type: 'string', description: 'JSON array of genres' },
+            id: { type: 'string', description: 'Anilist ID' },
+            format: { type: 'string', description: 'Format (TV, MOVIE, OVA, etc.)' },
+            sort: { type: 'string', description: 'JSON array of sort options' },
+            status: { type: 'string', description: 'Status (RELEASING, FINISHED, etc.)' },
+            year: { type: 'number', description: 'Release year' },
+            season: { type: 'string', description: 'Season (WINTER, SPRING, SUMMER, FALL)' },
+            countryOfOrigin: { type: 'string', description: 'Country of origin code' },
+          },
+        },
+      },
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const query = (request.query as { query: string }).query;
       const page = (request.query as { page: number }).page;
@@ -86,7 +133,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     },
   );
 
-  fastify.get('/trending', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/trending', {
+    schema: {
+      description: 'Get trending anime',
+      tags: ['anilist'],
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', description: 'Page number', default: 1 },
+          perPage: { type: 'number', description: 'Results per page', default: 20 },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     const perPage = (request.query as { perPage: number }).perPage;
 
@@ -106,7 +165,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       : reply.status(200).send(await anilist.fetchTrendingAnime(page, perPage));
   });
 
-  fastify.get('/popular', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/popular', {
+    schema: {
+      description: 'Get popular anime',
+      tags: ['anilist'],
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', description: 'Page number', default: 1 },
+          perPage: { type: 'number', description: 'Results per page', default: 20 },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const page = (request.query as { page: number }).page;
     const perPage = (request.query as { perPage: number }).perPage;
 
@@ -128,6 +199,22 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get(
     '/airing-schedule',
+    {
+      schema: {
+        description: 'Get anime airing schedule',
+        tags: ['anilist'],
+        querystring: {
+          type: 'object',
+          properties: {
+            page: { type: 'number', description: 'Page number', default: 1 },
+            perPage: { type: 'number', description: 'Results per page', default: 20 },
+            weekStart: { type: 'number', description: 'Week start timestamp' },
+            weekEnd: { type: 'number', description: 'Week end timestamp' },
+            notYetAired: { type: 'boolean', description: 'Include not yet aired', default: true },
+          },
+        },
+      },
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const page = (request.query as { page: number }).page;
       const perPage = (request.query as { perPage: number }).perPage;
@@ -150,7 +237,21 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     },
   );
 
-  fastify.get('/genre', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/genre', {
+    schema: {
+      description: 'Get anime by genre',
+      tags: ['anilist'],
+      querystring: {
+        type: 'object',
+        properties: {
+          genres: { type: 'string', description: 'JSON array of genres' },
+          page: { type: 'number', description: 'Page number', default: 1 },
+          perPage: { type: 'number', description: 'Results per page', default: 20 },
+        },
+        required: ['genres'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const genres = (request.query as { genres: string }).genres;
     const page = (request.query as { page: number }).page;
     const perPage = (request.query as { perPage: number }).perPage;
@@ -173,6 +274,20 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   (fastify.get(
     '/recent-episodes',
+    {
+      schema: {
+        description: 'Get recent anime episodes',
+        tags: ['anilist'],
+        querystring: {
+          type: 'object',
+          properties: {
+            provider: { type: 'string', description: 'Provider name' },
+            page: { type: 'number', description: 'Page number', default: 1 },
+            perPage: { type: 'number', description: 'Results per page', default: 20 },
+          },
+        },
+      },
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const provider = (request.query as { provider:  'Hianime' }).provider;
       const page = (request.query as { page: number }).page;
@@ -185,7 +300,12 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       reply.status(200).send(res);
     },
   ),
-    fastify.get('/random-anime', async (request: FastifyRequest, reply: FastifyReply) => {
+    fastify.get('/random-anime', {
+      schema: {
+        description: 'Get a random anime',
+        tags: ['anilist'],
+      },
+    }, async (request: FastifyRequest, reply: FastifyReply) => {
       const anilist = generateAnilistMeta();
 
       const res = await anilist.fetchRandomAnime().catch((err) => {
@@ -194,7 +314,25 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
       reply.status(200).send(res);
     }));
 
-  fastify.get('/servers/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/servers/:id', {
+    schema: {
+      description: 'Get streaming servers for an episode',
+      tags: ['anilist'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Episode ID' },
+        },
+        required: ['id'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          provider: { type: 'string', description: 'Provider name' },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
     const provider = (request.query as { provider?: string }).provider;
 
@@ -206,7 +344,28 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     reply.status(200).send(res);
   });
 
-  fastify.get('/episodes/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/episodes/:id', {
+    schema: {
+      description: 'Get episodes list for an anime',
+      tags: ['anilist'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Anime ID' },
+        },
+        required: ['id'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          provider: { type: 'string', description: 'Provider name' },
+          fetchFiller: { type: 'boolean', description: 'Fetch filler episodes', default: false },
+          dub: { type: 'boolean', description: 'Get dubbed episodes', default: false },
+          locale: { type: 'string', description: 'Locale for episode titles' },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const today = new Date();
     const dayOfWeek = today.getDay();
     const id = (request.params as { id: string }).id;
@@ -249,7 +408,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   // anilist info without episodes
-  fastify.get('/data/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/data/:id', {
+    schema: {
+      description: 'Get anime data without episodes',
+      tags: ['anilist'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Anime ID' },
+        },
+        required: ['id'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
 
     const anilist = generateAnilistMeta();
@@ -259,7 +430,28 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   // anilist info with episodes
-  fastify.get('/info/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info/:id', {
+    schema: {
+      description: 'Get anime info with episodes',
+      tags: ['anilist'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Anime ID' },
+        },
+        required: ['id'],
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          provider: { type: 'string', description: 'Provider name' },
+          fetchFiller: { type: 'boolean', description: 'Fetch filler episodes', default: false },
+          dub: { type: 'boolean', description: 'Get dubbed version', default: false },
+          locale: { type: 'string', description: 'Locale for episode titles' },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
     const today = new Date();
     const dayOfWeek = today.getDay();
@@ -300,7 +492,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   });
 
   // anilist character info
-  fastify.get('/character/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/character/:id', {
+    schema: {
+      description: 'Get character info by ID',
+      tags: ['anilist'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Character ID' },
+        },
+        required: ['id'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
 
     const anilist = generateAnilistMeta();
@@ -311,6 +515,27 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get(
     '/watch/:episodeId',
+    {
+      schema: {
+        description: 'Get streaming sources for an episode',
+        tags: ['anilist'],
+        params: {
+          type: 'object',
+          properties: {
+            episodeId: { type: 'string', description: 'Episode ID' },
+          },
+          required: ['episodeId'],
+        },
+        querystring: {
+          type: 'object',
+          properties: {
+            provider: { type: 'string', description: 'Provider name' },
+            server: { type: 'string', description: 'Streaming server' },
+            dub: { type: 'boolean', description: 'Get dubbed version', default: false },
+          },
+        },
+      },
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
       const provider = (request.query as { provider?: string }).provider;
@@ -367,7 +592,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     },
   );
 
-  fastify.get('/staff/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/staff/:id', {
+    schema: {
+      description: 'Get staff info by ID',
+      tags: ['anilist'],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Staff ID' },
+        },
+        required: ['id'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.params as { id: string }).id;
 
     const anilist = generateAnilistMeta();
@@ -389,7 +626,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/favorites', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/favorites', {
+    schema: {
+      description: 'Get user favorites (requires authorization)',
+      tags: ['anilist'],
+      querystring: {
+        type: 'object',
+        properties: {
+          type: { type: 'string', description: 'Type (ANIME, MANGA, BOTH)', enum: ['ANIME', 'MANGA', 'BOTH'] },
+        },
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const type = (request.query as {type?: "ANIME" | "MANGA" | "BOTH"}).type
     const headers = request.headers as Record<string, string>
 

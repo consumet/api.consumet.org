@@ -4,7 +4,12 @@ import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from '
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const ann = new NEWS.ANN();
 
-  fastify.get('/', (_, rp) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get Anime News Network provider info and available routes',
+      tags: ['ann'],
+    },
+  }, (_, rp) => {
     rp.status(200).send({
       intro:
         "Welcome to the Anime News Network provider: check out the provider's website @ https://www.animenewsnetwork.com/",
@@ -13,7 +18,18 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/recent-feeds', async (req: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/recent-feeds', {
+    schema: {
+      description: 'Get recent news feeds',
+      tags: ['ann'],
+      querystring: {
+        type: 'object',
+        properties: {
+          topic: { type: 'string', description: 'News topic filter' },
+        },
+      },
+    },
+  }, async (req: FastifyRequest, reply: FastifyReply) => {
     let { topic } = req.query as { topic?: Topics };
 
     try {
@@ -26,7 +42,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/info', async (req: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info', {
+    schema: {
+      description: 'Get news article details',
+      tags: ['ann'],
+      querystring: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'News article ID' },
+        },
+        required: ['id'],
+      },
+    },
+  }, async (req: FastifyRequest, reply: FastifyReply) => {
     const { id } = req.query as { id: string };
 
     if (typeof id === 'undefined')

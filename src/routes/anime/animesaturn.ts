@@ -7,7 +7,12 @@ import cache from '../../utils/cache';
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const animesaturn = new ANIME.AnimeSaturn();
 
-  fastify.get('/', (_, rp) => {
+  fastify.get('/', {
+    schema: {
+      description: 'Get AnimeSaturn provider info and available routes',
+      tags: ['animesaturn'],
+    },
+  }, (_, rp) => {
     rp.status(200).send({
       intro:
         "Welcome to the animesaturn provider: check out the provider's website @ https://www.animesaturn.tv/",
@@ -16,7 +21,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     });
   });
 
-  fastify.get('/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/:query', {
+    schema: {
+      description: 'Search for anime',
+      tags: ['animesaturn'],
+      params: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Search query' },
+        },
+        required: ['query'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const query = (request.params as { query: string }).query;
 
     try {
@@ -37,7 +54,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
     }
   });
 
-  fastify.get('/info', async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/info', {
+    schema: {
+      description: 'Get anime details by ID',
+      tags: ['animesaturn'],
+      querystring: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Anime ID' },
+        },
+        required: ['id'],
+      },
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     const id = (request.query as { id: string }).id;
 
     if (typeof id === 'undefined')
@@ -63,6 +92,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get(
     '/watch/:episodeId',
+    {
+      schema: {
+        description: 'Get streaming sources for an episode',
+        tags: ['animesaturn'],
+        params: {
+          type: 'object',
+          properties: {
+            episodeId: { type: 'string', description: 'Episode ID' },
+          },
+          required: ['episodeId'],
+        },
+      },
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
 
@@ -90,6 +132,19 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
 
   fastify.get(
     '/servers/:episodeId',
+    {
+      schema: {
+        description: 'Get available streaming servers for an episode',
+        tags: ['animesaturn'],
+        params: {
+          type: 'object',
+          properties: {
+            episodeId: { type: 'string', description: 'Episode ID' },
+          },
+          required: ['episodeId'],
+        },
+      },
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const episodeId = (request.params as { episodeId: string }).episodeId;
 
