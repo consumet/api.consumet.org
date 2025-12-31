@@ -52,7 +52,7 @@ jobs:
           fetch-depth: 1
 
       - name: Use Node.js 20.x
-        uses: actions/setup-node@v4.0.2
+        uses: actions/setup-node@v4.4.0
         with:
           node-version: "20.x"
 
